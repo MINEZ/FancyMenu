@@ -49,8 +49,8 @@ public final class GuiTextureCoverRenderer {
         graphics.enableScissor(x, y, x + width, y + height);
         try {
             // Cover UVs reach the outer texture boundary, so clamp sampling prevents opposite-edge bleed while
-            // GuiTextureSamplerUtil keeps the source sampler's filtering and mipmap behavior unchanged.
-            RenderingUtils.submitBlit(graphics, RenderPipelines.GUI_TEXTURED, texture.getTextureView(), GuiTextureSamplerUtil.clampToEdge(texture.getSampler()), bounds.x(), bounds.y(), bounds.right(), bounds.bottom(), 0.0F, 1.0F, 0.0F, 1.0F, RenderingUtils.getShaderColor());
+            // MC 1.21.10 has no sampler abstraction, so the texture's own wrap mode is used as-is.
+            RenderingUtils.submitBlit(graphics, RenderPipelines.GUI_TEXTURED, texture.getTextureView(), bounds.x(), bounds.y(), bounds.right(), bounds.bottom(), 0.0F, 1.0F, 0.0F, 1.0F, RenderingUtils.getShaderColor());
         } finally {
             graphics.disableScissor();
         }

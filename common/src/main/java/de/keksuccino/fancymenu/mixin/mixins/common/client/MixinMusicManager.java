@@ -12,7 +12,7 @@ import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.Music;
+import net.minecraft.client.sounds.MusicInfo;
 import org.jetbrains.annotations.Nullable;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
@@ -43,7 +43,7 @@ public abstract class MixinMusicManager {
     }
 
     @Inject(method = "startPlaying", at = @At("HEAD"), cancellable = true)
-    private void cancel_startPlaying_FancyMenu(Music music, CallbackInfo info) {
+    private void cancel_startPlaying_FancyMenu(MusicInfo music, CallbackInfo info) {
         if (Minecraft.getInstance().level == null) {
             if (!FancyMenu.getOptions().playVanillaMenuMusic.getValue() || GlobalCustomizationHandler.hasCustomMenuMusicTracks()) {
                 this.stopPlaying();
@@ -53,7 +53,7 @@ public abstract class MixinMusicManager {
     }
 
     @Inject(method = "startPlaying", at = @At("RETURN"))
-    private void after_startPlaying_FancyMenu(Music music, CallbackInfo info) {
+    private void after_startPlaying_FancyMenu(MusicInfo music, CallbackInfo info) {
         if (!this.isMusicListenerTrackingNeeded_FancyMenu()) {
             this.clearMusicListenerState_FancyMenu();
             return;

@@ -160,12 +160,12 @@ public class KeyframeManagerScreen extends Screen {
             newScale--;
             if (newScale < 1) newScale = 1;
             WindowHandler.setGuiScale(newScale);
-            this.resize(window.getGuiScaledWidth(), window.getGuiScaledHeight());
+            this.resize(Minecraft.getInstance(), window.getGuiScaledWidth(), window.getGuiScaledHeight());
         } else if (!tooFarRight && resized) {
             double parentScale = this.resolveParentGuiScale(window);
             if (Double.compare(WindowHandler.getGuiScale(), parentScale) != 0) {
                 WindowHandler.setGuiScale(parentScale);
-                this.resize(window.getGuiScaledWidth(), window.getGuiScaledHeight());
+                this.resize(Minecraft.getInstance(), window.getGuiScaledWidth(), window.getGuiScaledHeight());
             }
         }
 
@@ -181,7 +181,7 @@ public class KeyframeManagerScreen extends Screen {
         double parentScale = this.resolveParentGuiScale(window);
         if (!AnimationPreviewScalePolicy.shouldCorrectManagerScale(WindowHandler.getGuiScale(), parentScale)) return false;
         WindowHandler.setGuiScale(parentScale);
-        this.resize(window.getGuiScaledWidth(), window.getGuiScaledHeight());
+        this.resize(Minecraft.getInstance(), window.getGuiScaledWidth(), window.getGuiScaledHeight());
         return true;
     }
 
@@ -420,7 +420,7 @@ public class KeyframeManagerScreen extends Screen {
         }
 
         int clickedIndex = getKeyframeIndexAtPosition((int) event.x(), (int) event.y());
-        if (!event.hasControlDownWithQuirk() && isInTimelineArea((int) event.x(), (int) event.y()) && (clickedIndex == -1)) {
+        if (!event.hasControlDown() && isInTimelineArea((int) event.x(), (int) event.y()) && (clickedIndex == -1)) {
             this.selectKeyframeClearOldSelection(null);
             return true;
         }
@@ -434,10 +434,10 @@ public class KeyframeManagerScreen extends Screen {
             hasMovedFromClickPosition = false;
             draggingKeyframeIndex = clickedIndex;
             AnimationKeyframe keyframe = this.workingKeyframes.get(draggingKeyframeIndex);
-            if (event.hasControlDownWithQuirk() && this.selectedKeyframes.contains(keyframe)) {
+            if (event.hasControlDown() && this.selectedKeyframes.contains(keyframe)) {
                 this.lastShortcutModifierClickedFrameForDeselect = keyframe;
             } else {
-                this.selectKeyframe(workingKeyframes.get(clickedIndex), event.hasControlDownWithQuirk());
+                this.selectKeyframe(workingKeyframes.get(clickedIndex), event.hasControlDown());
             }
             return true;
         }
@@ -488,7 +488,7 @@ public class KeyframeManagerScreen extends Screen {
         if (key == null) key = "";
         key = key.toLowerCase(Locale.ROOT);
 
-        if (event.hasControlDownWithQuirk()) {
+        if (event.hasControlDown()) {
             if ("z".equals(key)) {
                 undo();
                 return true;
@@ -530,7 +530,7 @@ public class KeyframeManagerScreen extends Screen {
         }
 
         if (!this.isRecording || this.isRecordingPaused) {
-            if (event.hasControlDownWithQuirk() && (keyCode == InputConstants.KEY_A)) {
+            if (event.hasControlDown() && (keyCode == InputConstants.KEY_A)) {
                 this.editorState.selectAll();
                 this.refreshSelectionPresentation();
                 return true;

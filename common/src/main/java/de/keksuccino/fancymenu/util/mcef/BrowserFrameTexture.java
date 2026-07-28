@@ -18,7 +18,6 @@ public class BrowserFrameTexture extends AbstractTexture {
         this.texture = this.browserGlTexture;
         GpuDevice device = RenderSystem.getDevice();
         this.textureView = device.createTextureView(this.texture);
-        this.sampler = RenderSystem.getSamplerCache().getRepeat(FilterMode.NEAREST, false);
     }
 
     public void setId(int id) {

@@ -43,7 +43,7 @@ public class MixinLivingEntity {
         packet.pos_x = entity.getX();
         packet.pos_y = entity.getY();
         packet.pos_z = entity.getZ();
-        ResourceLocation levelLocation = level.dimension().identifier();
+        ResourceLocation levelLocation = level.dimension().location();
         packet.level_identifier = (levelLocation != null) ? levelLocation.toString() : null;
         packet.damage_type = this.resolveDamageTypeKey_FancyMenu(damageSource);
 
@@ -89,7 +89,7 @@ public class MixinLivingEntity {
             return "unknown";
         }
         return damageSource.typeHolder().unwrapKey()
-                .map(key -> key.identifier().toString())
+                .map(key -> key.location().toString())
                 .orElse("unknown");
     }
 }

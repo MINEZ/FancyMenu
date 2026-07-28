@@ -52,9 +52,9 @@ public class CustomGuiBaseScreen extends Screen {
                     EventHandler.INSTANCE.postEvent(new InitOrResizeScreenStartingEvent(this.parentScreen, phase));
                     EventHandler.INSTANCE.postEvent(new InitOrResizeScreenEvent.Pre(this.parentScreen, phase));
                     if (initialized) {
-                        this.parentScreen.resize(width, height);
+                        this.parentScreen.resize(Minecraft.getInstance(), width, height);
                     } else {
-                        this.parentScreen.init(width, height);
+                        this.parentScreen.init(Minecraft.getInstance(), width, height);
                     }
                     ScrollScreenNormalizer.normalizeScrollableScreen(this.parentScreen);
                     EventHandler.INSTANCE.postEvent(new InitOrResizeScreenEvent.Post(this.parentScreen, phase));

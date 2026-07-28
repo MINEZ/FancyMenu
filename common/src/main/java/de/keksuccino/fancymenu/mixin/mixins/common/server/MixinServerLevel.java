@@ -38,7 +38,7 @@ public class MixinServerLevel {
         packet.pos_x = entity.getX();
         packet.pos_y = entity.getY();
         packet.pos_z = entity.getZ();
-        ResourceLocation levelLocation = level.dimension().identifier();
+        ResourceLocation levelLocation = level.dimension().location();
         packet.level_identifier = (levelLocation != null) ? levelLocation.toString() : null;
         if (level.getServer() == null) {
             return;

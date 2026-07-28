@@ -77,7 +77,7 @@ public class GameruleValuePlaceholder extends AbstractWorldPlaceholder {
     @Nullable
     private String getGameruleValue(@NotNull GameRules gameRules, @NotNull String gameruleName) {
         final String[] value = new String[1];
-        GameRules.visitGameRuleTypes(new GameRules.GameRuleTypeVisitor() {
+        gameRules.visitGameRuleTypes(new GameRules.GameRuleTypeVisitor() {
             @Override
             public <T extends GameRules.Value<T>> void visit(GameRules.Key<T> key, GameRules.Type<T> type) {
                 if (value[0] != null) {

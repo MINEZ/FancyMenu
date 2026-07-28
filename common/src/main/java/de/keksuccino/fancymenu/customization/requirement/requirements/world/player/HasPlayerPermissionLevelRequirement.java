@@ -85,7 +85,7 @@ public class HasPlayerPermissionLevelRequirement extends Requirement {
 
     @Override
     public String getValuePreset() {
-        return String.valueOf(PermissionLevel.GAMEMASTERS.id());
+        return "2";
     }
 
     @Override

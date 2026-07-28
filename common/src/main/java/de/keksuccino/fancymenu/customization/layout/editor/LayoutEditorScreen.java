@@ -1512,14 +1512,14 @@ public class LayoutEditorScreen extends Screen implements ElementFactory {
 		// GUI shortcut modifier + Z
 		if (key.equals("z") && InputUtils.isGuiShortcutModifierDown(modifiers)) {
 			this.history.stepBack();
-            this.resize(this.width, this.height);
+            this.resize(Minecraft.getInstance(), this.width, this.height);
 			return true;
 		}
 
 		// GUI shortcut modifier + Y
 		if (key.equals("y") && InputUtils.isGuiShortcutModifierDown(modifiers)) {
 			this.history.stepForward();
-            this.resize(this.width, this.height);
+            this.resize(Minecraft.getInstance(), this.width, this.height);
 			return true;
 		}
 

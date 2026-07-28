@@ -654,7 +654,7 @@ public class MixinLocalPlayer implements LocalPlayerDrowningTracker {
             return "unknown";
         }
         return damageSource.typeHolder().unwrapKey()
-                .map(key -> key.identifier().toString())
+                .map(key -> key.location().toString())
                 .orElse("unknown");
 
     }

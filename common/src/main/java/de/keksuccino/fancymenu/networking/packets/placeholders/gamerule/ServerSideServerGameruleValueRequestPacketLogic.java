@@ -3,9 +3,7 @@ package de.keksuccino.fancymenu.networking.packets.placeholders.gamerule;
 import de.keksuccino.fancymenu.networking.PacketHandler;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.gamerules.GameRule;
-import net.minecraft.world.level.gamerules.GameRuleTypeVisitor;
-import net.minecraft.world.level.gamerules.GameRules;
+import net.minecraft.world.level.GameRules;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -44,14 +42,17 @@ public class ServerSideServerGameruleValueRequestPacketLogic {
     @Nullable
     private static String getGameruleValue(@NotNull GameRules gameRules, @NotNull String gameruleName) {
         final String[] value = new String[1];
-        gameRules.visitGameRuleTypes(new GameRuleTypeVisitor() {
+        GameRules.visitGameRuleTypes(new GameRules.GameRuleTypeVisitor() {
             @Override
-            public <T> void visit(GameRule<T> gameRule) {
+            public <T extends GameRules.Value<T>> void visit(GameRules.Key<T> key, GameRules.Type<T> type) {
                 if (value[0] != null) {
                     return;
                 }
-                if (gameRule.id().equalsIgnoreCase(gameruleName)) {
-                    value[0] = gameRules.getAsString(gameRule);
+                if (key.getId().equalsIgnoreCase(gameruleName)) {
+                    T rule = gameRules.getRule(key);
+                    if (rule != null) {
+                        value[0] = rule.serialize();
+                    }
                 }
             }
         });

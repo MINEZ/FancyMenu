@@ -20,7 +20,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.sounds.SoundEvents;
 import org.apache.logging.log4j.LogManager;
@@ -41,23 +41,23 @@ public class ResourcePickerWindowBody extends AbstractBrowserWindowBody {
     @Nullable
     protected FileTypeGroup<?> allowedFileTypes;
     @NotNull
-    protected Consumer<Identifier> callback;
+    protected Consumer<ResourceLocation> callback;
     @Nullable
     protected String currentNamespace;
     @NotNull
     protected String currentPath = "";
     @Nullable
-    protected Identifier preselectedLocation;
+    protected ResourceLocation preselectedLocation;
     @Nullable
-    protected Set<Identifier> cachedResourceLocations;
+    protected Set<ResourceLocation> cachedResourceLocations;
     protected boolean blockResourceUnfriendlyNames = true;
     protected boolean showBlockedResourceUnfriendlyNames = true;
     @Nullable
-    private Consumer<Identifier> previewApplyCallback;
+    private Consumer<ResourceLocation> previewApplyCallback;
     @Nullable
     private Runnable previewCancelCallback;
 
-    public ResourcePickerWindowBody(@Nullable Identifier startLocation, @Nullable FileTypeGroup<?> allowedFileTypes, @NotNull Consumer<Identifier> callback) {
+    public ResourcePickerWindowBody(@Nullable ResourceLocation startLocation, @Nullable FileTypeGroup<?> allowedFileTypes, @NotNull Consumer<ResourceLocation> callback) {
         super(Component.translatable("fancymenu.ui.resourcepicker.choose.resource"));
         this.setWindowAlwaysOnTop(false);
         this.setWindowBlocksMinecraftScreenInputs(false);
@@ -70,7 +70,7 @@ public class ResourcePickerWindowBody extends AbstractBrowserWindowBody {
         this.updateFileTypeScrollArea();
     }
 
-    protected void applyStartLocation(@Nullable Identifier startLocation) {
+    protected void applyStartLocation(@Nullable ResourceLocation startLocation) {
         this.preselectedLocation = startLocation;
         if (startLocation != null) {
             this.currentNamespace = startLocation.getNamespace();
@@ -105,7 +105,7 @@ public class ResourcePickerWindowBody extends AbstractBrowserWindowBody {
     @Override
     protected @Nullable ExtendedButton buildApplyButton() {
         return new ExtendedButton(0, 0, 150, 20, Component.translatable("fancymenu.common_components.apply"), (button) -> {
-            Consumer<Identifier> callback = this.previewApplyCallback;
+            Consumer<ResourceLocation> callback = this.previewApplyCallback;
             if (callback == null) return;
             ResourceScrollAreaEntry selected = this.getSelectedEntry();
             if ((selected != null) && !selected.resourceUnfriendlyName) {
@@ -186,7 +186,7 @@ public class ResourcePickerWindowBody extends AbstractBrowserWindowBody {
 
     @Override
     protected void loadPreviewForKey(@NotNull Object previewKey) {
-        if (!(previewKey instanceof Identifier location)) return;
+        if (!(previewKey instanceof ResourceLocation location)) return;
         this.setTextPreview(location);
         if (this.isImageLocation(location)) {
             this.previewTextureSupplier = ResourceSupplier.image(location.toString());
@@ -243,11 +243,11 @@ public class ResourcePickerWindowBody extends AbstractBrowserWindowBody {
         this.fileTypeScrollArea.addEntry(entry);
     }
 
-    public void updatePreview(@Nullable Identifier location) {
+    public void updatePreview(@Nullable ResourceLocation location) {
         this.updatePreviewForKey(location);
     }
 
-    public ResourcePickerWindowBody setPreviewApplyCallback(@Nullable Consumer<Identifier> previewApplyCallback) {
+    public ResourcePickerWindowBody setPreviewApplyCallback(@Nullable Consumer<ResourceLocation> previewApplyCallback) {
         this.previewApplyCallback = previewApplyCallback;
         return this;
     }
@@ -257,7 +257,7 @@ public class ResourcePickerWindowBody extends AbstractBrowserWindowBody {
         return this;
     }
 
-    protected void setTextPreview(@Nullable Identifier location) {
+    protected void setTextPreview(@Nullable ResourceLocation location) {
         if (location == null) {
             this.previewTextSupplier = null;
         } else {
@@ -280,11 +280,11 @@ public class ResourcePickerWindowBody extends AbstractBrowserWindowBody {
 
         String searchValue = this.getSearchValue();
         if (searchValue != null) {
-            List<Identifier> matches = new ArrayList<>();
+            List<ResourceLocation> matches = new ArrayList<>();
             this.collectSearchMatches(searchValue.toLowerCase(), matches);
             FilenameComparator comparator = new FilenameComparator();
             matches.sort((o1, o2) -> comparator.compare(this.getSearchSortKey(o1), this.getSearchSortKey(o2)));
-            for (Identifier location : matches) {
+            for (ResourceLocation location : matches) {
                 ResourceScrollAreaEntry entry = new ResourceScrollAreaEntry(this.fileListScrollArea, location);
                 if (this.blockResourceUnfriendlyNames) entry.resourceUnfriendlyName = !isResourceFriendlyLocation(location);
                 if (entry.resourceUnfriendlyName) entry.setSelectable(false);
@@ -313,10 +313,10 @@ public class ResourcePickerWindowBody extends AbstractBrowserWindowBody {
         } else {
             String prefix = this.currentPath.isEmpty() ? "" : this.currentPath + "/";
             Set<String> directories = new HashSet<>();
-            List<Identifier> files = new ArrayList<>();
-            Set<Identifier> allLocations = this.getAllResourceLocations();
+            List<ResourceLocation> files = new ArrayList<>();
+            Set<ResourceLocation> allLocations = this.getAllResourceLocations();
 
-            for (Identifier location : allLocations) {
+            for (ResourceLocation location : allLocations) {
                 if (!Objects.equals(location.getNamespace(), this.currentNamespace)) continue;
                 String path = location.getPath();
                 if (!prefix.isEmpty()) {
@@ -347,7 +347,7 @@ public class ResourcePickerWindowBody extends AbstractBrowserWindowBody {
             }
 
             files.sort((o1, o2) -> comparator.compare(getLocationDisplayName(o1), getLocationDisplayName(o2)));
-            for (Identifier location : files) {
+            for (ResourceLocation location : files) {
                 ResourceScrollAreaEntry entry = new ResourceScrollAreaEntry(this.fileListScrollArea, location);
                 if (this.blockResourceUnfriendlyNames) entry.resourceUnfriendlyName = !isResourceFriendlyLocation(location);
                 if (entry.resourceUnfriendlyName) entry.setSelectable(false);
@@ -361,9 +361,9 @@ public class ResourcePickerWindowBody extends AbstractBrowserWindowBody {
         }
     }
 
-    protected void collectSearchMatches(@NotNull String searchLower, @NotNull List<Identifier> matches) {
+    protected void collectSearchMatches(@NotNull String searchLower, @NotNull List<ResourceLocation> matches) {
         String prefix = this.currentPath.isEmpty() ? "" : this.currentPath + "/";
-        for (Identifier location : this.getAllResourceLocations()) {
+        for (ResourceLocation location : this.getAllResourceLocations()) {
             if (!isAllowedLocation(location)) continue;
             if (this.currentNamespace != null) {
                 if (!Objects.equals(location.getNamespace(), this.currentNamespace)) continue;
@@ -380,21 +380,21 @@ public class ResourcePickerWindowBody extends AbstractBrowserWindowBody {
         }
     }
 
-    protected boolean locationMatchesSearch(@NotNull Identifier location, @NotNull String searchLower) {
+    protected boolean locationMatchesSearch(@NotNull ResourceLocation location, @NotNull String searchLower) {
         String fileNameLower = getLocationDisplayName(location).toLowerCase();
         if (fileNameLower.contains(searchLower)) return true;
         String relativePath = this.getRelativePathForLocation(location);
         return (relativePath != null) && relativePath.toLowerCase().contains(searchLower);
     }
 
-    protected String getSearchSortKey(@NotNull Identifier location) {
+    protected String getSearchSortKey(@NotNull ResourceLocation location) {
         String relativePath = this.getRelativePathForLocation(location);
         if (relativePath != null) return relativePath;
         return this.getLocationDisplayName(location);
     }
 
     @Nullable
-    protected String getRelativePathForLocation(@NotNull Identifier location) {
+    protected String getRelativePathForLocation(@NotNull ResourceLocation location) {
         String s = location.getNamespace() + "/" + location.getPath();
         if (this.currentNamespace == null) {
             return s;
@@ -412,7 +412,7 @@ public class ResourcePickerWindowBody extends AbstractBrowserWindowBody {
     }
 
     @NotNull
-    protected Set<Identifier> getAllResourceLocations() {
+    protected Set<ResourceLocation> getAllResourceLocations() {
         if (this.cachedResourceLocations == null) {
             this.cachedResourceLocations = new HashSet<>(Services.PLATFORM.getLoadedClientResourceLocations());
         }
@@ -437,7 +437,7 @@ public class ResourcePickerWindowBody extends AbstractBrowserWindowBody {
         this.updateCurrentDirectoryComponent();
     }
 
-    protected boolean isAllowedLocation(@NotNull Identifier location) {
+    protected boolean isAllowedLocation(@NotNull ResourceLocation location) {
         if (this.allowedFileTypes == null) return true;
         for (FileType<?> type : this.allowedFileTypes.getFileTypes()) {
             if (!type.isLocationAllowed()) continue;
@@ -446,21 +446,21 @@ public class ResourcePickerWindowBody extends AbstractBrowserWindowBody {
         return false;
     }
 
-    protected boolean isImageLocation(@NotNull Identifier location) {
+    protected boolean isImageLocation(@NotNull ResourceLocation location) {
         for (ImageFileType type : FileTypes.getAllImageFileTypes()) {
             if (type.isFileTypeLocation(location)) return true;
         }
         return false;
     }
 
-    protected boolean isAudioLocation(@NotNull Identifier location) {
+    protected boolean isAudioLocation(@NotNull ResourceLocation location) {
         for (AudioFileType type : FileTypes.getAllAudioFileTypes()) {
             if (type.isFileTypeLocation(location)) return true;
         }
         return false;
     }
 
-    protected boolean isVideoLocation(@NotNull Identifier location) {
+    protected boolean isVideoLocation(@NotNull ResourceLocation location) {
         for (VideoFileType type : FileTypes.getAllVideoFileTypes()) {
             if (type.isFileTypeLocation(location)) return true;
         }
@@ -471,20 +471,20 @@ public class ResourcePickerWindowBody extends AbstractBrowserWindowBody {
         return CharacterFilter.buildResourceNameFilter().isAllowedText(name);
     }
 
-    protected boolean isResourceFriendlyLocation(@NotNull Identifier location) {
+    protected boolean isResourceFriendlyLocation(@NotNull ResourceLocation location) {
         String combined = location.getNamespace() + "/" + location.getPath();
         combined = combined.replace("/", "");
         return CharacterFilter.buildResourceNameFilter().isAllowedText(combined);
     }
 
-    protected String getLocationDisplayName(@NotNull Identifier location) {
+    protected String getLocationDisplayName(@NotNull ResourceLocation location) {
         String path = location.getPath();
         int lastSlash = path.lastIndexOf('/');
         if (lastSlash >= 0) return path.substring(lastSlash + 1);
         return path;
     }
 
-    protected String getDisplayNameForLocation(@NotNull Identifier location) {
+    protected String getDisplayNameForLocation(@NotNull ResourceLocation location) {
         String searchValue = this.getSearchValue();
         if (searchValue != null) {
             String relative = this.getRelativePathForLocation(location);
@@ -611,11 +611,11 @@ public class ResourcePickerWindowBody extends AbstractBrowserWindowBody {
 
     public class ResourceScrollAreaEntry extends AbstractResourceScrollAreaEntry {
 
-        protected final Identifier location;
+        protected final ResourceLocation location;
         @Nullable
         protected final FileType<?> fileType;
 
-        public ResourceScrollAreaEntry(@NotNull ScrollArea parent, @NotNull Identifier location) {
+        public ResourceScrollAreaEntry(@NotNull ScrollArea parent, @NotNull ResourceLocation location) {
             super(parent, ResourcePickerWindowBody.this.getDisplayNameForLocation(location));
             this.location = location;
             this.fileType = FileTypes.getLocationType(this.location);

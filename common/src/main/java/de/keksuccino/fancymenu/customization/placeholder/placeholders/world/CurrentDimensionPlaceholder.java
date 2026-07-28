@@ -3,7 +3,7 @@ package de.keksuccino.fancymenu.customization.placeholder.placeholders.world;
 import de.keksuccino.fancymenu.customization.placeholder.DeserializedPlaceholderString;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,7 +22,7 @@ public class CurrentDimensionPlaceholder extends AbstractWorldPlaceholder {
         ClientLevel level = this.getLevel();
         if (level == null) return "";
 
-        Identifier dimensionId = level.dimension().identifier();
+        ResourceLocation dimensionId = level.dimension().identifier();
         String asKeyString = dps.values.get("as_key");
         boolean asKey = true;
         if ((asKeyString != null) && asKeyString.equalsIgnoreCase("false")) {

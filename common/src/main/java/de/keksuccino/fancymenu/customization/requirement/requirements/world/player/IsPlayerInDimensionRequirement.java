@@ -12,7 +12,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -112,8 +112,8 @@ public class IsPlayerInDimensionRequirement extends Requirement {
         });
     }
 
-    private static @NotNull List<Identifier> getDimensionTypes() {
-        List<Identifier> types = new ArrayList<>();
+    private static @NotNull List<ResourceLocation> getDimensionTypes() {
+        List<ResourceLocation> types = new ArrayList<>();
         try {
             ClientLevel level = Minecraft.getInstance().level;
             if (level != null) {

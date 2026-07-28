@@ -12,7 +12,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -114,8 +114,8 @@ public class IsPlayerInBiomeRequirement extends Requirement {
         });
     }
 
-    private static @NotNull List<Identifier> getBiomeKeys() {
-        List<Identifier> keys = new ArrayList<>();
+    private static @NotNull List<ResourceLocation> getBiomeKeys() {
+        List<ResourceLocation> keys = new ArrayList<>();
         try {
             ClientLevel level = Minecraft.getInstance().level;
             if (level != null) {

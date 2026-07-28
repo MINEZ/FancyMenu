@@ -1,7 +1,7 @@
 package de.keksuccino.fancymenu.util.rendering.ui.icon;
 
 import de.keksuccino.fancymenu.util.rendering.ui.UIBase;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -54,7 +54,7 @@ public final class MaterialIcon {
     }
 
     @Nullable
-    public Identifier getTextureLocation(int sizePx) {
+    public ResourceLocation getTextureLocation(int sizePx) {
         return ensureLoaded(sizePx).textureLocation;
     }
 
@@ -63,7 +63,7 @@ public final class MaterialIcon {
      * The size is derived from the render area and FancyMenu's logical UI scale.
      */
     @Nullable
-    public Identifier getTextureLocationForUI(float renderWidth, float renderHeight) {
+    public ResourceLocation getTextureLocationForUI(float renderWidth, float renderHeight) {
         return getTextureLocation(calculateBestTextureSizeForUI(renderWidth, renderHeight));
     }
 
@@ -72,7 +72,7 @@ public final class MaterialIcon {
      * The size is derived from the render area and rendering scale.
      */
     @Nullable
-    public Identifier getTextureLocation(float renderWidth, float renderHeight, float renderScale) {
+    public ResourceLocation getTextureLocation(float renderWidth, float renderHeight, float renderScale) {
         return getTextureLocation(calculateBestTextureSize(renderWidth, renderHeight, renderScale));
     }
 
@@ -198,7 +198,7 @@ public final class MaterialIcon {
         return ((value + step - 1) / step) * step;
     }
 
-    void assign(@Nonnull SizeCache cache, @Nonnull Identifier location, int width, int height) {
+    void assign(@Nonnull SizeCache cache, @Nonnull ResourceLocation location, int width, int height) {
         cache.textureLocation = location;
         cache.width = width;
         cache.height = height;
@@ -210,7 +210,7 @@ public final class MaterialIcon {
         cache.failed = true;
     }
 
-    void clearCache(@Nonnull Consumer<Identifier> releaser) {
+    void clearCache(@Nonnull Consumer<ResourceLocation> releaser) {
         synchronized (sizeCache) {
             for (SizeCache cache : sizeCache.values()) {
                 if (cache.textureLocation != null) {
@@ -249,7 +249,7 @@ public final class MaterialIcon {
         volatile int height;
         volatile boolean loaded;
         volatile boolean failed;
-        volatile Identifier textureLocation;
+        volatile ResourceLocation textureLocation;
 
         SizeCache(int sizePx) {
             this.sizePx = sizePx;

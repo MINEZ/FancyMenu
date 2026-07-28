@@ -16,7 +16,7 @@ import net.ellerton.japng.argb8888.Argb8888Bitmap;
 import net.ellerton.japng.argb8888.Argb8888BitmapSequence;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -50,7 +50,7 @@ public class ApngTexture implements ITexture, PlayableResource {
     protected final AtomicInteger cycles = new AtomicInteger(0);
     /** How many times the APNG should loop. Value <= 0 means infinite loops. **/
     protected final AtomicInteger numPlays = new AtomicInteger(0);
-    protected Identifier sourceLocation;
+    protected ResourceLocation sourceLocation;
     protected File sourceFile;
     protected String sourceURL;
     protected final AtomicBoolean loadingCompleted = new AtomicBoolean(false);
@@ -69,12 +69,12 @@ public class ApngTexture implements ITexture, PlayableResource {
     protected final AtomicBoolean watermediaFallbackTriggered = new AtomicBoolean(false);
 
     @NotNull
-    public static ApngTexture location(@NotNull Identifier location) {
+    public static ApngTexture location(@NotNull ResourceLocation location) {
         return location(location, null);
     }
 
     @NotNull
-    public static ApngTexture location(@NotNull Identifier location, @Nullable ApngTexture writeTo) {
+    public static ApngTexture location(@NotNull ResourceLocation location, @Nullable ApngTexture writeTo) {
 
         Objects.requireNonNull(location);
         ApngTexture texture = (writeTo != null) ? writeTo : new ApngTexture();
@@ -457,13 +457,13 @@ public class ApngTexture implements ITexture, PlayableResource {
 
     @Nullable
     @Override
-    public Identifier getResourceLocation() {
+    public ResourceLocation getResourceLocation() {
         WatermediaAnimatedTextureBackend backend = this.resolveWatermediaBackend();
         if (backend != null) {
             this.width = backend.getWidth();
             this.height = backend.getHeight();
             this.aspectRatio = backend.getAspectRatio();
-            Identifier resourceLocation = backend.getResourceLocation();
+            ResourceLocation resourceLocation = backend.getResourceLocation();
             return (resourceLocation != null) ? resourceLocation : FULLY_TRANSPARENT_TEXTURE;
         }
         if (this.closed.get()) return FULLY_TRANSPARENT_TEXTURE;
@@ -474,7 +474,7 @@ public class ApngTexture implements ITexture, PlayableResource {
             if ((frame.resourceLocation == null) && !frame.loaded && (frame.nativeImage != null)) {
                 try {
                     this.frameRegistrationCounter++;
-                    frame.resourceLocation = Identifier.fromNamespaceAndPath("fancymenu", "dynamic/apng_frame_" + this.uniqueId + "_" + this.frameRegistrationCounter);
+                    frame.resourceLocation = ResourceLocation.fromNamespaceAndPath("fancymenu", "dynamic/apng_frame_" + this.uniqueId + "_" + this.frameRegistrationCounter);
                     frame.dynamicTexture = new DynamicTexture(frame.resourceLocation::toString, frame.nativeImage);
                     Minecraft.getInstance().getTextureManager().register(frame.resourceLocation, frame.dynamicTexture);
                 } catch (Exception ex) {
@@ -819,7 +819,7 @@ public class ApngTexture implements ITexture, PlayableResource {
         protected final ByteArrayOutputStream closeAfterLoading;
         protected DynamicTexture dynamicTexture;
         protected volatile NativeImage nativeImage;
-        protected Identifier resourceLocation;
+        protected ResourceLocation resourceLocation;
         protected boolean loaded = false;
 
         protected ApngFrame(int index, ByteArrayInputStream frameInputStream, int delayMs, ByteArrayOutputStream closeAfterLoading) {

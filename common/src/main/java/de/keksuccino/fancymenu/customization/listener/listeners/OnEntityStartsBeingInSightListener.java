@@ -4,7 +4,7 @@ import de.keksuccino.fancymenu.customization.listener.AbstractListener;
 import de.keksuccino.fancymenu.util.LocalizationUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -146,7 +146,7 @@ public class OnEntityStartsBeingInSightListener extends AbstractListener {
     public record EntitySightData(@Nullable String entityKey, double distanceToPlayer, double entityPosX, double entityPosY, double entityPosZ, @NotNull UUID entityUuid) {
 
         public static @NotNull EntitySightData from(@NotNull Entity entity, double distanceToPlayer) {
-            Identifier entityTypeKey = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
+            ResourceLocation entityTypeKey = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
             String keyString = (entityTypeKey != null) ? entityTypeKey.toString() : null;
             return new EntitySightData(keyString, distanceToPlayer, entity.getX(), entity.getY(), entity.getZ(), entity.getUUID());
         }

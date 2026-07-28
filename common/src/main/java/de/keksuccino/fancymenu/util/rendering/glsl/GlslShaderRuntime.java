@@ -16,7 +16,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -1159,7 +1159,7 @@ public class GlslShaderRuntime {
             return new ChannelTextureState(fallbackTextureId, 0.0F, 0.0F);
         }
 
-        Identifier location = texture.getResourceLocation();
+        ResourceLocation location = texture.getResourceLocation();
         if (location == null) {
             return new ChannelTextureState(fallbackTextureId, 0.0F, 0.0F);
         }
@@ -1176,7 +1176,7 @@ public class GlslShaderRuntime {
         return new ChannelTextureState(textureId, width, height);
     }
 
-    private int getGlTextureId(@NotNull Minecraft minecraft, @NotNull Identifier location, int fallbackTextureId) {
+    private int getGlTextureId(@NotNull Minecraft minecraft, @NotNull ResourceLocation location, int fallbackTextureId) {
         try {
             if (minecraft.getTextureManager().getTexture(location).getTexture() instanceof GlTexture glTexture) {
                 return glTexture.glId();

@@ -11,7 +11,7 @@ import de.keksuccino.fancymenu.mixin.mixins.common.client.IMixinVanillaPackResou
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.CompositePackResources;
 import net.minecraft.server.packs.FilePackResources;
 import net.minecraft.server.packs.PackResources;
@@ -105,7 +105,7 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     }
 
     @Override
-    public @Nullable Identifier getItemKey(@NotNull Item item) {
+    public @Nullable ResourceLocation getItemKey(@NotNull Item item) {
         try {
             return BuiltInRegistries.ITEM.getKey(item);
         } catch (Exception ex) {
@@ -115,7 +115,7 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     }
 
     @Override
-    public @Nullable Identifier getEffectKey(@NotNull MobEffect effect) {
+    public @Nullable ResourceLocation getEffectKey(@NotNull MobEffect effect) {
         try {
             return BuiltInRegistries.MOB_EFFECT.getKey(effect);
         } catch (Exception ex) {
@@ -125,7 +125,7 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     }
 
     @Override
-    public @Nullable Identifier getEntityKey(@NotNull EntityType<?> type) {
+    public @Nullable ResourceLocation getEntityKey(@NotNull EntityType<?> type) {
         try {
             return BuiltInRegistries.ENTITY_TYPE.getKey(type);
         } catch (Exception ex) {
@@ -144,8 +144,8 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     }
 
     @Override
-    public @NotNull Set<Identifier> getLoadedClientResourceLocations() {
-        Set<Identifier> output = new HashSet<>();
+    public @NotNull Set<ResourceLocation> getLoadedClientResourceLocations() {
+        Set<ResourceLocation> output = new HashSet<>();
         if (!this.isOnClient()) return output;
         try {
             ResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
@@ -156,7 +156,7 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
         return output;
     }
 
-    private void collectLocationsFromPack(@NotNull PackResources pack, @NotNull Set<Identifier> output) {
+    private void collectLocationsFromPack(@NotNull PackResources pack, @NotNull Set<ResourceLocation> output) {
         if (pack instanceof CompositePackResources composite) {
             List<PackResources> stack = ((IMixinCompositePackResources) composite).getPackResourcesStack_FancyMenu();
             if (stack != null) {
@@ -184,14 +184,14 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
         }
     }
 
-    private void collectLocationsFromPathPack(@NotNull PathPackResources pack, @NotNull Set<Identifier> output) {
+    private void collectLocationsFromPathPack(@NotNull PathPackResources pack, @NotNull Set<ResourceLocation> output) {
         Path root = ((IMixinPathPackResources) pack).getRoot_FancyMenu();
         if (root == null) return;
         Path assetsRoot = root.resolve(PackType.CLIENT_RESOURCES.getDirectory());
         collectLocationsFromRoot(assetsRoot, output);
     }
 
-    private void collectLocationsFromVanillaPack(@NotNull VanillaPackResources pack, @NotNull Set<Identifier> output) {
+    private void collectLocationsFromVanillaPack(@NotNull VanillaPackResources pack, @NotNull Set<ResourceLocation> output) {
         IMixinVanillaPackResources accessor = (IMixinVanillaPackResources) pack;
         boolean collected = false;
         List<Path> roots = accessor.getPathsForType_FancyMenu().get(PackType.CLIENT_RESOURCES);
@@ -219,18 +219,18 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
         }
     }
 
-    private void collectLocationsFromRoot(@NotNull Path assetsRoot, @NotNull Set<Identifier> output) {
+    private void collectLocationsFromRoot(@NotNull Path assetsRoot, @NotNull Set<ResourceLocation> output) {
         if (!Files.exists(assetsRoot) || !Files.isDirectory(assetsRoot)) return;
         try (DirectoryStream<Path> namespaces = Files.newDirectoryStream(assetsRoot)) {
             for (Path namespaceDir : namespaces) {
                 if (!Files.isDirectory(namespaceDir)) continue;
                 String namespace = namespaceDir.getFileName().toString();
-                if (!Identifier.isValidNamespace(namespace)) continue;
+                if (!ResourceLocation.isValidNamespace(namespace)) continue;
                 try (Stream<Path> files = Files.walk(namespaceDir)) {
                     files.filter(Files::isRegularFile).forEach(file -> {
                         String path = namespaceDir.relativize(file).toString().replace(File.separatorChar, '/');
                         if (path.isEmpty() || path.endsWith(".mcmeta")) return;
-                        Identifier location = Identifier.tryBuild(namespace, path);
+                        ResourceLocation location = ResourceLocation.tryBuild(namespace, path);
                         if (location != null) output.add(location);
                     });
                 }
@@ -240,7 +240,7 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
         }
     }
 
-    private void collectLocationsFromFilePack(@NotNull FilePackResources pack, @NotNull Set<Identifier> output) {
+    private void collectLocationsFromFilePack(@NotNull FilePackResources pack, @NotNull Set<ResourceLocation> output) {
         IMixinFilePackResources accessor = (IMixinFilePackResources) pack;
         IMixinFilePackResourcesSharedZipFileAccess zipAccessor = (IMixinFilePackResourcesSharedZipFileAccess) accessor.getZipFileAccess_FancyMenu();
         if (zipAccessor == null) return;
@@ -261,10 +261,10 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
             int slashIndex = remainder.indexOf('/');
             if (slashIndex <= 0) continue;
             String namespace = remainder.substring(0, slashIndex);
-            if (!Identifier.isValidNamespace(namespace)) continue;
+            if (!ResourceLocation.isValidNamespace(namespace)) continue;
             String path = remainder.substring(slashIndex + 1);
             if (path.isEmpty() || path.endsWith(".mcmeta")) continue;
-            Identifier location = Identifier.tryBuild(namespace, path);
+            ResourceLocation location = ResourceLocation.tryBuild(namespace, path);
             if (location != null) output.add(location);
         }
     }

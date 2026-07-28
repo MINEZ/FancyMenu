@@ -27,7 +27,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.PanoramaRenderer;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -51,7 +51,7 @@ public abstract class MixinScreen implements CustomizableScreen {
     @Shadow
     public int height;
 
-    @Unique private static final Identifier DIRT_TEXTURE_FANCYMENU = Identifier.withDefaultNamespace("textures/block/dirt.png");
+    @Unique private static final ResourceLocation DIRT_TEXTURE_FANCYMENU = ResourceLocation.withDefaultNamespace("textures/block/dirt.png");
     @Unique private final List<GuiEventListener> removeOnInitChildrenFancyMenu = new ArrayList<>();
     @Unique private final MenuBackgroundLifecycleController menuBackgroundLifecycleController_FancyMenu = new MenuBackgroundLifecycleController();
     @Unique private boolean nextFocusPath_called_FancyMenu = false;
@@ -127,7 +127,7 @@ public abstract class MixinScreen implements CustomizableScreen {
     }
 
     @Inject(method = "renderMenuBackgroundTexture", at = @At("HEAD"), cancellable = true)
-    private static void before_renderMenuBackgroundTexture_FancyMenu(GuiGraphics graphics, Identifier location, int x, int y, float uOffset, float vOffset, int width, int height, CallbackInfo info) {
+    private static void before_renderMenuBackgroundTexture_FancyMenu(GuiGraphics graphics, ResourceLocation location, int x, int y, float uOffset, float vOffset, int width, int height, CallbackInfo info) {
         Screen currentScreen = Minecraft.getInstance().screen;
         if (MenuBackgroundLifecycleController.isStaticHelperReplacementAllowed() && SeamlessWorldLoadingHandler.renderLoadingBackgroundIfActive(graphics, x, y, width, height, currentScreen)) {
             info.cancel();

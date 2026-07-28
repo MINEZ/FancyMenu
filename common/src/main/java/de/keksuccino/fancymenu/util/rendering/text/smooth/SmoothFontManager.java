@@ -2,7 +2,7 @@ package de.keksuccino.fancymenu.util.rendering.text.smooth;
 
 import de.keksuccino.fancymenu.util.MinecraftResourceReloadObserver;
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import org.apache.logging.log4j.LogManager;
@@ -59,7 +59,7 @@ public final class SmoothFontManager {
      * @return builder configured for the provided resource
      */
     @Nonnull
-    public static ResourceFontBuilder fontBuilder(@Nonnull Identifier fontLocation, float baseSize) {
+    public static ResourceFontBuilder fontBuilder(@Nonnull ResourceLocation fontLocation, float baseSize) {
         return new ResourceFontBuilder(ResourceSourceType.LIST, baseSize, List.of(fontLocation), null, null);
     }
 
@@ -83,7 +83,7 @@ public final class SmoothFontManager {
      * @return builder configured for the provided resources
      */
     @Nonnull
-    public static ResourceFontBuilder fontBuilderFromResources(@Nonnull List<Identifier> fontLocations, float baseSize) {
+    public static ResourceFontBuilder fontBuilderFromResources(@Nonnull List<ResourceLocation> fontLocations, float baseSize) {
         return new ResourceFontBuilder(ResourceSourceType.LIST, baseSize, fontLocations, null, null);
     }
 
@@ -103,7 +103,7 @@ public final class SmoothFontManager {
      * @return builder configured for the provided folder
      */
     @Nonnull
-    public static ResourceFontBuilder fontBuilderFromFolder(@Nonnull Identifier folder, float baseSize) {
+    public static ResourceFontBuilder fontBuilderFromFolder(@Nonnull ResourceLocation folder, float baseSize) {
         return new ResourceFontBuilder(ResourceSourceType.FOLDER, baseSize, null, folder, null);
     }
 
@@ -124,7 +124,7 @@ public final class SmoothFontManager {
      * @return builder configured for the provided prefix
      */
     @Nonnull
-    public static ResourceFontBuilder fontBuilderFromPrefix(@Nonnull Identifier folder, @Nonnull String filenamePrefix, float baseSize) {
+    public static ResourceFontBuilder fontBuilderFromPrefix(@Nonnull ResourceLocation folder, @Nonnull String filenamePrefix, float baseSize) {
         return new ResourceFontBuilder(ResourceSourceType.PREFIX, baseSize, null, folder, filenamePrefix);
     }
 
@@ -218,13 +218,13 @@ public final class SmoothFontManager {
         private final ResourceSourceType sourceType;
         private final float baseSize;
         @Nullable
-        private final List<Identifier> locations;
+        private final List<ResourceLocation> locations;
         @Nullable
-        private final Identifier folder;
+        private final ResourceLocation folder;
         @Nullable
         private final String filenamePrefix;
         @Nullable
-        private Map<String, List<Identifier>> languageOverrides;
+        private Map<String, List<ResourceLocation>> languageOverrides;
         private float lineHeightOverride = -1.0F;
         private float lineHeightOffset = 0.0F;
         private float yOffset = 0.0F;
@@ -253,7 +253,7 @@ public final class SmoothFontManager {
          * @param folder folder root (for folder/prefix sources)
          * @param filenamePrefix prefix filter (for prefix sources)
          */
-        private ResourceFontBuilder(ResourceSourceType sourceType, float baseSize, @Nullable List<Identifier> locations, @Nullable Identifier folder, @Nullable String filenamePrefix) {
+        private ResourceFontBuilder(ResourceSourceType sourceType, float baseSize, @Nullable List<ResourceLocation> locations, @Nullable ResourceLocation folder, @Nullable String filenamePrefix) {
             this.sourceType = sourceType;
             this.baseSize = baseSize;
             this.locations = locations;
@@ -285,7 +285,7 @@ public final class SmoothFontManager {
          * @param languageOverrides map of language code to font order list
          * @return this builder for chaining
          */
-        public ResourceFontBuilder languageOverrides(@Nullable Map<String, List<Identifier>> languageOverrides) {
+        public ResourceFontBuilder languageOverrides(@Nullable Map<String, List<ResourceLocation>> languageOverrides) {
             this.languageOverrides = languageOverrides;
             return this;
         }
@@ -567,10 +567,10 @@ public final class SmoothFontManager {
     }
 
     @Nullable
-    private static SmoothFont buildFromResourceList(@Nullable List<Identifier> fontLocations, float baseSize, @Nullable Map<String, List<Identifier>> languageOverrides, float lineHeightOverride, float lineHeightOffset, float yOffset) {
+    private static SmoothFont buildFromResourceList(@Nullable List<ResourceLocation> fontLocations, float baseSize, @Nullable Map<String, List<ResourceLocation>> languageOverrides, float lineHeightOverride, float lineHeightOffset, float yOffset) {
         Objects.requireNonNull(fontLocations);
         registerReloadListener();
-        List<Identifier> uniqueLocations = dedupe(fontLocations);
+        List<ResourceLocation> uniqueLocations = dedupe(fontLocations);
         if (uniqueLocations.isEmpty()) {
             LOGGER.error("[FANCYMENU] No smooth fonts provided.");
             return null;
@@ -586,9 +586,9 @@ public final class SmoothFontManager {
 
         ResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
         List<byte[]> fontBytes = new ArrayList<>();
-        List<Identifier> loadedLocations = new ArrayList<>();
+        List<ResourceLocation> loadedLocations = new ArrayList<>();
 
-        for (Identifier location : uniqueLocations) {
+        for (ResourceLocation location : uniqueLocations) {
             Resource resource = resourceManager.getResource(location).orElse(null);
             if (resource == null) {
                 LOGGER.error("[FANCYMENU] Smooth font not found: {}", location);
@@ -616,12 +616,12 @@ public final class SmoothFontManager {
     }
 
     @Nullable
-    private static SmoothFont buildFromResourceFolder(@Nullable Identifier folder, float baseSize, @Nullable Map<String, List<Identifier>> languageOverrides, float lineHeightOverride, float lineHeightOffset, float yOffset) {
+    private static SmoothFont buildFromResourceFolder(@Nullable ResourceLocation folder, float baseSize, @Nullable Map<String, List<ResourceLocation>> languageOverrides, float lineHeightOverride, float lineHeightOffset, float yOffset) {
         Objects.requireNonNull(folder);
         ResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
         String folderPath = folder.getPath();
         String prefix = folderPath.endsWith("/") ? folderPath : (folderPath + "/");
-        Map<Identifier, Resource> resources = resourceManager.listResources(folderPath, location ->
+        Map<ResourceLocation, Resource> resources = resourceManager.listResources(folderPath, location ->
                 location.getNamespace().equals(folder.getNamespace())
                         && location.getPath().startsWith(prefix)
                         && location.getPath().endsWith(".ttf"));
@@ -629,19 +629,19 @@ public final class SmoothFontManager {
             LOGGER.error("[FANCYMENU] No smooth fonts found in folder {}.", folder);
             return null;
         }
-        List<Identifier> locations = new ArrayList<>(resources.keySet());
-        locations.sort(Comparator.comparing(Identifier::toString));
+        List<ResourceLocation> locations = new ArrayList<>(resources.keySet());
+        locations.sort(Comparator.comparing(ResourceLocation::toString));
         return buildFromResourceList(locations, baseSize, languageOverrides, lineHeightOverride, lineHeightOffset, yOffset);
     }
 
     @Nullable
-    private static SmoothFont buildFromResourcePrefix(@Nullable Identifier folder, @Nullable String filenamePrefix, float baseSize, @Nullable Map<String, List<Identifier>> languageOverrides, float lineHeightOverride, float lineHeightOffset, float yOffset) {
+    private static SmoothFont buildFromResourcePrefix(@Nullable ResourceLocation folder, @Nullable String filenamePrefix, float baseSize, @Nullable Map<String, List<ResourceLocation>> languageOverrides, float lineHeightOverride, float lineHeightOffset, float yOffset) {
         Objects.requireNonNull(folder);
         Objects.requireNonNull(filenamePrefix);
         ResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
         String folderPath = folder.getPath();
         String prefix = folderPath.endsWith("/") ? folderPath : (folderPath + "/");
-        Map<Identifier, Resource> resources = resourceManager.listResources(folderPath, location ->
+        Map<ResourceLocation, Resource> resources = resourceManager.listResources(folderPath, location ->
                 location.getNamespace().equals(folder.getNamespace())
                         && location.getPath().startsWith(prefix + filenamePrefix)
                         && location.getPath().endsWith(".ttf"));
@@ -649,8 +649,8 @@ public final class SmoothFontManager {
             LOGGER.error("[FANCYMENU] No smooth fonts found in {} with prefix '{}'.", folder, filenamePrefix);
             return null;
         }
-        List<Identifier> locations = new ArrayList<>(resources.keySet());
-        locations.sort(Comparator.comparing(Identifier::toString));
+        List<ResourceLocation> locations = new ArrayList<>(resources.keySet());
+        locations.sort(Comparator.comparing(ResourceLocation::toString));
         return buildFromResourceList(locations, baseSize, languageOverrides, lineHeightOverride, lineHeightOffset, yOffset);
     }
 
@@ -746,8 +746,8 @@ public final class SmoothFontManager {
         return yOffset;
     }
 
-    private static List<Identifier> dedupe(List<Identifier> locations) {
-        Set<Identifier> unique = new LinkedHashSet<>(locations);
+    private static List<ResourceLocation> dedupe(List<ResourceLocation> locations) {
+        Set<ResourceLocation> unique = new LinkedHashSet<>(locations);
         return new ArrayList<>(unique);
     }
 
@@ -797,7 +797,7 @@ public final class SmoothFontManager {
         return results;
     }
 
-    private static String buildResourceKey(String prefix, List<Identifier> locations, float baseSize, @Nullable Map<String, List<Identifier>> languageOverrides, float lineHeightOverride, float lineHeightOffset, float yOffset) {
+    private static String buildResourceKey(String prefix, List<ResourceLocation> locations, float baseSize, @Nullable Map<String, List<ResourceLocation>> languageOverrides, float lineHeightOverride, float lineHeightOffset, float yOffset) {
         StringBuilder builder = new StringBuilder(prefix)
                 .append(":")
                 .append(baseSize)
@@ -808,17 +808,17 @@ public final class SmoothFontManager {
                 .append(":")
                 .append(Float.floatToIntBits(yOffset))
                 .append(":");
-        for (Identifier location : locations) {
+        for (ResourceLocation location : locations) {
             builder.append(location).append(';');
         }
         if (languageOverrides != null && !languageOverrides.isEmpty()) {
             builder.append("|lang:");
-            Map<String, List<Identifier>> ordered = new TreeMap<>(languageOverrides);
-            for (Map.Entry<String, List<Identifier>> entry : ordered.entrySet()) {
+            Map<String, List<ResourceLocation>> ordered = new TreeMap<>(languageOverrides);
+            for (Map.Entry<String, List<ResourceLocation>> entry : ordered.entrySet()) {
                 builder.append(entry.getKey()).append('=');
-                List<Identifier> overrideList = entry.getValue();
+                List<ResourceLocation> overrideList = entry.getValue();
                 if (overrideList != null) {
-                    for (Identifier location : overrideList) {
+                    for (ResourceLocation location : overrideList) {
                         builder.append(location).append(',');
                     }
                 }
@@ -828,9 +828,9 @@ public final class SmoothFontManager {
         return builder.toString();
     }
 
-    private static List<String> buildLabelsForLocations(List<Identifier> locations) {
+    private static List<String> buildLabelsForLocations(List<ResourceLocation> locations) {
         List<String> labels = new ArrayList<>(locations.size());
-        for (Identifier location : locations) {
+        for (ResourceLocation location : locations) {
             labels.add(extractFileName(location.getPath()));
         }
         return labels;
@@ -861,21 +861,21 @@ public final class SmoothFontManager {
     }
 
     @Nullable
-    private static Map<String, int[]> buildLanguageOrders(List<Identifier> locations, @Nullable Map<String, List<Identifier>> languageOverrides) {
+    private static Map<String, int[]> buildLanguageOrders(List<ResourceLocation> locations, @Nullable Map<String, List<ResourceLocation>> languageOverrides) {
         if (languageOverrides == null || languageOverrides.isEmpty()) {
             return null;
         }
-        Map<Identifier, Integer> lookup = new HashMap<>();
+        Map<ResourceLocation, Integer> lookup = new HashMap<>();
         for (int i = 0; i < locations.size(); i++) {
             lookup.put(locations.get(i), i);
         }
         Map<String, int[]> result = new HashMap<>();
-        for (Map.Entry<String, List<Identifier>> entry : languageOverrides.entrySet()) {
+        for (Map.Entry<String, List<ResourceLocation>> entry : languageOverrides.entrySet()) {
             List<Integer> order = new ArrayList<>();
             Set<Integer> seen = new LinkedHashSet<>();
-            List<Identifier> overrideList = entry.getValue();
+            List<ResourceLocation> overrideList = entry.getValue();
             if (overrideList != null) {
-                for (Identifier location : overrideList) {
+                for (ResourceLocation location : overrideList) {
                     Integer index = lookup.get(location);
                     if (index == null) {
                         LOGGER.warn("[FANCYMENU] Language override '{}' references missing font: {}", entry.getKey(), location);

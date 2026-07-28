@@ -1,6 +1,6 @@
 package de.keksuccino.fancymenu.util.file;
 
-import net.minecraft.util.Util;
+import net.minecraft.Util;
 import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.NotNull;
 import java.io.*;

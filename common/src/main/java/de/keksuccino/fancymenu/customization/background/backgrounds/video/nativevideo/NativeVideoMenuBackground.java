@@ -37,9 +37,9 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Util;
+import net.minecraft.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -71,7 +71,7 @@ public class NativeVideoMenuBackground extends MenuBackground<NativeVideoMenuBac
     private static final String MEMORY_LAST_STOPPED_PLAY_TIME_SECONDS_FANCYMENU = "native_video_last_stopped_play_time_seconds";
     private static final String MEMORY_LAST_STOPPED_SOURCE_FANCYMENU = "native_video_last_stopped_source";
     private static final String MEMORY_LAST_ENDED_SOURCE_FANCYMENU = "native_video_last_ended_source";
-    private static final Identifier MISSING_TEXTURE_FANCYMENU = IVideo.MISSING_TEXTURE_LOCATION;
+    private static final ResourceLocation MISSING_TEXTURE_FANCYMENU = IVideo.MISSING_TEXTURE_LOCATION;
     private static final File VIDEO_THUMBNAIL_DIR_FANCYMENU = FileUtils.createDirectory(new File(FancyMenu.INSTANCE_DATA_DIR, "video_thumbnails"));
     private static final DrawableColor WATERMEDIA_MISSING_BACKGROUND_COLOR_FANCYMENU = DrawableColor.of(180, 0, 0);
     private static final String WATERMEDIA_V3_DOWNLOAD_URL_FANCYMENU = "https://www.curseforge.com/minecraft/mc-mods/watermedia/files/all?page=1&pageSize=20&showAlphaFiles=show";
@@ -300,7 +300,7 @@ public class NativeVideoMenuBackground extends MenuBackground<NativeVideoMenuBac
         }
         this.lastPausedState = pausedState;
 
-        Identifier resourceLocation = this.video.getResourceLocation();
+        ResourceLocation resourceLocation = this.video.getResourceLocation();
         boolean missingPausedFrame = pausedState && ((resourceLocation == null) || Objects.equals(resourceLocation, MISSING_TEXTURE_FANCYMENU));
         if (missingPausedFrame) {
             this.renderPausedThumbnailFallback_FancyMenu(graphics, parallaxOffset, parallaxIntensityX, parallaxIntensityY);
@@ -448,11 +448,11 @@ public class NativeVideoMenuBackground extends MenuBackground<NativeVideoMenuBac
         this.watermediaBinariesDownloadHeight_FancyMenu = Float.NaN;
     }
 
-    protected void renderKeepAspectRatio(@NotNull GuiGraphics graphics, @NotNull Identifier resourceLocation, float[] parallaxOffset, float parallaxIntensityX, float parallaxIntensityY) {
+    protected void renderKeepAspectRatio(@NotNull GuiGraphics graphics, @NotNull ResourceLocation resourceLocation, float[] parallaxOffset, float parallaxIntensityX, float parallaxIntensityY) {
         this.renderKeepAspectRatioWithAspectRatio_FancyMenu(graphics, resourceLocation, this.video.getAspectRatio(), parallaxOffset, parallaxIntensityX, parallaxIntensityY);
     }
 
-    protected void renderKeepAspectRatioWithAspectRatio_FancyMenu(@NotNull GuiGraphics graphics, @NotNull Identifier resourceLocation, @NotNull AspectRatio ratio, float[] parallaxOffset, float parallaxIntensityX, float parallaxIntensityY) {
+    protected void renderKeepAspectRatioWithAspectRatio_FancyMenu(@NotNull GuiGraphics graphics, @NotNull ResourceLocation resourceLocation, @NotNull AspectRatio ratio, float[] parallaxOffset, float parallaxIntensityX, float parallaxIntensityY) {
         boolean parallax = this.parallaxEnabled.tryGetNonNull();
         float parallaxScaleX = parallax ? (1.0F + parallaxIntensityX) : 1.0F;
         float parallaxScaleY = parallax ? (1.0F + parallaxIntensityY) : 1.0F;
@@ -470,7 +470,7 @@ public class NativeVideoMenuBackground extends MenuBackground<NativeVideoMenuBac
     protected boolean renderPausedThumbnailFallback_FancyMenu(@NotNull GuiGraphics graphics, float[] parallaxOffset, float parallaxIntensityX, float parallaxIntensityY) {
         ITexture thumbnail = this.getPausedThumbnailTexture_FancyMenu();
         if (thumbnail == null) return false;
-        Identifier thumbnailLocation = thumbnail.getResourceLocation();
+        ResourceLocation thumbnailLocation = thumbnail.getResourceLocation();
         if ((thumbnailLocation == null) || Objects.equals(thumbnailLocation, ITexture.MISSING_TEXTURE_LOCATION)) return false;
         de.keksuccino.fancymenu.util.rendering.RenderingUtils.setShaderColor(graphics, 1.0F, 1.0F, 1.0F, this.opacity);
         if (this.keepBackgroundAspectRatio) {
@@ -495,7 +495,7 @@ public class NativeVideoMenuBackground extends MenuBackground<NativeVideoMenuBac
         return thumbnail;
     }
 
-    protected void renderFullScreen(@NotNull GuiGraphics graphics, @NotNull Identifier resourceLocation, float[] parallaxOffset, float parallaxIntensityX, float parallaxIntensityY) {
+    protected void renderFullScreen(@NotNull GuiGraphics graphics, @NotNull ResourceLocation resourceLocation, float[] parallaxOffset, float parallaxIntensityX, float parallaxIntensityY) {
         if (this.parallaxEnabled.tryGetNonNull()) {
             int expandedWidth = (int)(getScreenWidth() * (1.0F + parallaxIntensityX));
             int expandedHeight = (int)(getScreenHeight() * (1.0F + parallaxIntensityY));
@@ -721,7 +721,7 @@ public class NativeVideoMenuBackground extends MenuBackground<NativeVideoMenuBac
 
     protected void trySaveCurrentFrameThumbnail_FancyMenu() {
         if (!this.initialized || (this.video == null)) return;
-        Identifier resourceLocation = this.video.getResourceLocation();
+        ResourceLocation resourceLocation = this.video.getResourceLocation();
         if ((resourceLocation == null) || Objects.equals(resourceLocation, MISSING_TEXTURE_FANCYMENU)) return;
         int width = Math.max(1, this.video.getWidth());
         int height = Math.max(1, this.video.getHeight());
@@ -734,7 +734,7 @@ public class NativeVideoMenuBackground extends MenuBackground<NativeVideoMenuBac
         }
     }
 
-    protected void saveCurrentFrameThumbnailOnRenderThread_FancyMenu(@NotNull String identifier, @NotNull Identifier resourceLocation, int width, int height) {
+    protected void saveCurrentFrameThumbnailOnRenderThread_FancyMenu(@NotNull String identifier, @NotNull ResourceLocation resourceLocation, int width, int height) {
         NativeImage image = null;
         try {
             AbstractTexture texture = Minecraft.getInstance().getTextureManager().getTexture(resourceLocation);

@@ -3,7 +3,7 @@ package de.keksuccino.fancymenu.customization.action.actions.file;
 import de.keksuccino.fancymenu.customization.action.Action;
 import de.keksuccino.fancymenu.util.file.DotMinecraftUtils;
 import de.keksuccino.fancymenu.util.file.GameDirectoryUtils;
-import net.minecraft.util.Util;
+import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

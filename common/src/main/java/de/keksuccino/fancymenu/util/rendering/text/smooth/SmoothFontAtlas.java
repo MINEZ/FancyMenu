@@ -7,7 +7,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ARGB;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -43,7 +43,7 @@ final class SmoothFontAtlas implements AutoCloseable {
 
     private NativeImage atlasImage;
     private DynamicTexture dynamicTexture;
-    private Identifier textureLocation;
+    private ResourceLocation textureLocation;
     private volatile int logicalWidth;
     private volatile int logicalHeight;
     private int cursorX;
@@ -364,7 +364,7 @@ final class SmoothFontAtlas implements AutoCloseable {
             this.atlasImage = new NativeImage(NativeImage.Format.RGBA, logicalWidth, logicalHeight, true);
             this.dynamicTexture = new DynamicTexture(() -> "fancymenu_smooth_font_" + debugName, atlasImage);
             TextureManager textureManager = Minecraft.getInstance().getTextureManager();
-            this.textureLocation = Identifier.fromNamespaceAndPath("fancymenu", "smooth_font/" + debugName.toLowerCase().replaceAll("[^a-z0-9_./-]", "_"));
+            this.textureLocation = ResourceLocation.fromNamespaceAndPath("fancymenu", "smooth_font/" + debugName.toLowerCase().replaceAll("[^a-z0-9_./-]", "_"));
             textureManager.register(this.textureLocation, dynamicTexture);
             LOGGER.info("[FANCYMENU] Smooth font atlas initialized: file='{}', source={}, size={}, style={}, sizePx={}x{}.", sourceLabel, sourceIndex, sizeLabel, styleLabel, logicalWidth, logicalHeight);
         }

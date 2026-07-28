@@ -6,7 +6,7 @@ import com.mojang.blaze3d.textures.FilterMode;
 import de.keksuccino.fancymenu.util.MinecraftResourceReloadObserver;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,7 +34,7 @@ import java.util.Map;
 public final class MaterialIcons {
 
     private static final Logger LOGGER = LogManager.getLogger();
-    public static final Identifier FONT_LOCATION = Identifier.fromNamespaceAndPath("fancymenu", "textures/icons/material_icons.ttf");
+    public static final ResourceLocation FONT_LOCATION = ResourceLocation.fromNamespaceAndPath("fancymenu", "textures/icons/material_icons.ttf");
     public static final float BASE_SIZE = 20.0F;
     public static final int DEFAULT_PIXEL_SIZE = Math.round(BASE_SIZE);
 
@@ -3972,7 +3972,7 @@ public final class MaterialIcons {
         DynamicTexture dynamicTexture = null;
         try {
             nativeImage = toNativeImage(image);
-            Identifier location = buildTextureLocation(icon.getName(), sizePx);
+            ResourceLocation location = buildTextureLocation(icon.getName(), sizePx);
             dynamicTexture = new MaterialIconDynamicTexture(location, nativeImage);
             Minecraft.getInstance().getTextureManager().register(location, dynamicTexture);
             icon.assign(cache, location, width, height);
@@ -3994,7 +3994,7 @@ public final class MaterialIcons {
         }
     }
 
-    private static void applyMaterialIconFilter(@Nonnull Identifier location) {
+    private static void applyMaterialIconFilter(@Nonnull ResourceLocation location) {
         Runnable action = () -> {
             try {
                 Minecraft.getInstance().getTextureManager().getTexture(location);
@@ -4056,7 +4056,7 @@ public final class MaterialIcons {
         SIZED_FONTS.clear();
     }
 
-    private static Identifier buildTextureLocation(@Nonnull String name, int sizePx) {
+    private static ResourceLocation buildTextureLocation(@Nonnull String name, int sizePx) {
         StringBuilder builder = new StringBuilder("dynamic/material_icon_").append(sizePx).append('_');
         for (int i = 0; i < name.length(); i++) {
             char c = name.charAt(i);
@@ -4066,7 +4066,7 @@ public final class MaterialIcons {
                 builder.append('_');
             }
         }
-        return Identifier.fromNamespaceAndPath("fancymenu", builder.toString());
+        return ResourceLocation.fromNamespaceAndPath("fancymenu", builder.toString());
     }
 
     static int normalizeSize(int sizePx) {
@@ -4164,7 +4164,7 @@ public final class MaterialIcons {
 
     private static final class MaterialIconDynamicTexture extends DynamicTexture {
 
-        private MaterialIconDynamicTexture(@Nonnull Identifier location, @Nonnull NativeImage pixels) {
+        private MaterialIconDynamicTexture(@Nonnull ResourceLocation location, @Nonnull NativeImage pixels) {
             super(location::toString, pixels);
             this.sampler = RenderSystem.getSamplerCache().getClampToEdge(FilterMode.LINEAR);
         }

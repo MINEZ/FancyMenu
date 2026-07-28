@@ -44,7 +44,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -60,7 +60,7 @@ import java.util.function.Consumer;
 public class ResourceChooserWindowBody<R extends Resource, F extends FileType<R>> extends PiPCellWindowBody {
 
     private static final Logger LOGGER = LogManager.getLogger();
-    protected static final PngTexture WARNING_TEXTURE = PngTexture.location(Identifier.fromNamespaceAndPath("fancymenu", "textures/warning_framed_24x24.png"));
+    protected static final PngTexture WARNING_TEXTURE = PngTexture.location(ResourceLocation.fromNamespaceAndPath("fancymenu", "textures/warning_framed_24x24.png"));
     public static final int PIP_WINDOW_WIDTH = 600;
     public static final int PIP_WINDOW_HEIGHT = 446;
 
@@ -239,10 +239,10 @@ public class ResourceChooserWindowBody<R extends Resource, F extends FileType<R>
 
         if (this.resourceSourceType == ResourceSourceType.LOCATION) {
             this.addWidgetCell(new ExtendedButton(0, 0, 20, 20, Component.translatable("fancymenu.resources.chooser_screen.choose_location"), var1 -> {
-                Identifier startLocation = null;
+                ResourceLocation startLocation = null;
                 if ((this.resourceSource != null) && !this.resourceSource.trim().isEmpty()) {
                     String source = PlaceholderParser.replacePlaceholders(this.resourceSource);
-                    startLocation = Identifier.tryParse(source);
+                    startLocation = ResourceLocation.tryParse(source);
                 }
                 ResourcePickerWindowBody picker = new ResourcePickerWindowBody(startLocation, this.allowedFileTypes, location -> {
                     if (location != null) {
@@ -393,7 +393,7 @@ public class ResourceChooserWindowBody<R extends Resource, F extends FileType<R>
 
     protected void renderWarning(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partial) {
         if ((this.showWarningLegacyLocal || this.showWarningNoExtension) && (this.editBox != null)) {
-            Identifier loc = WARNING_TEXTURE.getResourceLocation();
+            ResourceLocation loc = WARNING_TEXTURE.getResourceLocation();
             if (loc != null) {
                 int h = this.editBox.getHeight() - 4;
                 int w = WARNING_TEXTURE.getAspectRatio().getAspectRatioWidth(h);
@@ -579,7 +579,7 @@ public class ResourceChooserWindowBody<R extends Resource, F extends FileType<R>
         }
 
         if (source.getSourceType() == ResourceSourceType.LOCATION) {
-            Identifier location = Identifier.tryParse(source.getSourceWithoutPrefix());
+            ResourceLocation location = ResourceLocation.tryParse(source.getSourceWithoutPrefix());
             if (location == null) {
                 throw new IllegalArgumentException("Failed to parse Identifier of selected FMA resource: " + source);
             }
@@ -599,7 +599,7 @@ public class ResourceChooserWindowBody<R extends Resource, F extends FileType<R>
         }
 
         if (source.getSourceType() == ResourceSourceType.LOCATION) {
-            Identifier location = Identifier.tryParse(source.getSourceWithoutPrefix());
+            ResourceLocation location = ResourceLocation.tryParse(source.getSourceWithoutPrefix());
             if (location == null) {
                 throw new IllegalArgumentException("Failed to parse Identifier of selected AFMA resource: " + source);
             }

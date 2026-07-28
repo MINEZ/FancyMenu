@@ -43,7 +43,7 @@ import net.minecraft.client.resources.model.SpriteGetter;
 import net.minecraft.client.resources.model.UnbakedGeometry;
 import net.minecraft.client.resources.model.UnbakedModel;
 import net.minecraft.data.AtlasIds;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceMetadata;
 import net.minecraft.world.item.ItemDisplayContext;
 import org.apache.logging.log4j.LogManager;
@@ -103,10 +103,10 @@ public class JsonModelElement extends AbstractElement {
     @Nullable
     private BakedJsonModel cachedModel = null;
     @Nullable
-    private Identifier cachedRenderTexture = null;
+    private ResourceLocation cachedRenderTexture = null;
     @Nullable
     private ModelTextureSprite cachedOverrideSprite = null;
-    private final Map<Identifier, BlockModel> parentModelCache = new HashMap<>();
+    private final Map<ResourceLocation, BlockModel> parentModelCache = new HashMap<>();
 
     public JsonModelElement(@NotNull ElementBuilder<?, ?> builder) {
         super(builder);
@@ -331,13 +331,13 @@ public class JsonModelElement extends AbstractElement {
     }
 
     @Nullable
-    private BlockModel resolveParentModel(@NotNull Identifier location) {
+    private BlockModel resolveParentModel(@NotNull ResourceLocation location) {
         if (this.parentModelCache.containsKey(location)) {
             return this.parentModelCache.get(location);
         }
 
         try {
-            Identifier fileLocation = location.withPath(path -> "models/" + path + ".json");
+            ResourceLocation fileLocation = location.withPath(path -> "models/" + path + ".json");
             BlockModel model;
             try (var stream = Minecraft.getInstance().getResourceManager().open(fileLocation);
                  var reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {
@@ -361,7 +361,7 @@ public class JsonModelElement extends AbstractElement {
         if (texture == null || !texture.isReady()) {
             return null;
         }
-        Identifier location = texture.getResourceLocation();
+        ResourceLocation location = texture.getResourceLocation();
         if (location == null) {
             return null;
         }
@@ -393,7 +393,7 @@ public class JsonModelElement extends AbstractElement {
         UnbakedModel current = model;
         while (current != null) {
             chain.add(current);
-            Identifier parent = current.parent();
+            ResourceLocation parent = current.parent();
             if (parent == null) {
                 break;
             }
@@ -474,7 +474,7 @@ public class JsonModelElement extends AbstractElement {
             private final PartCache partCache = vector3fc -> new Vector3f(vector3fc);
 
             @Override
-            public net.minecraft.client.resources.model.ResolvedModel getModel(Identifier identifier) {
+            public net.minecraft.client.resources.model.ResolvedModel getModel(ResourceLocation identifier) {
                 throw new UnsupportedOperationException("JSON model element bakes resolved parents before geometry");
             }
 
@@ -503,12 +503,12 @@ public class JsonModelElement extends AbstractElement {
     private record BakedJsonModel(@NotNull QuadCollection quads, @NotNull ItemTransforms transforms) {
     }
 
-    private record TextureData(@NotNull Identifier renderLocation, @NotNull ModelTextureSprite sprite) {
+    private record TextureData(@NotNull ResourceLocation renderLocation, @NotNull ModelTextureSprite sprite) {
     }
 
     private static final class ModelTextureSprite extends TextureAtlasSprite implements AutoCloseable {
 
-        private ModelTextureSprite(@NotNull Identifier textureLocation, int width, int height) {
+        private ModelTextureSprite(@NotNull ResourceLocation textureLocation, int width, int height) {
             super(textureLocation,
                     new SpriteContents(textureLocation, new FrameSize(width, height),
                             new com.mojang.blaze3d.platform.NativeImage(width, height, true)),

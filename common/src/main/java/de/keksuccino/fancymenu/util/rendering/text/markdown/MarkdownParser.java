@@ -12,7 +12,7 @@ import de.keksuccino.fancymenu.util.rendering.text.markdown.MarkdownTextFragment
 import de.keksuccino.fancymenu.util.resource.ResourceSupplier;
 import de.keksuccino.fancymenu.util.resource.resources.texture.ITexture;
 import net.minecraft.ChatFormatting;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -255,9 +255,9 @@ public class MarkdownParser {
                             String fontName = StringUtils.split(afterPrefix, PERCENTAGE, 2)[0];
                             if (RESOURCE_NAME_FILTER.isAllowedText(fontName)) {
                                 if (StringUtils.contains(subText, FORMATTING_CODE_FONT_SUFFIX)) {
-                                    Identifier font = null;
+                                    ResourceLocation font = null;
                                     try {
-                                        font = Identifier.parse(fontName);
+                                        font = ResourceLocation.parse(fontName);
                                     } catch (Exception ignore) {}
                                     if (font != null) {
                                         if (isStartOfLine || !builder.text.isEmpty()) {
@@ -1163,7 +1163,7 @@ public class MarkdownParser {
         protected HeadlineType headlineType = HeadlineType.NONE;
         protected QuoteContext quoteContext = null;
         protected CodeBlockContext codeBlockContext = null;
-        protected Identifier font = null;
+        protected ResourceLocation font = null;
         protected boolean plainText = false;
         protected MarkdownTextFragment.TableContext tableContext = null;
 

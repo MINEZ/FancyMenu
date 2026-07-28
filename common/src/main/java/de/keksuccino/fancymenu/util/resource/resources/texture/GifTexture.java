@@ -14,7 +14,7 @@ import de.keksuccino.fancymenu.util.watermedia.WatermediaAnimatedTextureBackend;
 import de.keksuccino.fancymenu.util.watermedia.WatermediaUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -48,7 +48,7 @@ public class GifTexture implements ITexture, PlayableResource {
     protected final AtomicInteger cycles = new AtomicInteger(0);
     /** How many times the GIF should loop. Value <= 0 means infinite loops. **/
     protected final AtomicInteger numPlays = new AtomicInteger(0);
-    protected Identifier sourceLocation;
+    protected ResourceLocation sourceLocation;
     protected File sourceFile;
     protected String sourceURL;
     protected final AtomicBoolean loadingCompleted = new AtomicBoolean(false);
@@ -67,12 +67,12 @@ public class GifTexture implements ITexture, PlayableResource {
     protected final AtomicBoolean watermediaFallbackTriggered = new AtomicBoolean(false);
 
     @NotNull
-    public static GifTexture location(@NotNull Identifier location) {
+    public static GifTexture location(@NotNull ResourceLocation location) {
         return location(location, null);
     }
 
     @NotNull
-    public static GifTexture location(@NotNull Identifier location, @Nullable GifTexture writeTo) {
+    public static GifTexture location(@NotNull ResourceLocation location, @Nullable GifTexture writeTo) {
 
         Objects.requireNonNull(location);
         GifTexture texture = (writeTo != null) ? writeTo : new GifTexture();
@@ -483,13 +483,13 @@ public class GifTexture implements ITexture, PlayableResource {
 
     @Nullable
     @Override
-    public Identifier getResourceLocation() {
+    public ResourceLocation getResourceLocation() {
         WatermediaAnimatedTextureBackend backend = this.resolveWatermediaBackend();
         if (backend != null) {
             this.width = backend.getWidth();
             this.height = backend.getHeight();
             this.aspectRatio = backend.getAspectRatio();
-            Identifier resourceLocation = backend.getResourceLocation();
+            ResourceLocation resourceLocation = backend.getResourceLocation();
             return (resourceLocation != null) ? resourceLocation : FULLY_TRANSPARENT_TEXTURE;
         }
         if (this.closed.get()) return FULLY_TRANSPARENT_TEXTURE;
@@ -500,7 +500,7 @@ public class GifTexture implements ITexture, PlayableResource {
             if ((frame.resourceLocation == null) && !frame.loaded && (frame.nativeImage != null)) {
                 try {
                     this.frameRegistrationCounter++;
-                    frame.resourceLocation = Identifier.fromNamespaceAndPath("fancymenu", "dynamic/gif_frame_" + this.uniqueId + "_" + this.frameRegistrationCounter);
+                    frame.resourceLocation = ResourceLocation.fromNamespaceAndPath("fancymenu", "dynamic/gif_frame_" + this.uniqueId + "_" + this.frameRegistrationCounter);
                     frame.dynamicTexture = new DynamicTexture(frame.resourceLocation::toString, frame.nativeImage);
                     Minecraft.getInstance().getTextureManager().register(frame.resourceLocation, frame.dynamicTexture);
                 } catch (Exception ex) {
@@ -803,7 +803,7 @@ public class GifTexture implements ITexture, PlayableResource {
         protected final ByteArrayOutputStream closeAfterLoading;
         protected DynamicTexture dynamicTexture;
         protected volatile NativeImage nativeImage;
-        protected Identifier resourceLocation;
+        protected ResourceLocation resourceLocation;
         protected boolean loaded = false;
 
         protected GifFrame(int index, ByteArrayInputStream frameInputStream, long delayMs, ByteArrayOutputStream closeAfterLoading) {

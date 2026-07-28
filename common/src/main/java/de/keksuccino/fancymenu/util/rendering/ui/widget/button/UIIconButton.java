@@ -11,7 +11,7 @@ import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Objects;
@@ -119,7 +119,7 @@ public class UIIconButton implements Renderable, GuiEventListener, NarratableEnt
         }
         float safeRenderWidth = Math.max(1.0F, renderWidth);
         float safeRenderHeight = Math.max(1.0F, renderHeight);
-        Identifier location = icon.getTextureLocationForUI(safeRenderWidth, safeRenderHeight);
+        ResourceLocation location = icon.getTextureLocationForUI(safeRenderWidth, safeRenderHeight);
         if (location == null) {
             return null;
         }
@@ -297,11 +297,11 @@ public class UIIconButton implements Renderable, GuiEventListener, NarratableEnt
     }
 
     private static final class IconRenderData {
-        private final Identifier texture;
+        private final ResourceLocation texture;
         private final int width;
         private final int height;
 
-        private IconRenderData(@Nonnull Identifier texture, int width, int height) {
+        private IconRenderData(@Nonnull ResourceLocation texture, int width, int height) {
             this.texture = texture;
             this.width = width;
             this.height = height;

@@ -1,6 +1,6 @@
 package de.keksuccino.fancymenu.util.input;
 
-import net.minecraft.util.Util;
+import net.minecraft.Util;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayDeque;

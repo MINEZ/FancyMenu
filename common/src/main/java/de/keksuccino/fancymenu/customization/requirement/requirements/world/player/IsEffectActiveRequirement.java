@@ -13,7 +13,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -50,7 +50,7 @@ public class IsEffectActiveRequirement extends Requirement {
             LocalPlayer player = Minecraft.getInstance().player;
             if ((level != null) && (player != null)) {
                 for (MobEffectInstance effect : player.getActiveEffects()) {
-                    Identifier loc = Services.PLATFORM.getEffectKey(effect.getEffect().value());
+                    ResourceLocation loc = Services.PLATFORM.getEffectKey(effect.getEffect().value());
                     if ((loc != null) && loc.toString().equals(value)) return true;
                 }
             }
@@ -117,8 +117,8 @@ public class IsEffectActiveRequirement extends Requirement {
         });
     }
 
-    private static @NotNull List<Identifier> getEffectKeys() {
-        List<Identifier> keys = new ArrayList<>();
+    private static @NotNull List<ResourceLocation> getEffectKeys() {
+        List<ResourceLocation> keys = new ArrayList<>();
         try {
             ClientLevel level = Minecraft.getInstance().level;
             if (level != null) {

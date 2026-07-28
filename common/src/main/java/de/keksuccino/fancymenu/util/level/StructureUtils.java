@@ -5,7 +5,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import org.jetbrains.annotations.NotNull;
@@ -72,7 +72,7 @@ public class StructureUtils {
      */
     @NotNull
     public static ResourceKey<Structure> getStructureKey(@NotNull String structureId) {
-        Identifier resourceLocation = Identifier.parse(structureId);
+        ResourceLocation resourceLocation = ResourceLocation.parse(structureId);
         return getStructureKey(resourceLocation);
     }
 
@@ -83,7 +83,7 @@ public class StructureUtils {
      * @return The ResourceKey for the structure
      */
     @NotNull
-    public static ResourceKey<Structure> getStructureKey(@NotNull Identifier location) {
+    public static ResourceKey<Structure> getStructureKey(@NotNull ResourceLocation location) {
         return ResourceKey.create(Registries.STRUCTURE, location);
     }
 
@@ -109,7 +109,7 @@ public class StructureUtils {
     @NotNull
     public static Optional<ResourceKey<Structure>> findStructureKey(@NotNull RegistryAccess registryAccess, @NotNull String structureName) {
         try {
-            Identifier resourceLocation = Identifier.parse(structureName);
+            ResourceLocation resourceLocation = ResourceLocation.parse(structureName);
             ResourceKey<Structure> key = ResourceKey.create(Registries.STRUCTURE, resourceLocation);
             // Verify the key exists in the registry
             Registry<Structure> structureRegistry = registryAccess.lookupOrThrow(Registries.STRUCTURE);

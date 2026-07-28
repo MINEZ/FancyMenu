@@ -14,7 +14,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.render.TextureSetup;
 import net.minecraft.client.gui.render.state.GuiElementRenderState;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ARGB;
 import org.joml.Matrix3x2f;
 import org.lwjgl.system.MemoryUtil;
@@ -39,7 +39,7 @@ public final class SmoothRectangleRenderer {
             .add("RectInfo2", RECT_INFO_2_FANCYMENU)
             .build();
     private static final RenderPipeline SMOOTH_RECT_PIPELINE_FANCYMENU = RenderPipeline.builder()
-            .withLocation(Identifier.withDefaultNamespace("pipeline/fancymenu_gui_smooth_rect"))
+            .withLocation(ResourceLocation.withDefaultNamespace("pipeline/fancymenu_gui_smooth_rect"))
             .withUniform("DynamicTransforms", UniformType.UNIFORM_BUFFER)
             .withUniform("Projection", UniformType.UNIFORM_BUFFER)
             .withVertexShader("core/fancymenu_gui_smooth_rect")

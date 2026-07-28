@@ -7,7 +7,7 @@ import de.keksuccino.fancymenu.mixin.interfaces.LocalPlayerDrowningTracker;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -96,7 +96,7 @@ public abstract class MixinLivingEntity {
         String itemKey = null;
         boolean notifyListener = living instanceof LocalPlayer && Listeners.ON_ITEM_CONSUMED.hasInstancesListening();
         if (notifyListener && !stack.isEmpty()) {
-            Identifier itemLocation = BuiltInRegistries.ITEM.getKey(stack.getItem());
+            ResourceLocation itemLocation = BuiltInRegistries.ITEM.getKey(stack.getItem());
             if (itemLocation != null) {
                 itemKey = itemLocation.toString();
             }
@@ -130,7 +130,7 @@ public abstract class MixinLivingEntity {
             return;
         }
 
-        Identifier itemLocation = BuiltInRegistries.ITEM.getKey(this.lastBrokenStack_FancyMenu.getItem());
+        ResourceLocation itemLocation = BuiltInRegistries.ITEM.getKey(this.lastBrokenStack_FancyMenu.getItem());
         String itemKey = itemLocation != null ? itemLocation.toString() : null;
         Listeners.ON_ITEM_BROKE.onItemBroke(itemKey, this.lastBrokenItemType_FancyMenu);
         this.clearBrokenItemCache_FancyMenu();
@@ -202,7 +202,7 @@ public abstract class MixinLivingEntity {
         return effectHolder.unwrapKey()
                 .map(key -> key.identifier().toString())
                 .orElseGet(() -> {
-                    Identifier fallback = BuiltInRegistries.MOB_EFFECT.getKey(effectHolder.value());
+                    ResourceLocation fallback = BuiltInRegistries.MOB_EFFECT.getKey(effectHolder.value());
                     return fallback != null ? fallback.toString() : "unknown";
                 });
     }

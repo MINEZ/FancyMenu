@@ -12,7 +12,7 @@ import de.keksuccino.fancymenu.util.resource.ResourceSupplier;
 import de.keksuccino.fancymenu.util.resource.resources.texture.ITexture;
 import de.keksuccino.fancymenu.util.resource.resources.texture.PngTexture;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -29,7 +29,7 @@ public class CursorElement extends AbstractElement {
     public ResourceSupplier<ITexture> textureSupplier;
     protected boolean cursorReady = false;
     @Nullable
-    protected Identifier lastLocation;
+    protected ResourceLocation lastLocation;
     protected int lastHotspotX;
     protected int lastHotspotY;
 
@@ -49,7 +49,7 @@ public class CursorElement extends AbstractElement {
                 if ((this.textureSupplier != null) && !this.editorPreviewMode) {
                     ITexture t = this.textureSupplier.get();
                     if (t != null) {
-                        Identifier loc = t.getResourceLocation();
+                        ResourceLocation loc = t.getResourceLocation();
                         if (loc != null) {
                             int[] size = t.getAspectRatio().getAspectRatioSizeByMaximumSize(this.getAbsoluteWidth(), this.getAbsoluteHeight());
                             RenderingUtils.resetShaderColor(graphics);
@@ -79,7 +79,7 @@ public class CursorElement extends AbstractElement {
         if (this.textureSupplier != null) {
             ITexture t = this.textureSupplier.get();
             if (t instanceof PngTexture s) {
-                Identifier loc = t.getResourceLocation();
+                ResourceLocation loc = t.getResourceLocation();
                 int resolvedHotspotX = this.hotspotX.getInteger();
                 int resolvedHotspotY = this.hotspotY.getInteger();
                 if ((loc != this.lastLocation) || (this.lastHotspotX != resolvedHotspotX) || (this.lastHotspotY != resolvedHotspotY)) {

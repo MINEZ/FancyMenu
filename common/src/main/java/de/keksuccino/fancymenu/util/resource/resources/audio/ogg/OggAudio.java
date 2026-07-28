@@ -15,7 +15,7 @@ import de.keksuccino.melody.resources.audio.openal.ALErrorHandler;
 import de.keksuccino.melody.resources.audio.openal.ALUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.sounds.JOrbisAudioStream;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.sounds.SoundSource;
 import org.apache.logging.log4j.LogManager;
@@ -40,7 +40,7 @@ public class OggAudio implements IAudio, ALAudio {
     protected volatile ALAudioClip clip;
     @Nullable
     protected volatile ALAudioBuffer audioBuffer;
-    protected Identifier sourceLocation;
+    protected ResourceLocation sourceLocation;
     protected File sourceFile;
     protected String sourceURL;
     protected volatile float duration = 0.0f;
@@ -52,12 +52,12 @@ public class OggAudio implements IAudio, ALAudio {
     protected volatile boolean closed = false;
 
     @NotNull
-    public static OggAudio location(@NotNull Identifier location) {
+    public static OggAudio location(@NotNull ResourceLocation location) {
         return location(location, null);
     }
 
     @NotNull
-    public static OggAudio location(@NotNull Identifier location, @Nullable OggAudio writeTo) {
+    public static OggAudio location(@NotNull ResourceLocation location, @Nullable OggAudio writeTo) {
 
         Objects.requireNonNull(location);
         OggAudio audio = (writeTo != null) ? writeTo : new OggAudio();

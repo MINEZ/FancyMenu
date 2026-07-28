@@ -3,7 +3,7 @@ package de.keksuccino.fancymenu.util.resource;
 import de.keksuccino.fancymenu.util.CloseableUtils;
 import de.keksuccino.fancymenu.util.file.GameDirectoryUtils;
 import de.keksuccino.fancymenu.util.file.type.FileType;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -98,7 +98,7 @@ public abstract class ResourceHandler<R extends Resource, F extends FileType<R>>
                     this.addToFailedSources(resourceSource);
                     return null;
                 }
-                Identifier loc = Identifier.tryParse(resourceSource.getSourceWithoutPrefix());
+                ResourceLocation loc = ResourceLocation.tryParse(resourceSource.getSourceWithoutPrefix());
                 if (loc == null) {
                     LOGGER.error("[FANCYMENU] Failed to register location resource! Unable to parse Identifier: " + resourceSource + " (RESOURCE HANDLER: " + this.getClass() + ")");
                     this.addToFailedSources(resourceSource);

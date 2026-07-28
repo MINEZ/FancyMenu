@@ -467,7 +467,7 @@ public class LocalTexturePanoramaRenderer implements Renderable, AutoCloseable {
 
 		@Override
 		public TextureSetup textureSetup() {
-			return TextureSetup.singleTexture(this.texture.getTextureView(), this.texture.getSampler());
+			return TextureSetup.singleTexture(this.texture.getTextureView());
 		}
 
 		@Nullable

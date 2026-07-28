@@ -382,7 +382,7 @@ public class JsonModelElement extends AbstractElement {
         UnbakedGeometry geometry = findTopGeometry(chain);
         SpriteGetter spriteGetter = createSpriteGetter(overrideTexture);
         ModelBaker baker = createModelBaker(spriteGetter);
-        QuadCollection quads = geometry.bake(textureSlots, baker, BlockModelRotation.IDENTITY, debugName);
+        QuadCollection quads = geometry.bake(textureSlots, baker, BlockModelRotation.X0_Y0, debugName);
 
         return new BakedJsonModel(quads, findTopTransforms(chain));
     }
@@ -470,26 +470,14 @@ public class JsonModelElement extends AbstractElement {
 
     private ModelBaker createModelBaker(@NotNull SpriteGetter spriteGetter) {
         return new ModelBaker() {
-            private final PartCache partCache = vector3fc -> new Vector3f(vector3fc);
-
             @Override
             public net.minecraft.client.resources.model.ResolvedModel getModel(ResourceLocation identifier) {
                 throw new UnsupportedOperationException("JSON model element bakes resolved parents before geometry");
             }
 
             @Override
-            public net.minecraft.client.renderer.block.model.BlockModelPart missingBlockModelPart() {
-                throw new UnsupportedOperationException("JSON model element does not use block model parts");
-            }
-
-            @Override
             public SpriteGetter sprites() {
                 return spriteGetter;
-            }
-
-            @Override
-            public PartCache parts() {
-                return this.partCache;
             }
 
             @Override
@@ -513,7 +501,6 @@ public class JsonModelElement extends AbstractElement {
                             new com.mojang.blaze3d.platform.NativeImage(width, height, true)),
                     width,
                     height,
-                    0,
                     0,
                     0);
         }

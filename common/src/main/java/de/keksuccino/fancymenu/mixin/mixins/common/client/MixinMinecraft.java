@@ -236,7 +236,7 @@ public class MixinMinecraft {
 			screen = new TitleScreen();
 		} else if ((screen == null) && ((this.player != null) && this.player.isDeadOrDying())) {
 			if (this.player.shouldShowDeathScreen()) {
-				screen = new DeathScreen(null, this.level.getLevelData().isHardcore(), this.player);
+				screen = new DeathScreen(null, this.level.getLevelData().isHardcore());
 			}
 		}
 		final Screen finalScreen = screen;

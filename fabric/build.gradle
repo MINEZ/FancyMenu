@@ -26,16 +26,24 @@ dependencies {
     include(implementation 'com.github.rtyley:animated-gif-lib-for-java:animated-gif-lib-1.7')
     modImplementation "maven.modrinth:watermedia:${watermedia_version}"
     modImplementation "maven.modrinth:watermedia-binaries:${watermedia_binaries_version}"
-    modImplementation "maven.modrinth:melody:1.0.15-1.21.11-fabric"
-    modImplementation "maven.modrinth:konkrete:1.9.18-1.21.11-fabric"
-    modImplementation "maven.modrinth:modmenu:17.0.0-beta.1"
+    modImplementation "maven.modrinth:melody:1.0.14-1.21.10-fabric"
+    modImplementation "maven.modrinth:konkrete:1.9.13-1.21.10-fabric"
+    modImplementation "maven.modrinth:modmenu:16.0.0-rc.1"
     modImplementation "it.crystalnest:fancy-entity-renderer-fabric:$fer_mc_version-$fer_version"
-    modImplementation "de.keksuccino:mcef-fabric:2.2.0-1.21.11"
+    modImplementation "de.keksuccino:mcef-fabric:2.1.7-1.21.10"
 
-    modImplementation "maven.modrinth:AANobbMI:NFkjnzWE" // Sodium
-    modImplementation "maven.modrinth:PtjYWJkn:zmsIDdn6" // Sodium Extra
-    modImplementation "maven.modrinth:gvQqBUqZ:Ow7wA0kG" // Lithium
-    modImplementation "maven.modrinth:YL57xq9U:fDpuVzVr" // Iris
+//TODO 1.21.10 backport: 下面这行固定的是 1.21.11 版本的 Modrinth version ID,
+//     在 1.21.10 上会装错版本。需要去 Modrinth 查 Sodium 的 1.21.10 版本 ID 后取消注释。
+//  modImplementation "maven.modrinth:AANobbMI:NFkjnzWE" // Sodium
+//TODO 1.21.10 backport: 下面这行固定的是 1.21.11 版本的 Modrinth version ID,
+//     在 1.21.10 上会装错版本。需要去 Modrinth 查 Sodium Extra 的 1.21.10 版本 ID 后取消注释。
+//  modImplementation "maven.modrinth:PtjYWJkn:zmsIDdn6" // Sodium Extra
+//TODO 1.21.10 backport: 下面这行固定的是 1.21.11 版本的 Modrinth version ID,
+//     在 1.21.10 上会装错版本。需要去 Modrinth 查 Lithium 的 1.21.10 版本 ID 后取消注释。
+//  modImplementation "maven.modrinth:gvQqBUqZ:Ow7wA0kG" // Lithium
+//TODO 1.21.10 backport: 下面这行固定的是 1.21.11 版本的 Modrinth version ID,
+//     在 1.21.10 上会装错版本。需要去 Modrinth 查 Iris 的 1.21.10 版本 ID 后取消注释。
+//  modImplementation "maven.modrinth:YL57xq9U:fDpuVzVr" // Iris
 
     testImplementation "org.junit.jupiter:junit-jupiter:5.10.2"
     testRuntimeOnly "org.junit.platform:junit-platform-launcher:1.10.2"

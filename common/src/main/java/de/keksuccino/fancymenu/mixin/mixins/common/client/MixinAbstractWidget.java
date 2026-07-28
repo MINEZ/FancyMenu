@@ -13,8 +13,6 @@ import de.keksuccino.fancymenu.util.rendering.ui.widget.slider.v2.AbstractExtend
 import de.keksuccino.fancymenu.util.resource.PlayableResource;
 import de.keksuccino.fancymenu.util.resource.RenderableResource;
 import de.keksuccino.fancymenu.util.resource.resources.audio.IAudio;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ActiveTextCollector;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.Util;
 import net.minecraft.client.gui.Font;
@@ -28,7 +26,6 @@ import net.minecraft.client.gui.navigation.FocusNavigationEvent;
 import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -271,12 +268,10 @@ public abstract class MixinAbstractWidget implements CustomizableWidget, UniqueW
 	}
 
 	/**
-	 * @reason Vanilla's 1.21.11 text collector always renders widget labels with a shadow, so FancyMenu draws the label directly when shadow or scale customizations are active.
+	 * @reason FancyMenu draws the widget label itself when shadow or scale customizations are active.
 	 */
-	@Inject(method = "renderScrollingStringOverContents", at = @At("HEAD"), cancellable = true)
-	private void before_renderScrollingString_FancyMenu(ActiveTextCollector activeTextCollector, Component component, int margin, CallbackInfo info) {
-        GuiGraphics graphics = this.cached_graphics_FancyMenu;
-        Font font = Minecraft.getInstance().font;
+	@Inject(method = "renderScrollingString(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/client/gui/Font;II)V", at = @At("HEAD"), cancellable = true)
+	private void before_renderScrollingString_FancyMenu(GuiGraphics graphics, Font font, int margin, int color, CallbackInfo info) {
 		float scale = this.resolveLabelScaleFancyMenu();
 		boolean labelShadow = this.resolveLabelShadow_FancyMenu();
 		if (scale == 1.0F && labelShadow) return;
@@ -285,12 +280,12 @@ public abstract class MixinAbstractWidget implements CustomizableWidget, UniqueW
 			return;
 		}
 		AbstractWidget w = this.getWidgetFancyMenu();
-		Component text = component;
+		Component text = w.getMessage();
 		int xMin = w.getX() + margin;
 		int xMax = w.getX() + w.getWidth() - margin;
 		int yMin = w.getY();
 		int yMax = w.getY() + w.getHeight();
-		int textColor = ARGB.white(this.alpha);
+		int textColor = color;
 		if (scale == 1.0F) {
 			int textWidth = font.width(text);
 			int textPosY = (yMin + yMax - 9) / 2 + 1;

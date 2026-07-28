@@ -4,7 +4,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import de.keksuccino.fancymenu.customization.global.GlobalCustomizationHandler;
 import de.keksuccino.fancymenu.util.ConsumingSupplier;
 import de.keksuccino.fancymenu.mixin.mixins.common.client.IMixinAbstractWidget;
-import de.keksuccino.fancymenu.mixin.mixins.common.client.IMixinAbstractWidgetWithInactiveMessage;
 import de.keksuccino.fancymenu.mixin.mixins.common.client.IMixinButton;
 import de.keksuccino.fancymenu.util.rendering.DrawableColor;
 import de.keksuccino.fancymenu.util.rendering.RenderingUtils;
@@ -106,7 +105,7 @@ public class ExtendedButton extends Button implements IExtendedWidget, UniqueWid
     }
 
     @Override
-    protected void renderContents(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partial) {
+    protected void renderWidget(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partial) {
 
         com.mojang.blaze3d.opengl.GlStateManager._disableDepthTest();
         RenderingUtils.setDepthTestLocked(true);
@@ -263,8 +262,8 @@ public class ExtendedButton extends Button implements IExtendedWidget, UniqueWid
     }
 
     private void setVanillaLabelFields(@NotNull Component label) {
+        // MC 1.21.10 has no AbstractWidget.WithInactiveMessage, so there is only one message field.
         ((IMixinAbstractWidget)this).setMessageFieldFancyMenu(label);
-        ((IMixinAbstractWidgetWithInactiveMessage)this).setInactiveMessageFancyMenu(label);
     }
 
     protected void updateIsActive() {

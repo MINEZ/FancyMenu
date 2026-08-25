@@ -8,9 +8,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
-import io.netty.channel.MultiThreadIoEventLoopGroup;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.channel.nio.NioIoHandler;
+import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
@@ -276,7 +275,7 @@ class NettyRemoteWebSocketTransportTest {
 
     @Test
     void shutdownIsIdempotentTerminatesTheEventLoopAndRejectsLateConnections() throws Exception {
-        EventLoopGroup eventLoopGroup = new MultiThreadIoEventLoopGroup(1, NioIoHandler.newFactory());
+        EventLoopGroup eventLoopGroup = new NioEventLoopGroup(1);
         NettyRemoteWebSocketTransport transport = new NettyRemoteWebSocketTransport(eventLoopGroup, MESSAGE_LIMIT, 4);
         try {
             CountingListener listener = new CountingListener();
@@ -298,7 +297,7 @@ class NettyRemoteWebSocketTransportTest {
 
     private static final class ClientHarness implements AutoCloseable {
 
-        private final EventLoopGroup eventLoopGroup = new MultiThreadIoEventLoopGroup(1, NioIoHandler.newFactory());
+        private final EventLoopGroup eventLoopGroup = new NioEventLoopGroup(1);
         private final NettyRemoteWebSocketTransport transport;
         private boolean drained;
 
@@ -321,7 +320,7 @@ class NettyRemoteWebSocketTransportTest {
 
     private static final class LoopbackWebSocketServer implements AutoCloseable {
 
-        private final EventLoopGroup eventLoopGroup = new MultiThreadIoEventLoopGroup(1, NioIoHandler.newFactory());
+        private final EventLoopGroup eventLoopGroup = new NioEventLoopGroup(1);
         private final CompletableFuture<CloseEvent> clientClose = new CompletableFuture<>();
         private final CompletableFuture<String> clientText = new CompletableFuture<>();
         private final Channel serverChannel;
@@ -390,7 +389,7 @@ class NettyRemoteWebSocketTransportTest {
 
     private static final class RejectingHttpServer implements AutoCloseable {
 
-        private final EventLoopGroup eventLoopGroup = new MultiThreadIoEventLoopGroup(1, NioIoHandler.newFactory());
+        private final EventLoopGroup eventLoopGroup = new NioEventLoopGroup(1);
         private final Channel serverChannel;
 
         private RejectingHttpServer() {
@@ -427,7 +426,7 @@ class NettyRemoteWebSocketTransportTest {
 
     private static final class PrematureDisconnectServer implements AutoCloseable {
 
-        private final EventLoopGroup eventLoopGroup = new MultiThreadIoEventLoopGroup(1, NioIoHandler.newFactory());
+        private final EventLoopGroup eventLoopGroup = new NioEventLoopGroup(1);
         private final Channel serverChannel;
 
         private PrematureDisconnectServer() {

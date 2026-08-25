@@ -18,7 +18,6 @@ public class WatermediaFrameTexture extends AbstractTexture {
         this.watermediaTexture = new WatermediaGlTexture(TEXTURE_USAGE_FANCYMENU, LABEL_FANCYMENU, TextureFormat.RGBA8, 100, 100, 1, 1, id);
         this.texture = this.watermediaTexture;
         this.textureView = RenderSystem.getDevice().createTextureView(this.texture);
-        this.sampler = RenderSystem.getSamplerCache().getRepeat(FilterMode.NEAREST, false);
     }
 
     public void setId(int id) {

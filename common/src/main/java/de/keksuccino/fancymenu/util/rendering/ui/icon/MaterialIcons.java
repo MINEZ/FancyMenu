@@ -4166,7 +4166,6 @@ public final class MaterialIcons {
 
         private MaterialIconDynamicTexture(@Nonnull ResourceLocation location, @Nonnull NativeImage pixels) {
             super(location::toString, pixels);
-            this.sampler = RenderSystem.getSamplerCache().getClampToEdge(FilterMode.LINEAR);
         }
 
     }

@@ -36,9 +36,9 @@ public class MixinGuiGraphics {
         if (RenderingUtils.isTooltipRenderingBlocked()) info.cancel();
     }
 
-    @ModifyArgs(method = "innerBlit", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;submitBlit(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lcom/mojang/blaze3d/textures/GpuTextureView;Lcom/mojang/blaze3d/textures/GpuSampler;IIIIFFFFI)V"))
+    @ModifyArgs(method = "innerBlit", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;submitBlit(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lcom/mojang/blaze3d/textures/GpuTextureView;IIIIFFFFI)V"))
     private void modify_innerBlitColor_FancyMenu(Args args) {
-        args.set(11, RenderingUtils.applyShaderColor((int) args.get(11)));
+        args.set(10, RenderingUtils.applyShaderColor((int) args.get(10)));
     }
 
     @ModifyArgs(method = "containsPointInScissor", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics$ScissorStack;containsPoint(II)Z"))

@@ -33,7 +33,7 @@ record SmoothGlyphRenderState(Matrix3x2f transform, SmoothFontAtlas atlas, float
 
     @Override
     public TextureSetup textureSetup() {
-        return TextureSetup.singleTexture(atlas.getTextureView(), RenderSystem.getSamplerCache().getClampToEdge(FilterMode.LINEAR));
+        return TextureSetup.singleTexture(atlas.getTextureView());
     }
 
     @Nullable

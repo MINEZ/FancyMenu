@@ -1,7 +1,6 @@
 package de.keksuccino.fancymenu.util.rendering.ui.widget;
 
 import de.keksuccino.fancymenu.mixin.mixins.common.client.IMixinSplashRenderer;
-import net.minecraft.network.chat.Component;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -19,14 +18,14 @@ import java.util.Objects;
 public class MinecraftSplashRenderer {
 
     // This initialization logic remains correct, as it retrieves the splash component.
-    public static final MinecraftSplashRenderer DEFAULT_INSTANCE = new MinecraftSplashRenderer(((IMixinSplashRenderer)Objects.requireNonNullElse(Minecraft.getInstance().getSplashManager().getSplash(), new SplashRenderer(Component.translatable("ERROR")))).getSplashFancyMenu());
+    public static final MinecraftSplashRenderer DEFAULT_INSTANCE = new MinecraftSplashRenderer(((IMixinSplashRenderer)Objects.requireNonNullElse(Minecraft.getInstance().getSplashManager().getSplash(), new SplashRenderer("ERROR"))).getSplashFancyMenu());
 
     public static final int WIDTH_OFFSET = 123;
     public static final int HEIGHT_OFFSET = 69;
 
-    private final Component splash;
+    private final String splash;
 
-    public MinecraftSplashRenderer(Component splash) {
+    public MinecraftSplashRenderer(String splash) {
         this.splash = splash;
     }
 
@@ -103,7 +102,7 @@ public class MinecraftSplashRenderer {
      *
      * @return the splash text
      */
-    public Component getSplash() {
+    public String getSplash() {
         return this.splash;
     }
 

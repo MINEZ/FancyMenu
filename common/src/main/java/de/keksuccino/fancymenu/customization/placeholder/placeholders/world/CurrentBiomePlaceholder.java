@@ -33,7 +33,7 @@ public class CurrentBiomePlaceholder extends AbstractWorldPlaceholder {
         Optional<ResourceKey<Biome>> biomeKey = biomeHolder.unwrapKey();
         if (biomeKey.isEmpty()) return "";
 
-        ResourceLocation biomeId = biomeKey.get().identifier();
+        ResourceLocation biomeId = biomeKey.get().location();
         String asKeyString = dps.values.get("as_key");
         boolean asKey = true;
         if ((asKeyString != null) && asKeyString.equalsIgnoreCase("false")) {

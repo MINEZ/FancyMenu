@@ -144,7 +144,7 @@ public class IsEntityNearbyRequirement extends Requirement {
         try {
             ClientLevel level = Minecraft.getInstance().level;
             if (level != null) {
-                level.registryAccess().lookupOrThrow(Registries.ENTITY_TYPE).listElementIds().forEach(key -> types.add(key.identifier()));
+                level.registryAccess().lookupOrThrow(Registries.ENTITY_TYPE).listElementIds().forEach(key -> types.add(key.location()));
             }
         } catch (Exception ex) {
             LOGGER.error("[FANCYMENU] Failed to get entity types for 'Is Entity Nearby' loading requirement!", ex);

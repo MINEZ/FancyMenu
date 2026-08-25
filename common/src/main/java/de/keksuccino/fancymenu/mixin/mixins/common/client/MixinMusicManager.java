@@ -152,7 +152,7 @@ public abstract class MixinMusicManager {
                 return resolvedLocation.toString();
             }
         }
-        ResourceLocation fallback = soundInstance.getIdentifier();
+        ResourceLocation fallback = soundInstance.getLocation();
         return (fallback != null) ? fallback.toString() : null;
     }
 
@@ -162,7 +162,7 @@ public abstract class MixinMusicManager {
         if (soundInstance == null) {
             return null;
         }
-        ResourceLocation location = soundInstance.getIdentifier();
+        ResourceLocation location = soundInstance.getLocation();
         return (location != null) ? location.toString() : null;
     }
 

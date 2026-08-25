@@ -614,7 +614,7 @@ public class JsonModelElement extends AbstractElement {
         private final AtomicBoolean closed = new AtomicBoolean();
 
         private ModelTextureSprite(@NotNull ResourceLocation textureLocation, @NotNull SpriteContents contents, int width, int height) {
-            super(textureLocation, contents, width, height, 0, 0, 0);
+            super(textureLocation, contents, width, height, 0, 0);
         }
 
         @NotNull

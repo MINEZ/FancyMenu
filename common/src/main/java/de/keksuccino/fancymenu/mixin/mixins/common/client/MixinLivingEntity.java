@@ -200,7 +200,7 @@ public abstract class MixinLivingEntity {
     @Unique
     private String resolveEffectKey_FancyMenu(Holder<MobEffect> effectHolder) {
         return effectHolder.unwrapKey()
-                .map(key -> key.identifier().toString())
+                .map(key -> key.location().toString())
                 .orElseGet(() -> {
                     ResourceLocation fallback = BuiltInRegistries.MOB_EFFECT.getKey(effectHolder.value());
                     return fallback != null ? fallback.toString() : "unknown";

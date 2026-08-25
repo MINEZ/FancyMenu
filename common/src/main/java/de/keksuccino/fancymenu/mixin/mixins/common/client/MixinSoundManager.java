@@ -89,7 +89,7 @@ public abstract class MixinSoundManager implements WorldSoundListenerController 
     private void head_play_FancyMenu(SoundInstance sound, CallbackInfoReturnable<SoundEngine.PlayResult> info) {
         if (sound instanceof SimpleSoundInstance i) {
             SoundEvent event = SoundEvents.UI_BUTTON_CLICK.value();
-            if ((event != null) && i.getIdentifier().equals(event.location())) {
+            if ((event != null) && i.getLocation().equals(event.location())) {
                 if (GlobalCustomizationHandler.hasCustomButtonClickSound()) {
                     IAudio globalClickSound = GlobalCustomizationHandler.getCustomButtonClickSound();
                     if (globalClickSound != null) {

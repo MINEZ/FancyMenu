@@ -128,7 +128,7 @@ public class OnWorldSoundTriggeredListener extends AbstractListener {
                 return directLocation.toString();
             }
         }
-        ResourceLocation fallback = sound.getIdentifier();
+        ResourceLocation fallback = sound.getLocation();
         return (fallback != null) ? fallback.toString() : null;
     }
 

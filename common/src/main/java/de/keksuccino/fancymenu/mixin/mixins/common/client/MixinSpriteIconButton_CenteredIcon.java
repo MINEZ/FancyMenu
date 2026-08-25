@@ -2,14 +2,15 @@ package de.keksuccino.fancymenu.mixin.mixins.common.client;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.mojang.blaze3d.pipeline.RenderPipeline;
 import de.keksuccino.fancymenu.mixin.support.client.CenteredIconButtonLabelResolver;
-import de.keksuccino.fancymenu.util.rendering.RenderingUtils;
 import de.keksuccino.fancymenu.util.rendering.ui.widget.CustomizableWidget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.SpriteIconButton;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.ARGB;
 import org.spongepowered.asm.mixin.Mixin;
@@ -26,8 +27,8 @@ public abstract class MixinSpriteIconButton_CenteredIcon extends Button {
     /**
      * @reason Centered icon buttons never render their message, so explicit FancyMenu labels must replace the icon to behave like labels on other vanilla buttons.
      */
-    @WrapOperation(method = "renderWidget", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/SpriteIconButton$CenteredIcon;renderSprite(Lnet/minecraft/client/gui/GuiGraphics;II)V"))
-    private void wrap_renderSprite_in_renderWidget_FancyMenu(SpriteIconButton.CenteredIcon instance, GuiGraphics graphics, int x, int y, Operation<Void> original) {
+    @WrapOperation(method = "renderWidget", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/ResourceLocation;IIIIF)V"))
+    private void wrap_blitSprite_in_renderWidget_FancyMenu(GuiGraphics graphics, RenderPipeline pipeline, ResourceLocation sprite, int x, int y, int width, int height, float alpha, Operation<Void> original) {
         CustomizableWidget widget = (CustomizableWidget)this;
         Component customLabel = CenteredIconButtonLabelResolver.selectCustomLabel(widget.getCustomLabelFancyMenu(), widget.getHoverLabelFancyMenu(), this.isHoveredOrFocused(), this.visible, this.active);
         if (customLabel != null) {
@@ -40,11 +41,10 @@ public abstract class MixinSpriteIconButton_CenteredIcon extends Button {
             return;
         }
 
-        // Fix for making the icon of icon buttons react to alpha changes
-        int previousColor = RenderingUtils.getShaderColor();
-        RenderingUtils.setShaderColor(graphics, ARGB.white(this.alpha));
-        original.call(instance, graphics, x, y);
-        RenderingUtils.setShaderColor(graphics, previousColor);
+        // Fix for making the icon of icon buttons react to alpha changes.
+        // MC 1.21.10 draws the icon through GuiGraphics#blitSprite directly, and that overload already
+        // takes an alpha, so the widget alpha is folded into it instead of going through the shader colour.
+        original.call(graphics, pipeline, sprite, x, y, width, height, alpha * this.alpha);
     }
 
 }

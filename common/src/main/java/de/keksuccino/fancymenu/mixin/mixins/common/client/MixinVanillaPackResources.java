@@ -14,7 +14,7 @@ import java.util.List;
 public class MixinVanillaPackResources {
 
     /** @reason MC 1.21.11 rejects the empty directory required to enumerate the vanilla pack's namespace root through the generic pack API. */
-    @WrapOperation(method = "listResources", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/FileUtil;decomposePath(Ljava/lang/String;)Lcom/mojang/serialization/DataResult;"))
+    @WrapOperation(method = "listResources", at = @At(value = "INVOKE", target = "Lnet/minecraft/FileUtil;decomposePath(Ljava/lang/String;)Lcom/mojang/serialization/DataResult;"))
     private DataResult<List<String>> wrap_listResourcesDirectory_FancyMenu(String directory, Operation<DataResult<List<String>>> original) {
         return PackResourcesRootEnumeration.decomposeDirectory(directory, original);
     }

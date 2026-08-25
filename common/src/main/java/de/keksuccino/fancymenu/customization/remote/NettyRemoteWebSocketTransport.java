@@ -9,9 +9,8 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
-import io.netty.channel.MultiThreadIoEventLoopGroup;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.channel.nio.NioIoHandler;
+import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.http.HttpClientCodec;
@@ -72,11 +71,13 @@ final class NettyRemoteWebSocketTransport implements RemoteWebSocketTransport {
     private final AtomicBoolean shutdownStarted = new AtomicBoolean();
 
     NettyRemoteWebSocketTransport(int maxInboundMessageBytes, int maxInboundFragments) {
-        this(new MultiThreadIoEventLoopGroup(1, runnable -> {
+        // MC 1.21.10 ships Netty 4.1, which has no IoHandler abstraction. NioEventLoopGroup is the
+        // 4.1 equivalent of MultiThreadIoEventLoopGroup + NioIoHandler.
+        this(new NioEventLoopGroup(1, (java.util.concurrent.ThreadFactory) runnable -> {
             Thread thread = new Thread(runnable, "FancyMenu-RemoteServerConnection-IO-" + THREAD_COUNTER.incrementAndGet());
             thread.setDaemon(true);
             return thread;
-        }, NioIoHandler.newFactory()), maxInboundMessageBytes, maxInboundFragments);
+        }), maxInboundMessageBytes, maxInboundFragments);
     }
 
     NettyRemoteWebSocketTransport(@NotNull EventLoopGroup eventLoopGroup, int maxInboundMessageBytes, int maxInboundFragments) {

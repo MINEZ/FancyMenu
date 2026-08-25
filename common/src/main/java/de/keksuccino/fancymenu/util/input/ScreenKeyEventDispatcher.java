@@ -21,7 +21,7 @@ public final class ScreenKeyEventDispatcher {
     private ScreenKeyEventDispatcher() {
     }
 
-    public static boolean dispatchAfterScreenCall(long windowPointer, @KeyEvent.Action int action, @NotNull Screen screen, @NotNull KeyEvent event, @NotNull BooleanSupplier screenCall) {
+    public static boolean dispatchAfterScreenCall(long windowPointer, int action, @NotNull Screen screen, @NotNull KeyEvent event, @NotNull BooleanSupplier screenCall) {
         return dispatchAfterScreenCall(windowPointer, WindowHandler.getWindowHandle(), action, screen, event, screenCall, ScreenKeyEventDispatcher::postKeyPressed, ScreenKeyEventDispatcher::postKeyReleased);
     }
 

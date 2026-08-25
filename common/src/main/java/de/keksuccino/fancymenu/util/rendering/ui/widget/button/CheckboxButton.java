@@ -38,9 +38,9 @@ public class CheckboxButton extends ExtendedButton {
     }
 
     @Override
-    protected void renderContents(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partial) {
+    protected void renderWidget(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partial) {
 
-        super.renderContents(graphics, mouseX, mouseY, partial);
+        super.renderWidget(graphics, mouseX, mouseY, partial);
 
         if (this.checkboxState && this.isActive()) {
             this.renderCheckboxTexture(graphics, this.getCheckboxCheckmarkTexture());

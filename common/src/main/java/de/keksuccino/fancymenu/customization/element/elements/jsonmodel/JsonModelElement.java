@@ -20,8 +20,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.rendertype.RenderType;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockElement;
 import net.minecraft.client.renderer.block.model.BlockModel;
@@ -200,8 +200,8 @@ public class JsonModelElement extends AbstractElement {
         GlStateManager._disableCull();
 
         RenderType renderType = this.renderTranslucent.getBoolean()
-                ? RenderTypes.entityTranslucent(cache.renderTexture())
-                : RenderTypes.entityCutoutNoCull(cache.renderTexture());
+                ? RenderType.entityTranslucent(cache.renderTexture())
+                : RenderType.entityCutoutNoCull(cache.renderTexture());
 
         MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
         VertexConsumer consumer = buffer.getBuffer(renderType);

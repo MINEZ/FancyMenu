@@ -11,7 +11,6 @@ import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.permissions.Permissions;
 import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
@@ -29,7 +28,7 @@ public class LayoutCommand {
                             return setLayoutState(context.getSource(), StringArgumentType.getString(context, "layout_name"), BoolArgumentType.getBool(context, "is_layout_enabled"), null);
                         })
                         .then(Commands.argument("target_players", EntityArgument.players())
-                                .requires(context -> context.permissions().hasPermission(Permissions.COMMANDS_ADMIN))
+                                .requires(context -> context.hasPermission(2))
                                 .executes(context -> {
                                     return setLayoutState(context.getSource(), StringArgumentType.getString(context, "layout_name"), BoolArgumentType.getBool(context, "is_layout_enabled"), EntityArgument.getPlayers(context, "target_players"));
                                 })))

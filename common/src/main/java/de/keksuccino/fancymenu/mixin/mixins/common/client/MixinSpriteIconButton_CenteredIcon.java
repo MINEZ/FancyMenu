@@ -24,8 +24,8 @@ public abstract class MixinSpriteIconButton_CenteredIcon extends Button {
     /**
      * @reason Centered icon buttons never render their message, so explicit FancyMenu labels must replace the icon to behave like labels on other vanilla buttons.
      */
-    @WrapOperation(method = "renderContents", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/SpriteIconButton$CenteredIcon;renderSprite(Lnet/minecraft/client/gui/GuiGraphics;II)V"))
-    private void wrap_renderSprite_in_renderContents_FancyMenu(SpriteIconButton.CenteredIcon instance, GuiGraphics graphics, int x, int y, Operation<Void> original) {
+    @WrapOperation(method = "renderWidget", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/SpriteIconButton$CenteredIcon;renderSprite(Lnet/minecraft/client/gui/GuiGraphics;II)V"))
+    private void wrap_renderSprite_in_renderWidget_FancyMenu(SpriteIconButton.CenteredIcon instance, GuiGraphics graphics, int x, int y, Operation<Void> original) {
         CustomizableWidget widget = (CustomizableWidget)this;
         Component customLabel = CenteredIconButtonLabelResolver.selectCustomLabel(widget.getCustomLabelFancyMenu(), widget.getHoverLabelFancyMenu(), this.isHoveredOrFocused(), this.visible, this.active);
         if (customLabel != null) {

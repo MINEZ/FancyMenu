@@ -6,7 +6,6 @@ import de.keksuccino.fancymenu.FancyMenu;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.permissions.LevelBasedPermissionSet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -150,7 +149,7 @@ public class FmDataServerListenerHandler {
                     continue;
                 }
 
-                CommandSourceStack source = server.createCommandSourceStack().withPermission(LevelBasedPermissionSet.OWNER).withSuppressedOutput();
+                CommandSourceStack source = server.createCommandSourceStack().withPermission(4).withSuppressedOutput();
                 server.getCommands().performPrefixedCommand(source, preparedCommand);
             } catch (Exception ex) {
                 LOGGER.error("[FANCYMENU] Failed to execute FMData listener command '{}' for listener '{}'", command, listener.listener_name, ex);

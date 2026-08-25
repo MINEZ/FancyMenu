@@ -23,7 +23,7 @@ public abstract class MixinImageButton {
 
 	@Unique private int cachedShaderColor_FancyMenu = -1;
 
-	@WrapWithCondition(method = "renderContents", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/ResourceLocation;IIII)V"))
+	@WrapWithCondition(method = "renderWidget", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/ResourceLocation;IIII)V"))
 	private boolean wrapRenderTextureFancyMenu(GuiGraphics graphics, RenderPipeline pipeline, ResourceLocation sprite, int x, int y, int width, int height) {
 
 		ImageButton button = (ImageButton)((Object)this);
@@ -50,7 +50,7 @@ public abstract class MixinImageButton {
 
 	}
 
-	@Inject(method = "renderContents", at = @At("RETURN"))
+	@Inject(method = "renderWidget", at = @At("RETURN"))
 	private void afterRenderWidgetFancyMenu(GuiGraphics graphics, int $$1, int $$2, float $$3, CallbackInfo ci) {
 		//Reset shader color after alpha handling
 		RenderingUtils.setShaderColor(graphics, cachedShaderColor_FancyMenu);

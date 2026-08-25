@@ -106,7 +106,7 @@ public class ExtendedButton extends Button implements IExtendedWidget, UniqueWid
     }
 
     @Override
-    protected void renderContents(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partial) {
+    protected void renderWidget(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partial) {
 
         com.mojang.blaze3d.opengl.GlStateManager._disableDepthTest();
         RenderingUtils.setDepthTestLocked(true);

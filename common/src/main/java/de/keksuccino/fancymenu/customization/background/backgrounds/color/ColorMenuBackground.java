@@ -9,7 +9,7 @@ import de.keksuccino.fancymenu.util.rendering.DrawableColor;
 import de.keksuccino.fancymenu.util.rendering.ui.icon.MaterialIcons;
 import de.keksuccino.fancymenu.util.rendering.ui.contextmenu.v2.ContextMenu;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.RenderType;
 import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 

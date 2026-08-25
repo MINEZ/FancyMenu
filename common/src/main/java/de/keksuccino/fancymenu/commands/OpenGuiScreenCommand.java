@@ -10,7 +10,6 @@ import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.permissions.Permissions;
 import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 
@@ -25,7 +24,7 @@ public class OpenGuiScreenCommand {
                     return CommandUtils.getStringSuggestions(provider, "<screen_identifier>");
                 })
                 .then(Commands.argument("target_players", EntityArgument.players())
-                        .requires(stack -> stack.permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER))
+                        .requires(stack -> stack.hasPermission(2))
                         .executes(stack -> {
                             return openGui(stack.getSource(), StringArgumentType.getString(stack, "screen_identifier"), EntityArgument.getPlayers(stack, "target_players"));
                         }))

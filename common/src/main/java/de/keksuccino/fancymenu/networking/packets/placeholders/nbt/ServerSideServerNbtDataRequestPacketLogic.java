@@ -6,7 +6,7 @@ import de.keksuccino.fancymenu.networking.PacketHandler;
 import de.keksuccino.fancymenu.networking.packets.placeholders.nbt.ServerNbtDataResponsePacket.ResultType;
 import de.keksuccino.fancymenu.util.nbt.NbtNumericValueFormatter;
 import de.keksuccino.fancymenu.util.rendering.text.ComponentParser;
-import net.minecraft.advancements.criterion.NbtPredicate;
+import net.minecraft.advancements.critereon.NbtPredicate;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.NbtPathArgument;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;

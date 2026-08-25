@@ -22,7 +22,6 @@ import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.permissions.Permissions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -67,7 +66,7 @@ public class FmDataCommand {
         FmDataWelcomeDataHandler.init();
 
         dispatcher.register(Commands.literal("fmdata")
-                .requires(source -> source.permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER))
+                .requires(source -> source.hasPermission(2))
                 .then(Commands.literal("send")
                         .then(Commands.argument("target_player", EntityArgument.players())
                                 .then(Commands.argument("data_identifier", StringArgumentType.string())

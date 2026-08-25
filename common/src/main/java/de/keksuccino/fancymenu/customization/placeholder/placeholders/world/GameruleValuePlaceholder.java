@@ -6,9 +6,7 @@ import de.keksuccino.fancymenu.networking.packets.placeholders.gamerule.ServerGa
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.server.IntegratedServer;
-import net.minecraft.world.level.gamerules.GameRule;
-import net.minecraft.world.level.gamerules.GameRuleTypeVisitor;
-import net.minecraft.world.level.gamerules.GameRules;
+import net.minecraft.world.level.GameRules;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -79,14 +77,17 @@ public class GameruleValuePlaceholder extends AbstractWorldPlaceholder {
     @Nullable
     private String getGameruleValue(@NotNull GameRules gameRules, @NotNull String gameruleName) {
         final String[] value = new String[1];
-        gameRules.visitGameRuleTypes(new GameRuleTypeVisitor() {
+        gameRules.visitGameRuleTypes(new GameRules.GameRuleTypeVisitor() {
             @Override
-            public <T> void visit(GameRule<T> gameRule) {
+            public <T extends GameRules.Value<T>> void visit(GameRules.Key<T> key, GameRules.Type<T> type) {
                 if (value[0] != null) {
                     return;
                 }
-                if (gameRule.id().equalsIgnoreCase(gameruleName)) {
-                    value[0] = gameRules.getAsString(gameRule);
+                if (key.getId().equalsIgnoreCase(gameruleName)) {
+                    T rule = gameRules.getRule(key);
+                    if (rule != null) {
+                        value[0] = rule.serialize();
+                    }
                 }
             }
         });

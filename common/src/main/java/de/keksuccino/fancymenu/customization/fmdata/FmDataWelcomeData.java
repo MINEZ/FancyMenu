@@ -6,7 +6,6 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.selector.EntitySelector;
 import net.minecraft.commands.arguments.selector.EntitySelectorParser;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.permissions.LevelBasedPermissionSet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -69,7 +68,7 @@ public class FmDataWelcomeData {
 
         try {
             EntitySelector selector = new EntitySelectorParser(new StringReader(playerFilter), true).parse();
-            CommandSourceStack source = targetPlayer.createCommandSourceStack().withPermission(LevelBasedPermissionSet.OWNER).withSuppressedOutput();
+            CommandSourceStack source = targetPlayer.createCommandSourceStack().withPermission(4).withSuppressedOutput();
             for (ServerPlayer matchedPlayer : selector.findPlayers(source)) {
                 if (matchedPlayer.getUUID().equals(targetPlayer.getUUID())) {
                     return true;

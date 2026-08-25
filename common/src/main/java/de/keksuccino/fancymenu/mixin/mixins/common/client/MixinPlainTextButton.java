@@ -11,8 +11,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(PlainTextButton.class)
 public class MixinPlainTextButton {
 
-    @Inject(method = "renderContents", at = @At("HEAD"))
-    private void before_renderContents_FancyMenu(GuiGraphics graphics, int mouseX, int mouseY, float partial, CallbackInfo info) {
+    @Inject(method = "renderWidget", at = @At("HEAD"))
+    private void before_renderWidget_FancyMenu(GuiGraphics graphics, int mouseX, int mouseY, float partial, CallbackInfo info) {
         // Fix for some opacity glitches with the Copyright button in the Title screen
         RenderingUtils.setShaderColor(graphics, 1.0f, 1.0f, 1.0f, 1.0f);
     }

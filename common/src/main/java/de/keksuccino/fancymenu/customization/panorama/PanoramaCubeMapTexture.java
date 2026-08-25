@@ -133,7 +133,6 @@ public class PanoramaCubeMapTexture extends AbstractTexture {
         this.textureView = device.createTextureView(this.texture);
         AddressMode addressMode = clamp ? AddressMode.CLAMP_TO_EDGE : AddressMode.REPEAT;
         FilterMode filterMode = blur ? FilterMode.LINEAR : FilterMode.NEAREST;
-        this.sampler = RenderSystem.getSamplerCache().getSampler(addressMode, addressMode, filterMode, filterMode, false);
         
         // Write each face to its layer
         for (int i = 0; i < 6; i++) {

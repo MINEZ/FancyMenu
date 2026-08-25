@@ -4,7 +4,6 @@ import com.mojang.blaze3d.opengl.GlStateManager;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.textures.GpuSampler;
 import com.mojang.blaze3d.textures.GpuTextureView;
 import de.keksuccino.fancymenu.mixin.mixins.common.client.IMixinGuiGraphics;
 import net.minecraft.client.Minecraft;
@@ -546,13 +545,13 @@ public class RenderingUtils {
 
     private static void innerBlit(@NotNull GuiGraphics graphics, RenderPipeline pipeline, ResourceLocation texture, float minX, float maxX, float minY, float maxY, float minU, float maxU, float minV, float maxV, int color) {
         AbstractTexture absTex = Minecraft.getInstance().getTextureManager().getTexture(texture);
-        submitBlit(graphics, pipeline, absTex.getTextureView(), absTex.getSampler(), minX, minY, maxX, maxY, minU, maxU, minV, maxV, color);
+        submitBlit(graphics, pipeline, absTex.getTextureView(), minX, minY, maxX, maxY, minU, maxU, minV, maxV, color);
     }
 
-    static void submitBlit(@NotNull GuiGraphics graphics, RenderPipeline pipeline, GpuTextureView textureView, GpuSampler gpuSampler, float minX, float minY, float maxX, float maxY, float minU, float maxU, float minV, float maxV, int color) {
+    static void submitBlit(@NotNull GuiGraphics graphics, RenderPipeline pipeline, GpuTextureView textureView, float minX, float minY, float maxX, float maxY, float minU, float maxU, float minV, float maxV, int color) {
         ((IMixinGuiGraphics)graphics).get_guiRenderState_FancyMenu().submitGuiElement(
                 new FloatBlitRenderState(
-                        pipeline, TextureSetup.singleTexture(textureView, gpuSampler), new Matrix3x2f(graphics.pose()), minX, minY, maxX, maxY, minU, maxU, minV, maxV, color, GuiScissorUtil.getActiveScissor(graphics)
+                        pipeline, TextureSetup.singleTexture(textureView), new Matrix3x2f(graphics.pose()), minX, minY, maxX, maxY, minU, maxU, minV, maxV, color, GuiScissorUtil.getActiveScissor(graphics)
                 )
         );
     }

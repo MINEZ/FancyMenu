@@ -93,7 +93,7 @@ public class ItemCategoryPlaceholder extends AbstractWorldPlaceholder {
             for (ItemStack stack : tab.getSearchTabDisplayItems()) {
                 if (stack.getItem() == item) {
                     if (asKey) {
-                        return BuiltInRegistries.CREATIVE_MODE_TAB.getResourceKey(tab).map(k -> k.identifier().toString()).orElse(UNKNOWN);
+                        return BuiltInRegistries.CREATIVE_MODE_TAB.getResourceKey(tab).map(k -> k.location().toString()).orElse(UNKNOWN);
                     }
                     return tab.getDisplayName().getString();
                 }

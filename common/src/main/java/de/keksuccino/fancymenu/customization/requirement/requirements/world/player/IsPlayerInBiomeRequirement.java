@@ -48,7 +48,7 @@ public class IsPlayerInBiomeRequirement extends Requirement {
             ClientLevel level = Minecraft.getInstance().level;
             LocalPlayer player = Minecraft.getInstance().player;
             if ((level != null) && (player != null)) {
-                Optional<String> name = level.getBiome(player.blockPosition()).unwrapKey().map(biomeResourceKey -> biomeResourceKey.identifier().toString());
+                Optional<String> name = level.getBiome(player.blockPosition()).unwrapKey().map(biomeResourceKey -> biomeResourceKey.location().toString());
                 if (name.isPresent()) return value.equals(name.get());
             }
         } catch (Exception ex) {
@@ -119,7 +119,7 @@ public class IsPlayerInBiomeRequirement extends Requirement {
         try {
             ClientLevel level = Minecraft.getInstance().level;
             if (level != null) {
-                level.registryAccess().lookupOrThrow(Registries.BIOME).listElementIds().forEach(key -> keys.add(key.identifier()));
+                level.registryAccess().lookupOrThrow(Registries.BIOME).listElementIds().forEach(key -> keys.add(key.location()));
             }
         } catch (Exception ex) {
             LOGGER.error("[FANCYMENU] Failed to get biome keys for 'Is Player In Biome' loading requirement!", ex);

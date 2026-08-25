@@ -22,7 +22,7 @@ public class CurrentDimensionPlaceholder extends AbstractWorldPlaceholder {
         ClientLevel level = this.getLevel();
         if (level == null) return "";
 
-        ResourceLocation dimensionId = level.dimension().identifier();
+        ResourceLocation dimensionId = level.dimension().location();
         String asKeyString = dps.values.get("as_key");
         boolean asKey = true;
         if ((asKeyString != null) && asKeyString.equalsIgnoreCase("false")) {

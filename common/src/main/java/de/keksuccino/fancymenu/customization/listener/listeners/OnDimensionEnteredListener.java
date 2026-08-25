@@ -23,7 +23,7 @@ public class OnDimensionEnteredListener extends AbstractListener {
         if (!this.hasInstancesListening()) {
             return;
         }
-        this.cachedDimensionKey = dimensionKey.identifier().toString();
+        this.cachedDimensionKey = dimensionKey.location().toString();
         this.notifyAllInstances();
     }
 

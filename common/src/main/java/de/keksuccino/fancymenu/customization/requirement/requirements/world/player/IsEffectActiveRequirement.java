@@ -122,7 +122,7 @@ public class IsEffectActiveRequirement extends Requirement {
         try {
             ClientLevel level = Minecraft.getInstance().level;
             if (level != null) {
-                level.registryAccess().lookupOrThrow(Registries.MOB_EFFECT).listElementIds().forEach(key -> keys.add(key.identifier()));
+                level.registryAccess().lookupOrThrow(Registries.MOB_EFFECT).listElementIds().forEach(key -> keys.add(key.location()));
             }
         } catch (Exception ex) {
             LOGGER.error("[FANCYMENU] Failed to get effect keys for 'Is Effect Active' loading requirement!", ex);

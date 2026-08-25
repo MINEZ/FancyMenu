@@ -8,6 +8,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(SplashRenderer.class)
 public interface IMixinSplashRenderer {
 
-    @Accessor("splash") Component getSplashFancyMenu();
+    @Accessor("splash") String getSplashFancyMenu();
 
 }

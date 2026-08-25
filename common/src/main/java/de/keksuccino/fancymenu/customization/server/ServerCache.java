@@ -6,7 +6,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerStatusPinger;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.network.EventLoopGroupHolder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -87,7 +86,7 @@ public class ServerCache {
             try {
                 new Thread(() -> {
                     try {
-                        pinger.pingServer(d, () -> {}, () -> {}, EventLoopGroupHolder.remote(Minecraft.getInstance().options.useNativeTransport()));
+                        pinger.pingServer(d, () -> {}, () -> {});
                         if ((d == null) || d.status.getString().isEmpty()) {
                             d.ping = -1L;
                             d.motd = CANT_CONNECT_TEXT;

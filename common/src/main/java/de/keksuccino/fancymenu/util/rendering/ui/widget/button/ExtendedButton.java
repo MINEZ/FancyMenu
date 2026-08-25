@@ -4,7 +4,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import de.keksuccino.fancymenu.customization.global.GlobalCustomizationHandler;
 import de.keksuccino.fancymenu.util.ConsumingSupplier;
 import de.keksuccino.fancymenu.mixin.mixins.common.client.IMixinAbstractWidget;
-import de.keksuccino.fancymenu.mixin.mixins.common.client.IMixinAbstractWidgetWithInactiveMessage;
 import de.keksuccino.fancymenu.mixin.mixins.common.client.IMixinButton;
 import de.keksuccino.fancymenu.util.rendering.DrawableColor;
 import de.keksuccino.fancymenu.util.rendering.RenderingUtils;
@@ -264,7 +263,6 @@ public class ExtendedButton extends Button implements IExtendedWidget, UniqueWid
 
     private void setVanillaLabelFields(@NotNull Component label) {
         ((IMixinAbstractWidget)this).setMessageFieldFancyMenu(label);
-        ((IMixinAbstractWidgetWithInactiveMessage)this).setInactiveMessageFancyMenu(label);
     }
 
     protected void updateIsActive() {

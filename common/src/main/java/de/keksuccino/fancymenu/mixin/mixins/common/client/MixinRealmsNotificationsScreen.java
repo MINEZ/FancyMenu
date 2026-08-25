@@ -13,7 +13,7 @@ public class MixinRealmsNotificationsScreen {
     @Inject(method = "<init>", at = @At("TAIL"))
     private void onConstructFancyMenu(CallbackInfo info) {
         //This is to avoid crashes in the TitleScreen
-        this.getRealmsScreenFancyMenu().init(0, 0);
+        this.getRealmsScreenFancyMenu().init(Minecraft.getInstance(), 0, 0);
     }
 
     @SuppressWarnings("all")

@@ -820,7 +820,7 @@ public class PiPWindow extends AbstractContainerEventHandler implements Renderab
             }
             int screenWidth = getScreenWidth();
             int screenHeight = getScreenHeight();
-            this.screen.init(screenWidth, screenHeight);
+            this.screen.init(Minecraft.getInstance(), screenWidth, screenHeight);
             this.lastScreenWidth = screenWidth;
             this.lastScreenHeight = screenHeight;
         }
@@ -1065,7 +1065,7 @@ public class PiPWindow extends AbstractContainerEventHandler implements Renderab
         int screenHeight = getScreenHeight();
         this.lastScreenWidth = screenWidth;
         this.lastScreenHeight = screenHeight;
-        this.screen.resize(screenWidth, screenHeight);
+        this.screen.resize(Minecraft.getInstance(), screenWidth, screenHeight);
     }
 
     public PiPWindow setCloseCallback(@Nullable Runnable closeCallback) {
@@ -2198,7 +2198,7 @@ public class PiPWindow extends AbstractContainerEventHandler implements Renderab
         if (screenWidth != this.lastScreenWidth || screenHeight != this.lastScreenHeight) {
             this.lastScreenWidth = screenWidth;
             this.lastScreenHeight = screenHeight;
-            this.screen.resize(screenWidth, screenHeight);
+            this.screen.resize(Minecraft.getInstance(), screenWidth, screenHeight);
         }
     }
 

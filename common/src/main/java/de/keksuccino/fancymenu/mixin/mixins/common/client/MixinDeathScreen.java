@@ -4,7 +4,8 @@ import de.keksuccino.fancymenu.customization.ScreenCustomization;
 import de.keksuccino.fancymenu.util.rendering.ui.screen.WidgetifiedScreen;
 import de.keksuccino.fancymenu.util.rendering.ui.widget.CustomizableWidget;
 import de.keksuccino.fancymenu.util.rendering.ui.widget.TextWidget;
-import net.minecraft.client.gui.ActiveTextCollector;
+import com.llamalad7.mixinextras.injector.WrapWithCondition;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.DeathScreen;
 import net.minecraft.client.gui.screens.Screen;
@@ -66,11 +67,19 @@ public abstract class MixinDeathScreen extends Screen {
         }
     }
 
-    @Inject(method = "visitText", at = @At("HEAD"), cancellable = true)
-    private void before_visitText_FancyMenu(ActiveTextCollector collector, CallbackInfo info) {
-        if (this.isCustomizableFancyMenu()) {
-            info.cancel();
-        }
+    /**
+     * MC 1.21.10 has no ActiveTextCollector / DeathScreen#visitText. The screen still draws its title,
+     * cause-of-death and score lines directly in render(), so they are suppressed at the draw call instead.
+     * Semantics match the 1.21.11 blanket cancel of visitText.
+     */
+    @WrapWithCondition(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;drawCenteredString(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;III)V"))
+    private boolean cancel_renderCenteredText_FancyMenu(GuiGraphics instance, Font font, Component text, int x, int y, int color) {
+        return !this.isCustomizableFancyMenu();
+    }
+
+    @WrapWithCondition(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;renderComponentHoverEffect(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Style;II)V"))
+    private boolean cancel_renderHover_FancyMenu(GuiGraphics instance, Font font, Style style, int mouseX, int mouseY) {
+        return !this.isCustomizableFancyMenu();
     }
 
     @Inject(method = "render", at = @At("RETURN"))

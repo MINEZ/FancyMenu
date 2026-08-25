@@ -24,8 +24,8 @@ import java.util.List;
 @Mixin(GuiGraphics.class)
 public class MixinGuiGraphics {
 
-    @Inject(method = "<init>(Lnet/minecraft/client/Minecraft;Lnet/minecraft/client/gui/render/state/GuiRenderState;II)V", at = @At("TAIL"))
-    private void after_init_FancyMenu(Minecraft minecraft, GuiRenderState guiRenderState, int mouseX, int mouseY, CallbackInfo info) {
+    @Inject(method = "<init>(Lnet/minecraft/client/Minecraft;Lnet/minecraft/client/gui/render/state/GuiRenderState;)V", at = @At("TAIL"))
+    private void after_init_FancyMenu(Minecraft minecraft, GuiRenderState guiRenderState, CallbackInfo info) {
         RenderScaleUtil.resetActiveRenderScale_FancyMenu();
         RenderTranslationUtil.resetActiveRenderTranslation_FancyMenu();
         RenderRotationUtil.resetActiveRenderRotation_FancyMenu();

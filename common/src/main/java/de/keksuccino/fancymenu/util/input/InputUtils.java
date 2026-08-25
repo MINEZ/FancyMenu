@@ -1,7 +1,6 @@
 package de.keksuccino.fancymenu.util.input;
 
 import net.minecraft.client.input.InputQuirks;
-import net.minecraft.client.input.InputWithModifiers;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 
@@ -21,7 +20,7 @@ public class InputUtils {
      *
      * GLFW key identities cannot be polled for this state on macOS because System Settings can remap physical modifier keys. The event mask already reflects that remapping and is also available while FancyMenu handles drag and repeat paths without a new event object.
      */
-    public static void updateActiveModifiers(@InputWithModifiers.Modifiers int modifiers) {
+    public static void updateActiveModifiers(int modifiers) {
         activeModifiers = modifiers;
     }
 
@@ -29,7 +28,6 @@ public class InputUtils {
         activeModifiers = 0;
     }
 
-    @InputWithModifiers.Modifiers
     public static int getActiveModifiers() {
         return activeModifiers;
     }
@@ -42,7 +40,7 @@ public class InputUtils {
         return isGuiShortcutModifierDown(getActiveModifiers());
     }
 
-    public static boolean isGuiShortcutModifierDown(@InputWithModifiers.Modifiers int modifiers) {
+    public static boolean isGuiShortcutModifierDown(int modifiers) {
         return (modifiers & InputQuirks.EDIT_SHORTCUT_KEY_MODIFIER) != 0;
     }
 

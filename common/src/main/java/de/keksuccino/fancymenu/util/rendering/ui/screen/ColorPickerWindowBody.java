@@ -441,7 +441,7 @@ public class ColorPickerWindowBody extends PiPWindowBody {
         int width = Math.max(1, x2 - x1);
         for (int x = x1; x < x2; x++) {
             float factor = (float) (x - x1) / (float) width;
-            graphics.fill(x, y1, x + 1, y2, ARGB.srgbLerp(factor, colorLeft, colorRight));
+            graphics.fill(x, y1, x + 1, y2, ARGB.lerp(factor, colorLeft, colorRight));
         }
     }
 

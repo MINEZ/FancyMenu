@@ -1,6 +1,5 @@
 package de.keksuccino.fancymenu.mixin.support.client;
 
-import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.network.chat.Component;
 
 import javax.annotation.Nullable;
@@ -17,7 +16,9 @@ public final class CenteredIconButtonLabelResolver {
     }
 
     public static Component resolveRenderedLabel(Component customLabel, Component activeLabel, boolean active) {
-        return active ? activeLabel : AbstractWidget.WithInactiveMessage.defaultInactiveMessage(customLabel);
+        // MC 1.21.10 has no AbstractWidget.WithInactiveMessage. Inactive widgets are greyed out by their
+        // render colour instead of by substituting the message, so the label is returned unchanged.
+        return active ? activeLabel : customLabel;
     }
 
 }

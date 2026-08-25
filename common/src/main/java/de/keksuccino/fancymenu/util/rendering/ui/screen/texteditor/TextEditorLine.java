@@ -204,7 +204,7 @@ public class TextEditorLine extends ExtendedEditBox {
                 float highlightWidth = UIBase.getUITextWidth(text.substring(0, highlightPos));
                 this.currentHighlightPosXStart = (int) cursorPosRender;
                 this.currentHighlightPosXEnd = (int) (textX + highlightWidth) - 1;
-                graphics.textHighlight(this.currentHighlightPosXStart, (int) (textY - 1), this.currentHighlightPosXEnd, (int) (textY + 1 + textHeight), this.getAsAccessor().getInvertHighlightedTextColorFancyMenu());
+                graphics.textHighlight(this.currentHighlightPosXStart, (int) (textY - 1), this.currentHighlightPosXEnd, (int) (textY + 1 + textHeight));
             } else {
                 this.currentHighlightPosXStart = 0;
                 this.currentHighlightPosXEnd = 0;

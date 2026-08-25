@@ -95,7 +95,7 @@ public class SplashTextElement extends AbstractElement {
             //VANILLA
             if (this.sourceMode == SourceMode.VANILLA) {
                 SplashRenderer splashRenderer = Minecraft.getInstance().getSplashManager().getSplash();
-                this.renderText = (splashRenderer != null) ? ((IMixinSplashRenderer)splashRenderer).getSplashFancyMenu().getString() : "";
+                this.renderText = (splashRenderer != null) ? ((IMixinSplashRenderer)splashRenderer).getSplashFancyMenu() : "";
             }
             //TEXT FILE
             if (this.sourceMode == SourceMode.TEXT_FILE) {

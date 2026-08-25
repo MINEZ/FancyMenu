@@ -155,14 +155,14 @@ public class LayoutEditorUI implements ContextMenuBuilder<LayoutEditorUI> {
         editMenu.addClickableEntry("undo_action", Component.translatable("fancymenu.editor.edit.undo"), (menu, entry) -> {
                     grandfatheredMenuBar = menuBar;
                     editor.history.stepBack();
-                    editor.resize(editor.width, editor.height);
+                    editor.resize(Minecraft.getInstance(), editor.width, editor.height);
                 }).setShortcutTextSupplier((menu, entry) -> Component.translatable("fancymenu.editor.shortcuts.undo"))
                 .setIcon(MaterialIcons.UNDO);
 
         editMenu.addClickableEntry("redo_action", Component.translatable("fancymenu.editor.edit.redo"), (menu, entry) -> {
                     grandfatheredMenuBar = menuBar;
                     editor.history.stepForward();
-                    editor.resize(editor.width, editor.height);
+                    editor.resize(Minecraft.getInstance(), editor.width, editor.height);
                 }).setShortcutTextSupplier((menu, entry) -> Component.translatable("fancymenu.editor.shortcuts.redo"))
                 .setIcon(MaterialIcons.REDO);
 

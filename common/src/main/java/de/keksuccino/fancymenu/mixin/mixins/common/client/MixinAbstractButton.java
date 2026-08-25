@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(AbstractButton.class)
 public class MixinAbstractButton {
 
-    @WrapWithCondition(method = "renderDefaultSprite", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/ResourceLocation;IIIII)V"))
+    @WrapWithCondition(method = "renderWidget", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/ResourceLocation;IIIII)V"))
     private boolean wrapBlitSpriteFancyMenu(GuiGraphics graphics, RenderPipeline pipeline, ResourceLocation sprite, int x, int y, int width, int height, int color) {
 
         AbstractButton button = (AbstractButton)((Object)this);

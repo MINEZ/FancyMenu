@@ -5,6 +5,8 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import de.keksuccino.fancymenu.mixin.support.client.CenteredIconButtonLabelResolver;
 import de.keksuccino.fancymenu.util.rendering.RenderingUtils;
 import de.keksuccino.fancymenu.util.rendering.ui.widget.CustomizableWidget;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.Mth;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.SpriteIconButton;
@@ -31,7 +33,10 @@ public abstract class MixinSpriteIconButton_CenteredIcon extends Button {
         if (customLabel != null) {
             Component activeLabel = this.active ? this.getMessage() : customLabel;
             Component renderedLabel = CenteredIconButtonLabelResolver.resolveRenderedLabel(customLabel, activeLabel, this.active);
-            this.renderScrollingStringOverContents(graphics.textRendererForWidget(this, GuiGraphics.HoveredTextEffects.NONE), renderedLabel, 2);
+            // MC 1.21.10 has no ActiveTextCollector / textRendererForWidget, so the label goes through the
+            // instance renderScrollingString overload, matching the author's implementation on the 1.21.1 branch.
+            int labelColor = ARGB.color(Mth.ceil(this.alpha * 255.0F), this.active ? 0xFFFFFF : 0xA0A0A0);
+            this.renderScrollingString(graphics, Minecraft.getInstance().font, 2, labelColor);
             return;
         }
 

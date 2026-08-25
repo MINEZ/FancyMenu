@@ -264,7 +264,7 @@ public class ExtendedEditBox extends EditBox implements UniqueWidget, Navigatabl
             if (highlightPos != cursorPos) {
                 float highlightWidth = UIBase.getUITextWidth(text.substring(0, highlightPos));
                 int highlightEndX = (int) (textX + highlightWidth) - 1;
-                graphics.textHighlight((int) finalTextXAfterCursor, (int) (textY - 1), highlightEndX, (int) (textY + 1 + textHeight), access.getInvertHighlightedTextColorFancyMenu());
+                graphics.textHighlight((int) finalTextXAfterCursor, (int) (textY - 1), highlightEndX, (int) (textY + 1 + textHeight));
             }
 
         }

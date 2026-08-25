@@ -160,12 +160,12 @@ public class KeyframeManagerScreen extends Screen {
             newScale--;
             if (newScale < 1) newScale = 1;
             WindowHandler.setGuiScale(newScale);
-            this.resize(window.getGuiScaledWidth(), window.getGuiScaledHeight());
+            this.resize(Minecraft.getInstance(), window.getGuiScaledWidth(), window.getGuiScaledHeight());
         } else if (!tooFarRight && resized) {
             double parentScale = this.resolveParentGuiScale(window);
             if (Double.compare(WindowHandler.getGuiScale(), parentScale) != 0) {
                 WindowHandler.setGuiScale(parentScale);
-                this.resize(window.getGuiScaledWidth(), window.getGuiScaledHeight());
+                this.resize(Minecraft.getInstance(), window.getGuiScaledWidth(), window.getGuiScaledHeight());
             }
         }
 
@@ -181,7 +181,7 @@ public class KeyframeManagerScreen extends Screen {
         double parentScale = this.resolveParentGuiScale(window);
         if (!AnimationPreviewScalePolicy.shouldCorrectManagerScale(WindowHandler.getGuiScale(), parentScale)) return false;
         WindowHandler.setGuiScale(parentScale);
-        this.resize(window.getGuiScaledWidth(), window.getGuiScaledHeight());
+        this.resize(Minecraft.getInstance(), window.getGuiScaledWidth(), window.getGuiScaledHeight());
         return true;
     }
 

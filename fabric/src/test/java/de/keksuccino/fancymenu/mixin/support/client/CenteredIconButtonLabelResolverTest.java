@@ -1,6 +1,5 @@
 package de.keksuccino.fancymenu.mixin.support.client;
 
-import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.network.chat.Component;
 import org.junit.jupiter.api.Test;
 
@@ -61,7 +60,7 @@ class CenteredIconButtonLabelResolverTest {
 
         Component renderedLabel = CenteredIconButtonLabelResolver.resolveRenderedLabel(customLabel, unrelatedActiveLabel, false);
 
-        assertEquals(AbstractWidget.WithInactiveMessage.defaultInactiveMessage(customLabel), renderedLabel);
+        assertSame(customLabel, renderedLabel);
         assertEquals("Base", renderedLabel.getString());
     }
 

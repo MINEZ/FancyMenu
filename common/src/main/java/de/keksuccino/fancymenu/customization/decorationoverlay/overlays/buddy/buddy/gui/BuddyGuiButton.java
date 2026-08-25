@@ -78,7 +78,12 @@ public class BuddyGuiButton implements Renderable {
             graphics.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, backgroundTexture, this.x, this.y, 0.0F, 0.0F, this.width, this.height, this.width, this.height);
         } else {
             graphics.fill(x, y, x + this.width, y + this.height, backgroundColor);
-            graphics.renderOutline(x, y, this.width, this.height, 0xFF000000);
+            // MC 1.21.10 has no GuiGraphics#renderOutline, so the border is drawn as four filled edges.
+            int outlineColor = 0xFF000000;
+            graphics.fill(x, y, x + this.width, y + 1, outlineColor);
+            graphics.fill(x, y + this.height - 1, x + this.width, y + this.height, outlineColor);
+            graphics.fill(x, y + 1, x + 1, y + this.height - 1, outlineColor);
+            graphics.fill(x + this.width - 1, y + 1, x + this.width, y + this.height - 1, outlineColor);
         }
 
         // Draw button text

@@ -36,7 +36,7 @@ public abstract class MixinSoundManager implements WorldSoundListenerController 
     @Unique private boolean worldSoundEventBridgeRemovalQueued_FancyMenu;
 
     @Inject(method = "<init>", at = @At("RETURN"))
-    private void after_init_FancyMenu(Options options, CallbackInfo info) {
+    private void after_init_FancyMenu(Options options, MusicManager musicManager, CallbackInfo info) {
         if (this.worldSoundEventBridge_FancyMenu == null) {
             this.worldSoundEventBridge_FancyMenu = (sound, accessor, range) -> {
                 if (Listeners.ON_WORLD_SOUND_TRIGGERED.hasInstancesListening()) {

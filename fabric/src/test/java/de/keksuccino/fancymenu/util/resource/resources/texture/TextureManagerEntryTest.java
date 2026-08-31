@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,8 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TextureManagerEntryTest {
 
-    private static final Identifier FIRST_ID = Identifier.fromNamespaceAndPath("fancymenu", "dynamic/test_first");
-    private static final Identifier SECOND_ID = Identifier.fromNamespaceAndPath("fancymenu", "dynamic/test_second");
+    private static final ResourceLocation FIRST_ID = ResourceLocation.fromNamespaceAndPath("fancymenu", "dynamic/test_first");
+    private static final ResourceLocation SECOND_ID = ResourceLocation.fromNamespaceAndPath("fancymenu", "dynamic/test_second");
 
     @Test
     void registeredEntryReleasesThroughTextureManagerExactlyOnce() {
@@ -197,7 +197,7 @@ class TextureManagerEntryTest {
         ExecutorService executor = Executors.newFixedThreadPool(2);
 
         try {
-            Future<Identifier> registration = executor.submit(() -> entry.register(FIRST_ID));
+            Future<ResourceLocation> registration = executor.submit(() -> entry.register(FIRST_ID));
             assertTrue(factoryEntered.await(5L, TimeUnit.SECONDS));
             Future<?> close = executor.submit(entry::close);
             allowFactory.countDown();
@@ -266,16 +266,16 @@ class TextureManagerEntryTest {
 
     private static final class FakeManager {
 
-        private final Map<Identifier, FakeTexture> textures = new ConcurrentHashMap<>();
+        private final Map<ResourceLocation, FakeTexture> textures = new ConcurrentHashMap<>();
         private final AtomicInteger releaseCalls = new AtomicInteger();
         private final AtomicBoolean failRegistration = new AtomicBoolean();
 
-        private void register(Identifier identifier, FakeTexture texture) {
+        private void register(ResourceLocation identifier, FakeTexture texture) {
             if (this.failRegistration.get()) throw new IllegalStateException("expected test failure");
             this.textures.put(identifier, texture);
         }
 
-        private void release(Identifier identifier) {
+        private void release(ResourceLocation identifier) {
             this.releaseCalls.incrementAndGet();
             FakeTexture texture = this.textures.remove(identifier);
             if (texture != null) texture.close();

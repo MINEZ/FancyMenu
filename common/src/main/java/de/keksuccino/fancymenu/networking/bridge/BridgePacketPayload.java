@@ -5,7 +5,7 @@ import net.minecraft.network.Connection;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,7 +21,7 @@ import java.util.Objects;
  */
 public final class BridgePacketPayload implements CustomPacketPayload {
 
-    public static final Type<BridgePacketPayload> TYPE = new Type<>(Identifier.fromNamespaceAndPath("fancymenu", "fancymenu_bridge_packet"));
+    public static final Type<BridgePacketPayload> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath("fancymenu", "fancymenu_bridge_packet"));
     public static final StreamCodec<FriendlyByteBuf, BridgePacketPayload> CODEC = CustomPacketPayload.codec(BridgePacketPayload::write, BridgePacketPayload::decode);
     public static final String TO_SERVER_WIRE_DIRECTION = "server";
     public static final String TO_CLIENT_WIRE_DIRECTION = "client";

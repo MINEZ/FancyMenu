@@ -23,7 +23,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.awt.*;
@@ -32,9 +32,9 @@ import java.awt.*;
 public class ExtendedButton extends Button implements IExtendedWidget, UniqueWidget, NavigatableWidget, FancyMenuWidget {
 
     public static final WidgetSprites SPRITES = new WidgetSprites(
-            Identifier.parse("widget/button"),
-            Identifier.parse("widget/button_disabled"),
-            Identifier.parse("widget/button_highlighted")
+            ResourceLocation.parse("widget/button"),
+            ResourceLocation.parse("widget/button_disabled"),
+            ResourceLocation.parse("widget/button_highlighted")
     );
 
     protected final Minecraft mc = Minecraft.getInstance();
@@ -228,7 +228,7 @@ public class ExtendedButton extends Button implements IExtendedWidget, UniqueWid
     protected void renderIcon(@NotNull GuiGraphics graphics) {
         RenderableResource icon = this.getCurrentIcon();
         if (icon == null) return;
-        Identifier iconLocation = icon.getResourceLocation();
+        ResourceLocation iconLocation = icon.getResourceLocation();
         if (iconLocation == null) return;
         int iconWidth = icon.getWidth();
         int iconHeight = icon.getHeight();

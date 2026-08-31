@@ -20,7 +20,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -29,10 +29,10 @@ import java.awt.*;
 @SuppressWarnings("unused")
 public abstract class AbstractExtendedSlider extends AbstractSliderButton implements IExtendedWidget, NavigatableWidget, FancyMenuWidget {
 
-    public static final Identifier SLIDER_SPRITE = Identifier.parse("widget/slider");
-    public static final Identifier HIGHLIGHTED_SPRITE = Identifier.parse("widget/slider_highlighted");
-    public static final Identifier SLIDER_HANDLE_SPRITE = Identifier.parse("widget/slider_handle");
-    public static final Identifier SLIDER_HANDLE_HIGHLIGHTED_SPRITE = Identifier.parse("widget/slider_handle_highlighted");
+    public static final ResourceLocation SLIDER_SPRITE = ResourceLocation.parse("widget/slider");
+    public static final ResourceLocation HIGHLIGHTED_SPRITE = ResourceLocation.parse("widget/slider_highlighted");
+    public static final ResourceLocation SLIDER_HANDLE_SPRITE = ResourceLocation.parse("widget/slider_handle");
+    public static final ResourceLocation SLIDER_HANDLE_HIGHLIGHTED_SPRITE = ResourceLocation.parse("widget/slider_handle_highlighted");
 
     @Nullable
     protected DrawableColor sliderBackgroundColorNormal;
@@ -69,11 +69,11 @@ public abstract class AbstractExtendedSlider extends AbstractSliderButton implem
         super(x, y, width, height, label, value);
     }
 
-    public Identifier getSprite() {
+    public ResourceLocation getSprite() {
         return this.isFocused() && !((IMixinAbstractSliderButton)this).getCanChangeValueFancyMenu() ? HIGHLIGHTED_SPRITE : SLIDER_SPRITE;
     }
 
-    public Identifier getHandleSprite() {
+    public ResourceLocation getHandleSprite() {
         return !this.isHovered && !((IMixinAbstractSliderButton)this).getCanChangeValueFancyMenu() ? SLIDER_HANDLE_SPRITE : SLIDER_HANDLE_HIGHLIGHTED_SPRITE;
     }
 

@@ -8,14 +8,14 @@ import de.keksuccino.fancymenu.util.ffmpeg.downloader.FFMPEGDownloaderScreen;
 import de.keksuccino.fancymenu.util.rendering.ui.widget.button.ExtendedButton;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Test {
 
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final Identifier TEST_IMAGE = Identifier.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/status_screen_background.png");
+    private static final ResourceLocation TEST_IMAGE = ResourceLocation.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/status_screen_background.png");
 
     @EventListener(priority = EventPriority.VERY_LOW)
     public void onRenderPost(RenderScreenEvent.Post e) {

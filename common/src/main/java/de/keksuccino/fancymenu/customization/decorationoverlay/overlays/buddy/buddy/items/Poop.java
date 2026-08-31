@@ -4,7 +4,7 @@ import de.keksuccino.fancymenu.customization.decorationoverlay.overlays.buddy.bu
 import de.keksuccino.fancymenu.util.rendering.DrawableColor;
 import de.keksuccino.fancymenu.util.rendering.RenderingUtils;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * Represents a poop object that appears after the buddy poops.
@@ -12,7 +12,7 @@ import net.minecraft.resources.Identifier;
  */
 public class Poop {
 
-    public static final Identifier TEXTURE_POOP = Identifier.fromNamespaceAndPath("fancymenu", "textures/buddy/poop.png");
+    public static final ResourceLocation TEXTURE_POOP = ResourceLocation.fromNamespaceAndPath("fancymenu", "textures/buddy/poop.png");
 
     public int x;
     public int y;
@@ -53,7 +53,7 @@ public class Poop {
     }
 
     public void render(GuiGraphics graphics) {
-        Identifier texture = buddy.getTextures().getPoopTexture();
+        ResourceLocation texture = buddy.getTextures().getPoopTexture();
         if (isBeingCleaned) {
             // Fade out during cleaning animation
             float alpha = 1.0f - (cleaningAnimation / (float)CLEANING_DURATION);

@@ -15,7 +15,7 @@ import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.render.TextureSetup;
 import net.minecraft.client.gui.render.state.GuiElementRenderState;
 import net.minecraft.client.renderer.texture.AbstractTexture;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.joml.Matrix3x2f;
 import org.lwjgl.system.MemoryUtil;
 
@@ -39,7 +39,7 @@ public final class SmoothImageCircleRenderer {
             .add("ImageCircleInfo2", IMAGE_CIRCLE_INFO_2_FANCYMENU)
             .build();
     private static final RenderPipeline SMOOTH_IMAGE_CIRCLE_PIPELINE_FANCYMENU = RenderPipeline.builder()
-            .withLocation(Identifier.withDefaultNamespace("pipeline/fancymenu_gui_smooth_image_circle"))
+            .withLocation(ResourceLocation.withDefaultNamespace("pipeline/fancymenu_gui_smooth_image_circle"))
             .withUniform("DynamicTransforms", UniformType.UNIFORM_BUFFER)
             .withUniform("Projection", UniformType.UNIFORM_BUFFER)
             .withSampler("Sampler0")
@@ -79,27 +79,27 @@ public final class SmoothImageCircleRenderer {
      * <br>- Perfect circle: width == height and {@code roundness = 2.0}
      * <br>- Oval: width != height and {@code roundness = 2.0}
      */
-    public static void renderSmoothImageCircle(@Nonnull GuiGraphics graphics, @Nonnull Identifier texture, float x, float y, float width, float height, float roundness, int color, float partial) {
+    public static void renderSmoothImageCircle(@Nonnull GuiGraphics graphics, @Nonnull ResourceLocation texture, float x, float y, float width, float height, float roundness, int color, float partial) {
         renderSmoothImageCircleInternal(graphics, texture, x, y, width, height, roundness, TextureRegion.full(), color);
     }
 
-    public static void renderSmoothImageCircleScaled(@Nonnull GuiGraphics graphics, @Nonnull Identifier texture, float x, float y, float width, float height, float roundness, int color, float partial) {
+    public static void renderSmoothImageCircleScaled(@Nonnull GuiGraphics graphics, @Nonnull ResourceLocation texture, float x, float y, float width, float height, float roundness, int color, float partial) {
         GuiPoseTransformUtil.PoseTransform transform = GuiPoseTransformUtil.resolve(graphics);
         GuiPoseTransformUtil.TransformedRect rect = transform.transformRect(x, y, width, height);
         renderSmoothImageCircle(graphics, texture, rect.x(), rect.y(), rect.width(), rect.height(), roundness, color, partial);
     }
 
-    public static void renderSmoothImageCircle(@Nonnull GuiGraphics graphics, @Nonnull Identifier texture, float x, float y, float width, float height, float uOffset, float vOffset, float uWidth, float vHeight, float textureWidth, float textureHeight, float roundness, int color, float partial) {
+    public static void renderSmoothImageCircle(@Nonnull GuiGraphics graphics, @Nonnull ResourceLocation texture, float x, float y, float width, float height, float uOffset, float vOffset, float uWidth, float vHeight, float textureWidth, float textureHeight, float roundness, int color, float partial) {
         renderSmoothImageCircleInternal(graphics, texture, x, y, width, height, roundness, TextureRegion.of(uOffset, vOffset, uWidth, vHeight, textureWidth, textureHeight), color);
     }
 
-    public static void renderSmoothImageCircleScaled(@Nonnull GuiGraphics graphics, @Nonnull Identifier texture, float x, float y, float width, float height, float uOffset, float vOffset, float uWidth, float vHeight, float textureWidth, float textureHeight, float roundness, int color, float partial) {
+    public static void renderSmoothImageCircleScaled(@Nonnull GuiGraphics graphics, @Nonnull ResourceLocation texture, float x, float y, float width, float height, float uOffset, float vOffset, float uWidth, float vHeight, float textureWidth, float textureHeight, float roundness, int color, float partial) {
         GuiPoseTransformUtil.PoseTransform transform = GuiPoseTransformUtil.resolve(graphics);
         GuiPoseTransformUtil.TransformedRect rect = transform.transformRect(x, y, width, height);
         renderSmoothImageCircle(graphics, texture, rect.x(), rect.y(), rect.width(), rect.height(), uOffset, vOffset, uWidth, vHeight, textureWidth, textureHeight, roundness, color, partial);
     }
 
-    private static void renderSmoothImageCircleInternal(@Nonnull GuiGraphics graphics, @Nonnull Identifier texture, float x, float y, float width, float height, float roundness, @Nonnull TextureRegion textureRegion, int color) {
+    private static void renderSmoothImageCircleInternal(@Nonnull GuiGraphics graphics, @Nonnull ResourceLocation texture, float x, float y, float width, float height, float roundness, @Nonnull TextureRegion textureRegion, int color) {
         Objects.requireNonNull(graphics);
         Objects.requireNonNull(texture);
         Objects.requireNonNull(textureRegion);
@@ -207,7 +207,7 @@ public final class SmoothImageCircleRenderer {
         MemoryUtil.memPutFloat(pointer + 12L, w);
     }
 
-    private record CircleArea(float x, float y, float width, float height, float roundness, TextureRegion textureRegion, Identifier texture, int color) {
+    private record CircleArea(float x, float y, float width, float height, float roundness, TextureRegion textureRegion, ResourceLocation texture, int color) {
     }
 
     private record QuadBounds(float minX, float minY, float maxX, float maxY) {

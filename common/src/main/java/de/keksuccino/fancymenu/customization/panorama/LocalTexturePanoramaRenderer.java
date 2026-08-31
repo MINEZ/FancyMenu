@@ -34,7 +34,7 @@ import net.minecraft.client.gui.render.state.GuiElementRenderState;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ARGB;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -55,7 +55,7 @@ public class LocalTexturePanoramaRenderer implements Renderable, AutoCloseable {
 			.add("PanoramaInfo", PANORAMA_INFO_FANCYMENU)
 			.build();
 	private static final RenderPipeline PANORAMA_PIPELINE_FANCYMENU = RenderPipeline.builder()
-			.withLocation(Identifier.withDefaultNamespace("pipeline/fancymenu_panorama"))
+			.withLocation(ResourceLocation.withDefaultNamespace("pipeline/fancymenu_panorama"))
 			.withUniform("DynamicTransforms", UniformType.UNIFORM_BUFFER)
 			.withUniform("Projection", UniformType.UNIFORM_BUFFER)
 			.withVertexShader("core/fancymenu_gui_panorama")
@@ -89,7 +89,7 @@ public class LocalTexturePanoramaRenderer implements Renderable, AutoCloseable {
 	@Nullable
 	private PanoramaCubeMapTexture panoramaCubeMapTexture = null;
 	@Nullable
-	private Identifier cubeMapLocation = null;
+	private ResourceLocation cubeMapLocation = null;
 	private boolean panoramaCubeMapTextureRegistered = false;
 	private final String uniqueId = UUID.randomUUID().toString();
 
@@ -185,7 +185,7 @@ public class LocalTexturePanoramaRenderer implements Renderable, AutoCloseable {
 		this.panoramaCubeMapTexture = new PanoramaCubeMapTexture(this.name != null ? this.name : "unnamed", this.panoramaImageSuppliers);
 		
 		// Register the texture with a unique Identifier
-		this.cubeMapLocation = Identifier.fromNamespaceAndPath("fancymenu", "panorama_" + this.uniqueId);
+		this.cubeMapLocation = ResourceLocation.fromNamespaceAndPath("fancymenu", "panorama_" + this.uniqueId);
 		TextureManager textureManager = Minecraft.getInstance().getTextureManager();
 		textureManager.register(this.cubeMapLocation, this.panoramaCubeMapTexture);
 		this.panoramaCubeMapTextureRegistered = true;
@@ -223,7 +223,7 @@ public class LocalTexturePanoramaRenderer implements Renderable, AutoCloseable {
 		if (this.overlayTextureSupplier != null) {
 			ITexture texture = this.overlayTextureSupplier.get();
 			if (texture != null) {
-				Identifier location = texture.getResourceLocation();
+				ResourceLocation location = texture.getResourceLocation();
 				if (location != null) {
 					graphics.blit(RenderPipelines.GUI_TEXTURED, location, 0, 0, 0.0F, 0.0F, screenW, screenH, screenW, screenH, ARGB.white(this.opacity));
 				}
@@ -255,7 +255,7 @@ public class LocalTexturePanoramaRenderer implements Renderable, AutoCloseable {
 		if (this.overlayTextureSupplier != null) {
 			ITexture texture = this.overlayTextureSupplier.get();
 			if (texture != null) {
-				Identifier location = texture.getResourceLocation();
+				ResourceLocation location = texture.getResourceLocation();
 				if (location != null) {
 					graphics.blit(RenderPipelines.GUI_TEXTURED, location, x, y, 0.0F, 0.0F, width, height, width, height, ARGB.white(this.opacity));
 				}
@@ -371,7 +371,7 @@ public class LocalTexturePanoramaRenderer implements Renderable, AutoCloseable {
 
 		PanoramaCubeMapTexture ownedTexture = this.panoramaCubeMapTexture;
 		this.panoramaCubeMapTexture = null;
-		Identifier registeredLocation = this.cubeMapLocation;
+		ResourceLocation registeredLocation = this.cubeMapLocation;
 		this.cubeMapLocation = null;
 		boolean registeredTexture = this.panoramaCubeMapTextureRegistered;
 		this.panoramaCubeMapTextureRegistered = false;

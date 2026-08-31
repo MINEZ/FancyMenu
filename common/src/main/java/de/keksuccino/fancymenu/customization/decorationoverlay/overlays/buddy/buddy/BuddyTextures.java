@@ -8,7 +8,7 @@ import de.keksuccino.fancymenu.customization.decorationoverlay.overlays.buddy.bu
 import de.keksuccino.fancymenu.customization.decorationoverlay.overlays.buddy.buddy.gui.BuddyStatusScreen;
 import de.keksuccino.fancymenu.util.resource.ResourceSupplier;
 import de.keksuccino.fancymenu.util.resource.resources.texture.ITexture;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,30 +18,30 @@ import org.jetbrains.annotations.Nullable;
 public class BuddyTextures {
 
     // Defaults
-    public static final Identifier DEFAULT_ATLAS = AnimationState.TEXTURE_ATLAS;
-    public static final Identifier DEFAULT_THOUGHT_BUBBLE = Buddy.TEXTURE_THOUGHT_BUBBLE;
-    public static final Identifier DEFAULT_PET_ICON = Buddy.TEXTURE_ICON_WANTS_BEING_PET;
-    public static final Identifier DEFAULT_PLAY_ICON = Buddy.TEXTURE_ICON_WANTS_TO_PLAY;
-    public static final Identifier DEFAULT_FOOD = FoodItem.TEXTURE_FOOD;
-    public static final Identifier DEFAULT_BALL = PlayBall.TEXTURE_BALL;
-    public static final Identifier DEFAULT_POOP = Poop.TEXTURE_POOP;
-    public static final Identifier DEFAULT_GRAVESTONE = Buddy.TEXTURE_GRAVESTONE;
-    public static final Identifier DEFAULT_STATUS_BACKGROUND = BuddyStatusScreen.BACKGROUND_TEXTURE;
-    public static final Identifier DEFAULT_STATUS_BACKGROUND_BORDER = BuddyStatusScreen.BACKGROUND_BORDER_TEXTURE;
-    public static final Identifier DEFAULT_TAB_BUTTON_NORMAL = BuddyStatusScreen.TAB_BUTTON_TEXTURE_NORMAL;
-    public static final Identifier DEFAULT_TAB_BUTTON_SELECTED = BuddyStatusScreen.TAB_BUTTON_TEXTURE_SELECTED;
-    public static final Identifier DEFAULT_DEFAULT_BUTTON_NORMAL = BuddyGuiButton.DEFAULT_BUTTON_NORMAL;
-    public static final Identifier DEFAULT_DEFAULT_BUTTON_HOVER = BuddyGuiButton.DEFAULT_BUTTON_HOVER;
-    public static final Identifier DEFAULT_DEFAULT_BUTTON_INACTIVE = BuddyGuiButton.DEFAULT_BUTTON_INACTIVE;
-    public static final Identifier DEFAULT_CLOSE_BUTTON_NORMAL = BuddyGuiButton.BUTTON_CLOSE_NORMAL;
-    public static final Identifier DEFAULT_CLOSE_BUTTON_HOVER = BuddyGuiButton.BUTTON_CLOSE_HOVER;
-    public static final Identifier DEFAULT_STATUS_BAR = BuddyStatusScreen.STATUS_BAR_TEXTURE;
-    public static final Identifier DEFAULT_STATUS_BAR_BACKGROUND = BuddyStatusScreen.STATUS_BAR_BACKGROUND_TEXTURE;
-    public static final Identifier DEFAULT_STATUS_ICON_HUNGER = BuddyStatusScreen.STATUS_ICON_HUNGER;
-    public static final Identifier DEFAULT_STATUS_ICON_HAPPINESS = BuddyStatusScreen.STATUS_ICON_HAPPINESS;
-    public static final Identifier DEFAULT_STATUS_ICON_ENERGY = BuddyStatusScreen.STATUS_ICON_ENERGY;
-    public static final Identifier DEFAULT_STATUS_ICON_FUN = BuddyStatusScreen.STATUS_ICON_FUN;
-    public static final Identifier DEFAULT_STATUS_ICON_EXPERIENCE = BuddyStatusScreen.STATUS_ICON_EXPERIENCE;
+    public static final ResourceLocation DEFAULT_ATLAS = AnimationState.TEXTURE_ATLAS;
+    public static final ResourceLocation DEFAULT_THOUGHT_BUBBLE = Buddy.TEXTURE_THOUGHT_BUBBLE;
+    public static final ResourceLocation DEFAULT_PET_ICON = Buddy.TEXTURE_ICON_WANTS_BEING_PET;
+    public static final ResourceLocation DEFAULT_PLAY_ICON = Buddy.TEXTURE_ICON_WANTS_TO_PLAY;
+    public static final ResourceLocation DEFAULT_FOOD = FoodItem.TEXTURE_FOOD;
+    public static final ResourceLocation DEFAULT_BALL = PlayBall.TEXTURE_BALL;
+    public static final ResourceLocation DEFAULT_POOP = Poop.TEXTURE_POOP;
+    public static final ResourceLocation DEFAULT_GRAVESTONE = Buddy.TEXTURE_GRAVESTONE;
+    public static final ResourceLocation DEFAULT_STATUS_BACKGROUND = BuddyStatusScreen.BACKGROUND_TEXTURE;
+    public static final ResourceLocation DEFAULT_STATUS_BACKGROUND_BORDER = BuddyStatusScreen.BACKGROUND_BORDER_TEXTURE;
+    public static final ResourceLocation DEFAULT_TAB_BUTTON_NORMAL = BuddyStatusScreen.TAB_BUTTON_TEXTURE_NORMAL;
+    public static final ResourceLocation DEFAULT_TAB_BUTTON_SELECTED = BuddyStatusScreen.TAB_BUTTON_TEXTURE_SELECTED;
+    public static final ResourceLocation DEFAULT_DEFAULT_BUTTON_NORMAL = BuddyGuiButton.DEFAULT_BUTTON_NORMAL;
+    public static final ResourceLocation DEFAULT_DEFAULT_BUTTON_HOVER = BuddyGuiButton.DEFAULT_BUTTON_HOVER;
+    public static final ResourceLocation DEFAULT_DEFAULT_BUTTON_INACTIVE = BuddyGuiButton.DEFAULT_BUTTON_INACTIVE;
+    public static final ResourceLocation DEFAULT_CLOSE_BUTTON_NORMAL = BuddyGuiButton.BUTTON_CLOSE_NORMAL;
+    public static final ResourceLocation DEFAULT_CLOSE_BUTTON_HOVER = BuddyGuiButton.BUTTON_CLOSE_HOVER;
+    public static final ResourceLocation DEFAULT_STATUS_BAR = BuddyStatusScreen.STATUS_BAR_TEXTURE;
+    public static final ResourceLocation DEFAULT_STATUS_BAR_BACKGROUND = BuddyStatusScreen.STATUS_BAR_BACKGROUND_TEXTURE;
+    public static final ResourceLocation DEFAULT_STATUS_ICON_HUNGER = BuddyStatusScreen.STATUS_ICON_HUNGER;
+    public static final ResourceLocation DEFAULT_STATUS_ICON_HAPPINESS = BuddyStatusScreen.STATUS_ICON_HAPPINESS;
+    public static final ResourceLocation DEFAULT_STATUS_ICON_ENERGY = BuddyStatusScreen.STATUS_ICON_ENERGY;
+    public static final ResourceLocation DEFAULT_STATUS_ICON_FUN = BuddyStatusScreen.STATUS_ICON_FUN;
+    public static final ResourceLocation DEFAULT_STATUS_ICON_EXPERIENCE = BuddyStatusScreen.STATUS_ICON_EXPERIENCE;
 
     private @Nullable ResourceSupplier<ITexture> customAtlasTextureSupplier = null;
     private @Nullable ResourceSupplier<ITexture> customThoughtBubbleTextureSupplier = null;
@@ -69,122 +69,122 @@ public class BuddyTextures {
     private @Nullable ResourceSupplier<ITexture> customStatusIconExperienceTextureSupplier = null;
 
     @NotNull
-    public Identifier getAtlasTexture() {
+    public ResourceLocation getAtlasTexture() {
         return resolve(customAtlasTextureSupplier, DEFAULT_ATLAS);
     }
 
     @NotNull
-    public Identifier getThoughtBubbleTexture() {
+    public ResourceLocation getThoughtBubbleTexture() {
         return resolve(customThoughtBubbleTextureSupplier, DEFAULT_THOUGHT_BUBBLE);
     }
 
     @NotNull
-    public Identifier getPetIconTexture() {
+    public ResourceLocation getPetIconTexture() {
         return resolve(customPetIconTextureSupplier, DEFAULT_PET_ICON);
     }
 
     @NotNull
-    public Identifier getPlayIconTexture() {
+    public ResourceLocation getPlayIconTexture() {
         return resolve(customPlayIconTextureSupplier, DEFAULT_PLAY_ICON);
     }
 
     @NotNull
-    public Identifier getFoodTexture() {
+    public ResourceLocation getFoodTexture() {
         return resolve(customFoodTextureSupplier, DEFAULT_FOOD);
     }
 
     @NotNull
-    public Identifier getBallTexture() {
+    public ResourceLocation getBallTexture() {
         return resolve(customBallTextureSupplier, DEFAULT_BALL);
     }
 
     @NotNull
-    public Identifier getPoopTexture() {
+    public ResourceLocation getPoopTexture() {
         return resolve(customPoopTextureSupplier, DEFAULT_POOP);
     }
 
     @NotNull
-    public Identifier getGravestoneTexture() {
+    public ResourceLocation getGravestoneTexture() {
         return resolve(customGravestoneTextureSupplier, DEFAULT_GRAVESTONE);
     }
 
     @NotNull
-    public Identifier getStatusBackgroundTexture() {
+    public ResourceLocation getStatusBackgroundTexture() {
         return resolve(customStatusBackgroundTextureSupplier, DEFAULT_STATUS_BACKGROUND);
     }
 
     @NotNull
-    public Identifier getStatusBorderTexture() {
+    public ResourceLocation getStatusBorderTexture() {
         return resolve(customStatusBorderTextureSupplier, DEFAULT_STATUS_BACKGROUND_BORDER);
     }
 
     @NotNull
-    public Identifier getTabButtonTexture() {
+    public ResourceLocation getTabButtonTexture() {
         return resolve(customTabButtonTextureSupplier, DEFAULT_TAB_BUTTON_NORMAL);
     }
 
     @NotNull
-    public Identifier getTabButtonSelectedTexture() {
+    public ResourceLocation getTabButtonSelectedTexture() {
         return resolve(customTabButtonSelectedTextureSupplier, DEFAULT_TAB_BUTTON_SELECTED);
     }
 
     @NotNull
-    public Identifier getDefaultButtonTexture() {
+    public ResourceLocation getDefaultButtonTexture() {
         return resolve(customDefaultButtonTextureSupplier, DEFAULT_DEFAULT_BUTTON_NORMAL);
     }
 
     @NotNull
-    public Identifier getDefaultButtonHoverTexture() {
+    public ResourceLocation getDefaultButtonHoverTexture() {
         return resolve(customDefaultButtonHoverTextureSupplier, DEFAULT_DEFAULT_BUTTON_HOVER);
     }
 
     @NotNull
-    public Identifier getDefaultButtonInactiveTexture() {
+    public ResourceLocation getDefaultButtonInactiveTexture() {
         return resolve(customDefaultButtonInactiveTextureSupplier, DEFAULT_DEFAULT_BUTTON_INACTIVE);
     }
 
     @NotNull
-    public Identifier getCloseButtonTexture() {
+    public ResourceLocation getCloseButtonTexture() {
         return resolve(customCloseButtonTextureSupplier, DEFAULT_CLOSE_BUTTON_NORMAL);
     }
 
     @NotNull
-    public Identifier getCloseButtonHoverTexture() {
+    public ResourceLocation getCloseButtonHoverTexture() {
         return resolve(customCloseButtonHoverTextureSupplier, DEFAULT_CLOSE_BUTTON_HOVER);
     }
 
     @NotNull
-    public Identifier getStatusBarTexture() {
+    public ResourceLocation getStatusBarTexture() {
         return resolve(customStatusBarTextureSupplier, DEFAULT_STATUS_BAR);
     }
 
     @NotNull
-    public Identifier getStatusBarBackgroundTexture() {
+    public ResourceLocation getStatusBarBackgroundTexture() {
         return resolve(customStatusBarBackgroundTextureSupplier, DEFAULT_STATUS_BAR_BACKGROUND);
     }
 
     @NotNull
-    public Identifier getStatusIconHungerTexture() {
+    public ResourceLocation getStatusIconHungerTexture() {
         return resolve(customStatusIconHungerTextureSupplier, DEFAULT_STATUS_ICON_HUNGER);
     }
 
     @NotNull
-    public Identifier getStatusIconHappinessTexture() {
+    public ResourceLocation getStatusIconHappinessTexture() {
         return resolve(customStatusIconHappinessTextureSupplier, DEFAULT_STATUS_ICON_HAPPINESS);
     }
 
     @NotNull
-    public Identifier getStatusIconEnergyTexture() {
+    public ResourceLocation getStatusIconEnergyTexture() {
         return resolve(customStatusIconEnergyTextureSupplier, DEFAULT_STATUS_ICON_ENERGY);
     }
 
     @NotNull
-    public Identifier getStatusIconFunTexture() {
+    public ResourceLocation getStatusIconFunTexture() {
         return resolve(customStatusIconFunTextureSupplier, DEFAULT_STATUS_ICON_FUN);
     }
 
     @NotNull
-    public Identifier getStatusIconExperienceTexture() {
+    public ResourceLocation getStatusIconExperienceTexture() {
         return resolve(customStatusIconExperienceTextureSupplier, DEFAULT_STATUS_ICON_EXPERIENCE);
     }
 
@@ -316,7 +316,7 @@ public class BuddyTextures {
     }
 
     @NotNull
-    private Identifier resolve(@Nullable ResourceSupplier<ITexture> supplier, @NotNull Identifier fallback) {
+    private ResourceLocation resolve(@Nullable ResourceSupplier<ITexture> supplier, @NotNull ResourceLocation fallback) {
         if (supplier != null) {
             ITexture texture = supplier.get();
             if (texture != null && texture.getResourceLocation() != null) {

@@ -31,7 +31,7 @@ import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -826,7 +826,7 @@ public class MenuBar implements Renderable, GuiEventListener, NarratableEntry, N
                 int baseWidth = iconTexture.getWidth();
                 int baseHeight = iconTexture.getHeight();
                 boolean isMaterialIcon = iconTexture instanceof MaterialIconTexture;
-                Identifier materialIconLocation = null;
+                ResourceLocation materialIconLocation = null;
                 if (isMaterialIcon) {
                     MaterialIconTexture materialIconTexture = (MaterialIconTexture) iconTexture;
                     materialIconTexture.updateRenderContext((float) availableWidth, (float) availableHeight, UIBase.getUIScale());
@@ -859,12 +859,12 @@ public class MenuBar implements Renderable, GuiEventListener, NarratableEntry, N
                 UIBase.resetShaderColor(graphics);
                 DrawableColor iconColor = (this.iconTextureColor != null) ? this.iconTextureColor.get() : null;
                 if (iconColor != null) UIBase.setShaderColor(graphics, iconColor);
-                Identifier loc = materialIconLocation;
+                ResourceLocation loc = materialIconLocation;
                 if (loc == null) {
                     if (isMaterialIcon) {
                         loc = ITexture.MISSING_TEXTURE_LOCATION;
                     } else {
-                        Identifier fallback = iconTexture.getResourceLocation();
+                        ResourceLocation fallback = iconTexture.getResourceLocation();
                         loc = (fallback != null) ? fallback : ITexture.MISSING_TEXTURE_LOCATION;
                     }
                 }

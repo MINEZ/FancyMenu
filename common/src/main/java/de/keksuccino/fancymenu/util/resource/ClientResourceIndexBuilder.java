@@ -1,7 +1,7 @@
 package de.keksuccino.fancymenu.util.resource;
 
 import com.mojang.logging.LogUtils;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceFilterSection;
@@ -24,8 +24,8 @@ final class ClientResourceIndexBuilder {
     private ClientResourceIndexBuilder() {}
 
     @NotNull
-    static Set<Identifier> build(@NotNull ResourceManager resourceManager) {
-        LinkedHashSet<Identifier> locations = new LinkedHashSet<>();
+    static Set<ResourceLocation> build(@NotNull ResourceManager resourceManager) {
+        LinkedHashSet<ResourceLocation> locations = new LinkedHashSet<>();
         List<PackResources> packs;
         try (Stream<PackResources> packStream = resourceManager.listPacks()) {
             packs = packStream.toList();
@@ -42,7 +42,7 @@ final class ClientResourceIndexBuilder {
         return Collections.unmodifiableSet(new LinkedHashSet<>(locations));
     }
 
-    private static void applyFilter(@NotNull PackResources pack, @NotNull Set<Identifier> locations) {
+    private static void applyFilter(@NotNull PackResources pack, @NotNull Set<ResourceLocation> locations) {
         ResourceFilterSection filter;
         try {
             filter = pack.getMetadataSection(ResourceFilterSection.TYPE);
@@ -60,7 +60,7 @@ final class ClientResourceIndexBuilder {
         }
     }
 
-    private static void collectPackLocations(@NotNull PackResources pack, @NotNull Set<Identifier> locations) {
+    private static void collectPackLocations(@NotNull PackResources pack, @NotNull Set<ResourceLocation> locations) {
         Set<String> packNamespaces;
         try {
             packNamespaces = pack.getNamespaces(PackType.CLIENT_RESOURCES);
@@ -79,7 +79,7 @@ final class ClientResourceIndexBuilder {
         }
 
         for (String namespace : namespaces) {
-            if (namespace == null || !Identifier.isValidNamespace(namespace)) {
+            if (namespace == null || !ResourceLocation.isValidNamespace(namespace)) {
                 LOGGER.warn("[FANCYMENU] Ignoring invalid client resource namespace '{}' reported by pack '{}'.", namespace, getPackName(pack));
                 continue;
             }
@@ -91,7 +91,7 @@ final class ClientResourceIndexBuilder {
         }
     }
 
-    private static void collectLocation(@NotNull PackResources pack, @NotNull String requestedNamespace, @Nullable Identifier location, @NotNull Set<Identifier> locations) {
+    private static void collectLocation(@NotNull PackResources pack, @NotNull String requestedNamespace, @Nullable ResourceLocation location, @NotNull Set<ResourceLocation> locations) {
         if (location == null) {
             LOGGER.warn("[FANCYMENU] Ignoring a null client resource reported by pack '{}' for namespace '{}'.", getPackName(pack), requestedNamespace);
             return;

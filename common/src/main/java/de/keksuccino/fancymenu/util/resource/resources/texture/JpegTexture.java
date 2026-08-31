@@ -9,7 +9,7 @@ import de.keksuccino.fancymenu.util.rendering.NativeImageUtil;
 import de.keksuccino.fancymenu.util.threading.MainThreadTaskExecutor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,7 +31,7 @@ public class JpegTexture implements ITexture {
     protected volatile int height = 10;
     protected volatile AspectRatio aspectRatio = new AspectRatio(10, 10);
     protected volatile boolean decoded = false;
-    protected Identifier sourceLocation;
+    protected ResourceLocation sourceLocation;
     protected File sourceFile;
     protected String sourceURL;
     protected volatile boolean loadingCompleted = false;
@@ -42,7 +42,7 @@ public class JpegTexture implements ITexture {
      * Supports JPEG and PNG textures.
      */
     @NotNull
-    public static JpegTexture location(@NotNull Identifier location) {
+    public static JpegTexture location(@NotNull ResourceLocation location) {
         return location(location, null);
     }
 
@@ -50,7 +50,7 @@ public class JpegTexture implements ITexture {
      * Supports JPEG and PNG textures.
      */
     @NotNull
-    public static JpegTexture location(@NotNull Identifier location, @Nullable JpegTexture writeTo) {
+    public static JpegTexture location(@NotNull ResourceLocation location, @Nullable JpegTexture writeTo) {
 
         Objects.requireNonNull(location);
         JpegTexture texture = (writeTo != null) ? writeTo : new JpegTexture();
@@ -244,11 +244,11 @@ public class JpegTexture implements ITexture {
     }
 
     @Nullable
-    public Identifier getResourceLocation() {
+    public ResourceLocation getResourceLocation() {
         if (this.closed) return FULLY_TRANSPARENT_TEXTURE;
         if (this.textureEntry.canRegister()) {
             try {
-                this.textureEntry.register(Identifier.fromNamespaceAndPath("fancymenu", "dynamic/simple_jpeg_texture_" + System.nanoTime()));
+                this.textureEntry.register(ResourceLocation.fromNamespaceAndPath("fancymenu", "dynamic/simple_jpeg_texture_" + System.nanoTime()));
             } catch (Exception ex) {
                 LOGGER.error("[FANCYMENU] Failed to get Identifier of JpegTexture!", ex);
             }

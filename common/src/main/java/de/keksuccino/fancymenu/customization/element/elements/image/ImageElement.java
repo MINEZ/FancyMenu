@@ -12,7 +12,7 @@ import de.keksuccino.fancymenu.util.resource.PlayableResource;
 import de.keksuccino.fancymenu.util.resource.ResourceSupplier;
 import de.keksuccino.fancymenu.util.resource.resources.texture.ITexture;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
@@ -91,7 +91,7 @@ public class ImageElement extends AbstractElement {
 
             ITexture t = this.getTextureResource();
             if ((t != null) && t.isReady()) {
-                Identifier loc = t.getResourceLocation();
+                ResourceLocation loc = t.getResourceLocation();
                 if (loc != null) {
                     if (this.repeat.getBoolean()) {
                         this.currentImageTint.setAsShaderColor(graphics, Math.clamp(this.opacity, 0.0F, 1.0F));

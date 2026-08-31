@@ -6,7 +6,7 @@ import de.keksuccino.fancymenu.platform.Services;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.Slot;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,7 +24,7 @@ public class HoveredInventoryItemPlaceholder extends AbstractWorldPlaceholder {
         Slot hoveredSlot = ((IMixinAbstractContainerScreen) containerScreen).get_hoveredSlot_FancyMenu();
         if (hoveredSlot == null || !hoveredSlot.hasItem()) return "";
 
-        Identifier itemKey = Services.PLATFORM.getItemKey(hoveredSlot.getItem().getItem());
+        ResourceLocation itemKey = Services.PLATFORM.getItemKey(hoveredSlot.getItem().getItem());
         return itemKey != null ? itemKey.toString() : "";
     }
 

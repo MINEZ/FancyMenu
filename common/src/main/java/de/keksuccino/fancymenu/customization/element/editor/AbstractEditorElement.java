@@ -35,7 +35,7 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.ApiStatus;
@@ -51,8 +51,8 @@ public abstract class AbstractEditorElement<E extends AbstractEditorElement<?, ?
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    protected static final Identifier DRAGGING_NOT_ALLOWED_TEXTURE = Identifier.fromNamespaceAndPath("fancymenu", "textures/not_allowed.png");
-    protected static final Identifier DEPRECATED_WARNING_TEXTURE = Identifier.fromNamespaceAndPath("fancymenu", "textures/warning_20x20.png");
+    protected static final ResourceLocation DRAGGING_NOT_ALLOWED_TEXTURE = ResourceLocation.fromNamespaceAndPath("fancymenu", "textures/not_allowed.png");
+    protected static final ResourceLocation DEPRECATED_WARNING_TEXTURE = ResourceLocation.fromNamespaceAndPath("fancymenu", "textures/warning_20x20.png");
     protected static final ConsumingSupplier<AbstractEditorElement<?, ?>, Integer> BORDER_COLOR = (editorElement) -> {
         if (editorElement.isSelected()) {
             return UIBase.getUITheme().layout_editor_element_border_color_selected.getColorInt();

@@ -14,7 +14,7 @@ import de.keksuccino.fancymenu.util.watermedia.WatermediaReflectionBridge;
 import de.keksuccino.fancymenu.util.watermedia.WatermediaUtil;
 import de.keksuccino.melody.resources.audio.openal.ALUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -45,7 +45,7 @@ public class Mp4Video implements IVideo {
     @Nullable
     protected volatile Object mediaPlayer;
     @Nullable
-    protected Identifier sourceLocation;
+    protected ResourceLocation sourceLocation;
     @Nullable
     protected File sourceFile;
     @Nullable
@@ -60,7 +60,7 @@ public class Mp4Video implements IVideo {
     @NotNull
     protected volatile String sourceName = "[Unknown Source]";
     protected final String uniqueId = ScreenCustomization.generateUniqueIdentifier();
-    protected final Identifier frameLocation = Identifier.fromNamespaceAndPath("fancymenu", "watermedia_video_frame_" + this.uniqueId.toLowerCase().replace("-", ""));
+    protected final ResourceLocation frameLocation = ResourceLocation.fromNamespaceAndPath("fancymenu", "watermedia_video_frame_" + this.uniqueId.toLowerCase().replace("-", ""));
     @Nullable
     protected volatile WatermediaFrameTexture frameTexture;
     protected volatile boolean ready = false;
@@ -84,12 +84,12 @@ public class Mp4Video implements IVideo {
     protected final Object playerInitLock = new Object();
 
     @NotNull
-    public static Mp4Video location(@NotNull Identifier location) {
+    public static Mp4Video location(@NotNull ResourceLocation location) {
         return location(location, null);
     }
 
     @NotNull
-    public static Mp4Video location(@NotNull Identifier location, @Nullable Mp4Video writeTo) {
+    public static Mp4Video location(@NotNull ResourceLocation location, @Nullable Mp4Video writeTo) {
 
         Objects.requireNonNull(location);
         Mp4Video video = (writeTo != null) ? writeTo : new Mp4Video();
@@ -222,7 +222,7 @@ public class Mp4Video implements IVideo {
             }
             return cachedSourceFile.getAbsolutePath();
         }
-        Identifier cachedSourceLocation = this.sourceLocation;
+        ResourceLocation cachedSourceLocation = this.sourceLocation;
         if (cachedSourceLocation != null) {
             try {
                 InputStream in = Minecraft.getInstance().getResourceManager().open(cachedSourceLocation);
@@ -377,7 +377,7 @@ public class Mp4Video implements IVideo {
 
     @Nullable
     @Override
-    public Identifier getResourceLocation() {
+    public ResourceLocation getResourceLocation() {
         if (this.closed) return FULLY_TRANSPARENT_TEXTURE;
         if (this.dependencyMissing || this.loadingFailed) return MISSING_TEXTURE_LOCATION;
         if (!this.playRequested || !this.loadingCompleted) return FULLY_TRANSPARENT_TEXTURE;

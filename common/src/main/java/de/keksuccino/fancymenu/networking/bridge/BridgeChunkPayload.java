@@ -5,7 +5,7 @@ import net.minecraft.network.Connection;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -19,7 +19,7 @@ import java.util.UUID;
  */
 public final class BridgeChunkPayload implements CustomPacketPayload {
 
-    public static final Type<BridgeChunkPayload> TYPE = new Type<>(Identifier.fromNamespaceAndPath("fancymenu", "fancymenu_bridge_chunk"));
+    public static final Type<BridgeChunkPayload> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath("fancymenu", "fancymenu_bridge_chunk"));
     public static final StreamCodec<FriendlyByteBuf, BridgeChunkPayload> CODEC = CustomPacketPayload.codec(BridgeChunkPayload::write, BridgeChunkPayload::decode);
     static final int HEADER_BYTES = 33;
     static final int MAX_CHUNK_COUNT = (BridgeProtocol.MAX_LOGICAL_MESSAGE_BYTES + BridgeProtocol.MAX_CHUNK_DATA_BYTES - 1) / BridgeProtocol.MAX_CHUNK_DATA_BYTES;

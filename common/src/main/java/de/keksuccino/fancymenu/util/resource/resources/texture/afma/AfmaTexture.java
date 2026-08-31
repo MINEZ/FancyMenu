@@ -14,7 +14,7 @@ import de.keksuccino.fancymenu.util.resource.resources.texture.ITexture;
 import de.keksuccino.fancymenu.util.threading.MainThreadTaskExecutor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -42,7 +42,7 @@ public class AfmaTexture implements ITexture, PlayableResource {
     @NotNull
     protected volatile AspectRatio aspectRatio = new AspectRatio(10, 10);
 
-    protected volatile Identifier sourceLocation;
+    protected volatile ResourceLocation sourceLocation;
     protected volatile File sourceFile;
     protected volatile String sourceURL;
 
@@ -76,7 +76,7 @@ public class AfmaTexture implements ITexture, PlayableResource {
     @Nullable
     protected volatile DynamicTexture streamingTexture = null;
     @Nullable
-    protected volatile Identifier streamingResourceLocation = null;
+    protected volatile ResourceLocation streamingResourceLocation = null;
     @NotNull
     protected final AnimatedTextureResetFrame resetFrame = new AnimatedTextureResetFrame();
 
@@ -105,12 +105,12 @@ public class AfmaTexture implements ITexture, PlayableResource {
     protected volatile int decodeIndex = 0;
 
     @NotNull
-    public static AfmaTexture location(@NotNull Identifier location) {
+    public static AfmaTexture location(@NotNull ResourceLocation location) {
         return location(location, null);
     }
 
     @NotNull
-    public static AfmaTexture location(@NotNull Identifier location, @Nullable AfmaTexture writeTo) {
+    public static AfmaTexture location(@NotNull ResourceLocation location, @Nullable AfmaTexture writeTo) {
         Objects.requireNonNull(location);
         AfmaTexture texture = (writeTo != null) ? writeTo : new AfmaTexture();
         texture.sourceLocation = location;
@@ -690,7 +690,7 @@ public class AfmaTexture implements ITexture, PlayableResource {
             this.streamingResourceLocation = null;
         }
 
-        this.streamingResourceLocation = Identifier.fromNamespaceAndPath("fancymenu", "dynamic/afma_stream_" + this.uniqueId);
+        this.streamingResourceLocation = ResourceLocation.fromNamespaceAndPath("fancymenu", "dynamic/afma_stream_" + this.uniqueId);
         this.streamingTexture = new DynamicTexture(this.streamingResourceLocation::toString, new NativeImage(this.width, this.height, true));
         Minecraft.getInstance().getTextureManager().register(this.streamingResourceLocation, this.streamingTexture);
         return this.streamingTexture;
@@ -1080,7 +1080,7 @@ public class AfmaTexture implements ITexture, PlayableResource {
 
     @Nullable
     @Override
-    public Identifier getResourceLocation() {
+    public ResourceLocation getResourceLocation() {
         if (this.closed.get()) return FULLY_TRANSPARENT_TEXTURE;
 
         this.lastResourceLocationCall = System.currentTimeMillis();
@@ -1340,7 +1340,7 @@ public class AfmaTexture implements ITexture, PlayableResource {
 
     protected void scheduleStreamingTextureRelease() {
         DynamicTexture activeTexture = this.streamingTexture;
-        Identifier activeLocation = this.streamingResourceLocation;
+        ResourceLocation activeLocation = this.streamingResourceLocation;
         this.streamingTexture = null;
         this.streamingResourceLocation = null;
         if ((activeTexture == null) && (activeLocation == null)) {
@@ -1353,13 +1353,13 @@ public class AfmaTexture implements ITexture, PlayableResource {
 
     protected void releaseStreamingTextureNow() {
         DynamicTexture activeTexture = this.streamingTexture;
-        Identifier activeLocation = this.streamingResourceLocation;
+        ResourceLocation activeLocation = this.streamingResourceLocation;
         this.streamingTexture = null;
         this.streamingResourceLocation = null;
         this.releaseStreamingTexture(activeLocation, activeTexture);
     }
 
-    protected void releaseStreamingTexture(@Nullable Identifier resourceLocation, @Nullable DynamicTexture texture) {
+    protected void releaseStreamingTexture(@Nullable ResourceLocation resourceLocation, @Nullable DynamicTexture texture) {
         if (resourceLocation != null) {
             Minecraft.getInstance().getTextureManager().release(resourceLocation);
         }

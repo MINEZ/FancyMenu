@@ -44,7 +44,7 @@ import net.minecraft.client.resources.model.SpriteGetter;
 import net.minecraft.client.resources.model.UnbakedGeometry;
 import net.minecraft.client.resources.model.UnbakedModel;
 import net.minecraft.data.AtlasIds;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceMetadata;
 import net.minecraft.world.item.ItemDisplayContext;
 import org.apache.logging.log4j.LogManager;
@@ -68,7 +68,7 @@ public class JsonModelElement extends AbstractElement {
 
     private static final Logger LOGGER = LogManager.getLogger();
     private static final ItemModelGenerator ITEM_MODEL_GENERATOR = new ItemModelGenerator();
-    private static final ModelParentChainResolver<Identifier, UnbakedModel> PARENT_CHAIN_RESOLVER = new ModelParentChainResolver<>();
+    private static final ModelParentChainResolver<ResourceLocation, UnbakedModel> PARENT_CHAIN_RESOLVER = new ModelParentChainResolver<>();
 
     public final Property<ResourceSupplier<IText>> modelSource = putProperty(Property.resourceSupplierProperty( IText.class, "model_source", null, "fancymenu.elements.json_model.model_source", true, true, true, file -> FileTypes.JSON_TEXT.isFileTypeLocal(file) ));
     public final Property<ResourceSupplier<ITexture>> textureSource = putProperty(Property.resourceSupplierProperty( ITexture.class, "texture_source", null, "fancymenu.elements.json_model.texture_source", true, true, true, FileFilter.IMAGE_FILE_FILTER ));
@@ -108,7 +108,7 @@ public class JsonModelElement extends AbstractElement {
     @Nullable
     private ITexture lastTextureResource = null;
     @Nullable
-    private Identifier lastOverrideTextureLocation = null;
+    private ResourceLocation lastOverrideTextureLocation = null;
     private int lastOverrideTextureWidth = 0;
     private int lastOverrideTextureHeight = 0;
     private boolean lastOverrideTextureReady = false;
@@ -117,7 +117,7 @@ public class JsonModelElement extends AbstractElement {
     private boolean lastUseTextureOverride = false;
     private long lastParentResourceGeneration = JsonModelResourceReloadGeneration.current();
     private long modelInputRevision = 0L;
-    private final Map<Identifier, BlockModel> parentModelCache = new ConcurrentHashMap<>();
+    private final Map<ResourceLocation, BlockModel> parentModelCache = new ConcurrentHashMap<>();
     private final ModelBuildAttemptTracker modelBuildAttempts = new ModelBuildAttemptTracker();
     private final ModelCacheLifecycle<JsonModelCache> modelCache = new ModelCacheLifecycle<>();
 
@@ -294,7 +294,7 @@ public class JsonModelElement extends AbstractElement {
         ResourceSupplier<ITexture> textureSupplier = null;
         String textureKey = null;
         ITexture textureResource = null;
-        Identifier overrideTextureLocation = null;
+        ResourceLocation overrideTextureLocation = null;
         int overrideTextureWidth = 0;
         int overrideTextureHeight = 0;
         boolean overrideTextureReady = false;
@@ -389,7 +389,7 @@ public class JsonModelElement extends AbstractElement {
         try (ModelBuildResourceScope resources = new ModelBuildResourceScope()) {
             String json = attempt.modelJson();
             BlockModel model = BlockModel.fromStream(new StringReader(json));
-            ModelParentChainResolver.Resolution<Identifier, UnbakedModel> resolution = this.collectModelChain(model);
+            ModelParentChainResolver.Resolution<ResourceLocation, UnbakedModel> resolution = this.collectModelChain(model);
             if (!resolution.isUsable()) {
                 this.logParentChainFailure(resolution, modelSource);
                 return;
@@ -403,7 +403,7 @@ public class JsonModelElement extends AbstractElement {
             }
 
             BakedJsonModel bakedModel = this.bakeBlockModel(resolution.chain(), overrideTexture, modelSource);
-            Identifier renderTexture = overrideTexture != null ? overrideTexture.renderLocation() : TextureAtlas.LOCATION_BLOCKS;
+            ResourceLocation renderTexture = overrideTexture != null ? overrideTexture.renderLocation() : TextureAtlas.LOCATION_BLOCKS;
             JsonModelCache candidate = new JsonModelCache(bakedModel, renderTexture, overrideSprite);
             if (overrideSprite != null) resources.replaceOwnership(overrideSprite, candidate);
             else resources.own(candidate);
@@ -415,13 +415,13 @@ public class JsonModelElement extends AbstractElement {
     }
 
     @Nullable
-    private BlockModel resolveParentModel(@NotNull Identifier location) {
+    private BlockModel resolveParentModel(@NotNull ResourceLocation location) {
         if (this.parentModelCache.containsKey(location)) {
             return this.parentModelCache.get(location);
         }
 
         try {
-            Identifier fileLocation = location.withPath(path -> "models/" + path + ".json");
+            ResourceLocation fileLocation = location.withPath(path -> "models/" + path + ".json");
             BlockModel model;
             try (var stream = Minecraft.getInstance().getResourceManager().open(fileLocation);
                  var reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {
@@ -454,32 +454,32 @@ public class JsonModelElement extends AbstractElement {
     }
 
     @NotNull
-    private ModelParentChainResolver.Resolution<Identifier, UnbakedModel> collectModelChain(@NotNull BlockModel model) {
+    private ModelParentChainResolver.Resolution<ResourceLocation, UnbakedModel> collectModelChain(@NotNull BlockModel model) {
         return PARENT_CHAIN_RESOLVER.resolve(model, UnbakedModel::parent, this::resolveParentForChain, parent -> parent.getPath().startsWith("builtin/"));
     }
 
     @Nullable
-    private UnbakedModel resolveParentForChain(@NotNull Identifier location) {
+    private UnbakedModel resolveParentForChain(@NotNull ResourceLocation location) {
         if (ItemModelGenerator.GENERATED_ITEM_MODEL_ID.equals(location)) return ITEM_MODEL_GENERATOR;
         return this.resolveParentModel(location);
     }
 
-    private void logParentChainFailure(@NotNull ModelParentChainResolver.Resolution<Identifier, UnbakedModel> resolution, @Nullable String modelSource) {
+    private void logParentChainFailure(@NotNull ModelParentChainResolver.Resolution<ResourceLocation, UnbakedModel> resolution, @Nullable String modelSource) {
         String source = modelSource != null ? modelSource : "fancymenu_json_model";
         if (resolution.status() == ModelParentChainResolver.Status.CYCLE) {
             LOGGER.error("[FANCYMENU] JSON model '{}' has a cyclic parent chain: {}", source, formatIdentifierPath(resolution.diagnosticPath()));
             return;
         }
         if (resolution.status() == ModelParentChainResolver.Status.DEPTH_LIMIT) {
-            List<Identifier> resolvedPath = resolution.diagnosticPath();
+            List<ResourceLocation> resolvedPath = resolution.diagnosticPath();
             LOGGER.error("[FANCYMENU] JSON model '{}' exceeds the maximum parent depth of {}. Resolved path: {}. Refusing to resolve next parent: {}", source, ModelParentChainResolver.DEFAULT_MAX_PARENT_DEPTH, formatIdentifierPath(resolvedPath), resolution.nextParent());
         }
     }
 
     @NotNull
-    private static String formatIdentifierPath(@NotNull List<Identifier> path) {
+    private static String formatIdentifierPath(@NotNull List<ResourceLocation> path) {
         StringBuilder builder = new StringBuilder();
-        for (Identifier identifier : path) {
+        for (ResourceLocation identifier : path) {
             if (!builder.isEmpty()) builder.append(" -> ");
             builder.append(identifier);
         }
@@ -551,7 +551,7 @@ public class JsonModelElement extends AbstractElement {
             private final PartCache partCache = vector3fc -> new Vector3f(vector3fc);
 
             @Override
-            public net.minecraft.client.resources.model.ResolvedModel getModel(Identifier identifier) {
+            public net.minecraft.client.resources.model.ResolvedModel getModel(ResourceLocation identifier) {
                 throw new UnsupportedOperationException("JSON model element bakes resolved parents before geometry");
             }
 
@@ -580,21 +580,21 @@ public class JsonModelElement extends AbstractElement {
     private record BakedJsonModel(@NotNull QuadCollection quads, @NotNull ItemTransforms transforms) {
     }
 
-    private record TextureData(@NotNull Identifier renderLocation, @NotNull ModelTextureSprite sprite) {
+    private record TextureData(@NotNull ResourceLocation renderLocation, @NotNull ModelTextureSprite sprite) {
     }
 
-    private record OverrideTextureInput(@NotNull Identifier location, int width, int height) {
+    private record OverrideTextureInput(@NotNull ResourceLocation location, int width, int height) {
     }
 
     private static final class JsonModelCache implements AutoCloseable {
 
         private final BakedJsonModel model;
-        private volatile Identifier renderTexture;
+        private volatile ResourceLocation renderTexture;
         @Nullable
         private final ModelTextureSprite overrideSprite;
         private final AtomicBoolean closed = new AtomicBoolean();
 
-        private JsonModelCache(@NotNull BakedJsonModel model, @NotNull Identifier renderTexture, @Nullable ModelTextureSprite overrideSprite) {
+        private JsonModelCache(@NotNull BakedJsonModel model, @NotNull ResourceLocation renderTexture, @Nullable ModelTextureSprite overrideSprite) {
             this.model = Objects.requireNonNull(model);
             this.renderTexture = Objects.requireNonNull(renderTexture);
             this.overrideSprite = overrideSprite;
@@ -606,11 +606,11 @@ public class JsonModelElement extends AbstractElement {
         }
 
         @NotNull
-        private Identifier renderTexture() {
+        private ResourceLocation renderTexture() {
             return this.renderTexture;
         }
 
-        private void updateRenderTexture(@NotNull Identifier renderTexture) {
+        private void updateRenderTexture(@NotNull ResourceLocation renderTexture) {
             this.renderTexture = Objects.requireNonNull(renderTexture);
         }
 
@@ -625,12 +625,12 @@ public class JsonModelElement extends AbstractElement {
 
         private final AtomicBoolean closed = new AtomicBoolean();
 
-        private ModelTextureSprite(@NotNull Identifier textureLocation, @NotNull SpriteContents contents, int width, int height) {
+        private ModelTextureSprite(@NotNull ResourceLocation textureLocation, @NotNull SpriteContents contents, int width, int height) {
             super(textureLocation, contents, width, height, 0, 0, 0);
         }
 
         @NotNull
-        private static ModelTextureSprite create(@NotNull Identifier textureLocation, int width, int height) {
+        private static ModelTextureSprite create(@NotNull ResourceLocation textureLocation, int width, int height) {
             try (ModelBuildResourceScope resources = new ModelBuildResourceScope()) {
                 NativeImage image = resources.own(new NativeImage(width, height, true));
                 SpriteContents contents = new SpriteContents(textureLocation, new FrameSize(width, height), image);

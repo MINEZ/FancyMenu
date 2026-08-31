@@ -3,7 +3,7 @@ package de.keksuccino.fancymenu.platform.services;
 import com.mojang.blaze3d.platform.InputConstants;
 import de.keksuccino.fancymenu.util.mod.UniversalModContainer;
 import net.minecraft.client.KeyMapping;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
@@ -53,13 +53,13 @@ public interface IPlatformHelper {
     InputConstants.Key getKeyMappingKey(KeyMapping keyMapping);
 
     @Nullable
-    Identifier getItemKey(@NotNull Item item);
+    ResourceLocation getItemKey(@NotNull Item item);
 
     @Nullable
-    Identifier getEffectKey(@NotNull MobEffect effect);
+    ResourceLocation getEffectKey(@NotNull MobEffect effect);
 
     @Nullable
-    Identifier getEntityKey(@NotNull EntityType<?> type);
+    ResourceLocation getEntityKey(@NotNull EntityType<?> type);
 
     @NotNull
     List<UniversalModContainer> getLoadedMods();
@@ -68,7 +68,7 @@ public interface IPlatformHelper {
      * Returns all loaded client-side {@link Identifier}s from resource packs.
      */
     @NotNull
-    Set<Identifier> getLoadedClientResourceLocations();
+    Set<ResourceLocation> getLoadedClientResourceLocations();
 
     @Nullable
     default UniversalModContainer getLoadedMod(@NotNull String id) {

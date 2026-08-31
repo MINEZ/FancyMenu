@@ -19,7 +19,7 @@ import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.AbstractContainerEventHandler;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -40,10 +40,10 @@ public class Buddy extends AbstractContainerEventHandler implements Renderable, 
     public static final Logger LOGGER = LogManager.getLogger();
 
     // Resource locations for textures
-    public static final Identifier TEXTURE_ICON_WANTS_BEING_PET = Identifier.fromNamespaceAndPath("fancymenu", "textures/buddy/heart.png");
-    public static final Identifier TEXTURE_ICON_WANTS_TO_PLAY = Identifier.fromNamespaceAndPath("fancymenu", "textures/buddy/play.png");
-    public static final Identifier TEXTURE_THOUGHT_BUBBLE = Identifier.fromNamespaceAndPath("fancymenu", "textures/buddy/thought.png");
-    public static final Identifier TEXTURE_GRAVESTONE = Identifier.fromNamespaceAndPath("fancymenu", "textures/buddy/gravestone.png");
+    public static final ResourceLocation TEXTURE_ICON_WANTS_BEING_PET = ResourceLocation.fromNamespaceAndPath("fancymenu", "textures/buddy/heart.png");
+    public static final ResourceLocation TEXTURE_ICON_WANTS_TO_PLAY = ResourceLocation.fromNamespaceAndPath("fancymenu", "textures/buddy/play.png");
+    public static final ResourceLocation TEXTURE_THOUGHT_BUBBLE = ResourceLocation.fromNamespaceAndPath("fancymenu", "textures/buddy/thought.png");
+    public static final ResourceLocation TEXTURE_GRAVESTONE = ResourceLocation.fromNamespaceAndPath("fancymenu", "textures/buddy/gravestone.png");
 
     // Default stat tuning
     public static final float DEFAULT_HUNGER_DECAY_PER_TICK = 0.005f;
@@ -272,7 +272,7 @@ public class Buddy extends AbstractContainerEventHandler implements Renderable, 
 
         // Handle death rendering separately
         if (isDead) {
-            Identifier gravestone = this.textures.getGravestoneTexture();
+            ResourceLocation gravestone = this.textures.getGravestoneTexture();
             graphics.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, 
                     gravestone,
                     buddyPosX, buddyPosY,
@@ -286,7 +286,7 @@ public class Buddy extends AbstractContainerEventHandler implements Renderable, 
         // Calculate texture coordinates
         int texX = currentFrame * SPRITE_WIDTH;
         int texY = currentState.getAtlasIndex() * SPRITE_HEIGHT;
-        Identifier atlasTexture = getAtlasTextureLocation();
+        ResourceLocation atlasTexture = getAtlasTextureLocation();
 
         // Render the play ball if it exists (non-dragged balls render before buddy)
         if (playBall != null && !playBall.isBeingDragged()) {
@@ -369,7 +369,7 @@ public class Buddy extends AbstractContainerEventHandler implements Renderable, 
     }
 
     @NotNull
-    private Identifier getAtlasTextureLocation() {
+    private ResourceLocation getAtlasTextureLocation() {
         return this.textures.getAtlasTexture();
     }
 
@@ -495,7 +495,7 @@ public class Buddy extends AbstractContainerEventHandler implements Renderable, 
         int iconX = bubbleX + (bubbleSize - iconSize) / 2;
         int iconY = bubbleY + 4; // Position icon in upper portion of bubble (was centered)
 
-        Identifier icon = null;
+        ResourceLocation icon = null;
 
         if (needsFood) {
             icon = this.textures.getFoodTexture();

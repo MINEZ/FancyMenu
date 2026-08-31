@@ -9,7 +9,7 @@ import de.keksuccino.fancymenu.util.rinku.RinkuExecutors;
 import de.keksuccino.fancymenu.util.rinku.RinkuUtil;
 import de.keksuccino.fancymenu.util.rinku.WrappedRinkuBrowser;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -972,7 +972,7 @@ public class RinkuVideoPlayer {
         String lower = trimmed.toLowerCase(Locale.ROOT);
         if (lower.startsWith("https://") || lower.startsWith("http://")) return "WEB";
         if (lower.startsWith("file:/")) return "LOCAL";
-        if (Identifier.tryParse(trimmed) != null) return "RESOURCE_LOCATION";
+        if (ResourceLocation.tryParse(trimmed) != null) return "RESOURCE_LOCATION";
         return "LOCAL";
     }
 

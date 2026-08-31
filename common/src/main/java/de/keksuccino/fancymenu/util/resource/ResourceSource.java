@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Objects;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * A {@link ResourceSource}, as the name says, is the source of a {@link Resource},
@@ -113,7 +113,7 @@ public class ResourceSource {
         String sourcePayload = ResourceSourceType.getWithoutSourcePrefix(trimmedSource);
         if (sourcePayload.isBlank()) return false;
         if (ResourceSourceType.getSourceTypeOf(trimmedSource) == ResourceSourceType.LOCATION) {
-            Identifier location = Identifier.tryParse(sourcePayload);
+            ResourceLocation location = ResourceLocation.tryParse(sourcePayload);
             if ((location != null) && location.getPath().isEmpty()) return false;
         }
         return true;

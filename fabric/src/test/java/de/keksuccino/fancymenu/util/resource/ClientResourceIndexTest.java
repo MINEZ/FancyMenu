@@ -2,7 +2,7 @@ package de.keksuccino.fancymenu.util.resource;
 
 import de.keksuccino.fancymenu.util.MinecraftResourceReloadObserver;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.CompositePackResources;
 import net.minecraft.server.packs.PackLocationInfo;
 import net.minecraft.server.packs.PackResources;
@@ -49,7 +49,7 @@ class ClientResourceIndexTest {
         pack.add("alpha:textures/gui/button.png.mcmeta");
         pack.add("beta:sounds/click.ogg");
 
-        Set<Identifier> locations = ClientResourceIndexBuilder.build(new FakeResourceManager(pack));
+        Set<ResourceLocation> locations = ClientResourceIndexBuilder.build(new FakeResourceManager(pack));
 
         assertEquals(Set.of(id("alpha:root.txt"), id("alpha:textures/gui/button.png"), id("beta:sounds/click.ogg")), locations);
         assertEquals(List.of("alpha", "beta"), pack.enumeratedNamespaces);
@@ -71,7 +71,7 @@ class ClientResourceIndexTest {
         high.add("alpha:added.png");
         high.add("alpha:kept.png");
 
-        Set<Identifier> locations = ClientResourceIndexBuilder.build(new FakeResourceManager(low, high));
+        Set<ResourceLocation> locations = ClientResourceIndexBuilder.build(new FakeResourceManager(low, high));
 
         assertEquals(Set.of(id("alpha:blocked/replaced.png"), id("alpha:kept.png"), id("alpha:added.png"), id("beta:blocked/still_present.png")), locations);
         assertFalse(locations.contains(id("alpha:blocked/removed.png")));
@@ -85,7 +85,7 @@ class ClientResourceIndexTest {
         FakePackResources filterOnly = new FakePackResources("filter-only", new AtomicInteger());
         filterOnly.filter = filter("alpha", "blocked/");
 
-        Set<Identifier> locations = ClientResourceIndexBuilder.build(new FakeResourceManager(low, filterOnly));
+        Set<ResourceLocation> locations = ClientResourceIndexBuilder.build(new FakeResourceManager(low, filterOnly));
 
         assertEquals(Set.of(id("alpha:kept.png")), locations);
         assertEquals(0, filterOnly.listCalls.get());
@@ -105,7 +105,7 @@ class ClientResourceIndexTest {
         secondOverlay.add("overlay:two.txt");
         CompositePackResources composite = new CompositePackResources(primary, List.of(firstOverlay, secondOverlay));
 
-        Set<Identifier> locations = ClientResourceIndexBuilder.build(new FakeResourceManager(composite));
+        Set<ResourceLocation> locations = ClientResourceIndexBuilder.build(new FakeResourceManager(composite));
 
         assertEquals(Set.of(id("base:shared.txt"), id("base:primary_only.txt"), id("overlay:one.txt"), id("overlay:two.txt")), locations);
         assertEquals(0, openedStreams.get());
@@ -134,7 +134,7 @@ class ClientResourceIndexTest {
             }
         };
 
-        Set<Identifier> locations = ClientResourceIndexBuilder.build(new FakeResourceManager(healthy, malformed));
+        Set<ResourceLocation> locations = ClientResourceIndexBuilder.build(new FakeResourceManager(healthy, malformed));
 
         assertEquals(Set.of(id("alpha:healthy.txt"), id("alpha:partial.txt")), locations);
         assertEquals(0, openedStreams.get());
@@ -149,15 +149,15 @@ class ClientResourceIndexTest {
         int callerCount = 24;
         ExecutorService executor = Executors.newFixedThreadPool(8);
         CountDownLatch start = new CountDownLatch(1);
-        List<Future<Set<Identifier>>> results = new ArrayList<>();
+        List<Future<Set<ResourceLocation>>> results = new ArrayList<>();
         try {
             for (int i = 0; i < callerCount; i++) results.add(executor.submit(() -> {
                 assertTrue(start.await(5, TimeUnit.SECONDS));
                 return index.getForManager(manager);
             }));
             start.countDown();
-            Set<Identifier> expected = results.getFirst().get(5, TimeUnit.SECONDS);
-            for (Future<Set<Identifier>> result : results) assertSame(expected, result.get(5, TimeUnit.SECONDS));
+            Set<ResourceLocation> expected = results.getFirst().get(5, TimeUnit.SECONDS);
+            for (Future<Set<ResourceLocation>> result : results) assertSame(expected, result.get(5, TimeUnit.SECONDS));
         } finally {
             executor.shutdownNow();
             assertTrue(executor.awaitTermination(5, TimeUnit.SECONDS));
@@ -210,8 +210,8 @@ class ClientResourceIndexTest {
         };
     }
 
-    private static Identifier id(String value) {
-        return Identifier.parse(value);
+    private static ResourceLocation id(String value) {
+        return ResourceLocation.parse(value);
     }
 
     private static IoSupplier<InputStream> unopenedSupplier(AtomicInteger openedStreams) {
@@ -225,7 +225,7 @@ class ClientResourceIndexTest {
 
         private final PackLocationInfo location;
         private final AtomicInteger openedStreams;
-        private final Map<Identifier, IoSupplier<InputStream>> resources = new LinkedHashMap<>();
+        private final Map<ResourceLocation, IoSupplier<InputStream>> resources = new LinkedHashMap<>();
         private final List<String> enumeratedNamespaces = new ArrayList<>();
         private final List<String> enumeratedDirectories = new ArrayList<>();
         private final AtomicInteger listCalls = new AtomicInteger();
@@ -247,7 +247,7 @@ class ClientResourceIndexTest {
         }
 
         @Override
-        public IoSupplier<InputStream> getResource(PackType type, Identifier location) {
+        public IoSupplier<InputStream> getResource(PackType type, ResourceLocation location) {
             return type == PackType.CLIENT_RESOURCES ? this.resources.get(location) : null;
         }
 
@@ -307,22 +307,22 @@ class ClientResourceIndexTest {
         }
 
         @Override
-        public Optional<Resource> getResource(Identifier location) {
+        public Optional<Resource> getResource(ResourceLocation location) {
             return Optional.empty();
         }
 
         @Override
-        public List<Resource> getResourceStack(Identifier location) {
+        public List<Resource> getResourceStack(ResourceLocation location) {
             return List.of();
         }
 
         @Override
-        public Map<Identifier, Resource> listResources(String directory, Predicate<Identifier> filter) {
+        public Map<ResourceLocation, Resource> listResources(String directory, Predicate<ResourceLocation> filter) {
             return Map.of();
         }
 
         @Override
-        public Map<Identifier, List<Resource>> listResourceStacks(String directory, Predicate<Identifier> filter) {
+        public Map<ResourceLocation, List<Resource>> listResourceStacks(String directory, Predicate<ResourceLocation> filter) {
             return Map.of();
         }
 

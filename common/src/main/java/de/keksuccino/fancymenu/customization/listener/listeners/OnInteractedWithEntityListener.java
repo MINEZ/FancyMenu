@@ -4,7 +4,7 @@ import de.keksuccino.fancymenu.customization.listener.AbstractListener;
 import de.keksuccino.fancymenu.util.LocalizationUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -32,7 +32,7 @@ public class OnInteractedWithEntityListener extends AbstractListener {
         if (!this.hasInstancesListening()) {
             return;
         }
-        Identifier entityKey = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
+        ResourceLocation entityKey = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
         this.cachedEntityKey = (entityKey != null) ? entityKey.toString() : null;
         this.cachedEntityPosX = Double.toString(entity.getX());
         this.cachedEntityPosY = Double.toString(entity.getY());

@@ -2,7 +2,7 @@ package de.keksuccino.fancymenu.util.rendering.ui.icon;
 
 import de.keksuccino.fancymenu.util.rendering.AspectRatio;
 import de.keksuccino.fancymenu.util.resource.resources.texture.ITexture;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.io.InputStream;
@@ -53,7 +53,7 @@ public class MaterialIconTexture implements ITexture {
     }
 
     @Override
-    public @Nullable Identifier getResourceLocation() {
+    public @Nullable ResourceLocation getResourceLocation() {
         if (this.closed) {
             return null;
         }

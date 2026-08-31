@@ -17,7 +17,7 @@ import de.keksuccino.fancymenu.util.resource.resources.texture.fma.FmaTexture;
 import de.keksuccino.fancymenu.util.resource.resources.video.IVideo;
 import de.keksuccino.fancymenu.util.resource.resources.video.Mp4Video;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.io.File;
@@ -222,7 +222,7 @@ public class FileTypes {
      * Tries to find the {@link FileType} of a {@link Identifier} file.
      */
     @Nullable
-    public static FileType<?> getLocationType(@NotNull Identifier location) {
+    public static FileType<?> getLocationType(@NotNull ResourceLocation location) {
         for (FileType<?> type : FileTypeRegistry.getFileTypes()) {
             if (type.isFileTypeLocation(location)) return type;
         }

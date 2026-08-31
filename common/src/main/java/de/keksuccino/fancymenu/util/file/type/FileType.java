@@ -6,7 +6,7 @@ import de.keksuccino.fancymenu.util.input.TextValidators;
 import de.keksuccino.fancymenu.util.resource.ResourceSource;
 import de.keksuccino.fancymenu.util.resource.ResourceSourceType;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.io.File;
@@ -55,7 +55,7 @@ public class FileType<T> {
         this.codec = codec;
     }
 
-    public boolean isFileTypeLocation(@NotNull Identifier location) {
+    public boolean isFileTypeLocation(@NotNull ResourceLocation location) {
         return this.extensions.contains(Files.getFileExtension(location.getPath()).toLowerCase());
     }
 
@@ -90,7 +90,7 @@ public class FileType<T> {
         Objects.requireNonNull(resourceSource);
         try {
             if (resourceSource.getSourceType() == ResourceSourceType.LOCATION) {
-                Identifier loc = Identifier.tryParse(resourceSource.getSourceWithoutPrefix());
+                ResourceLocation loc = ResourceLocation.tryParse(resourceSource.getSourceWithoutPrefix());
                 if (loc != null) return this.isFileTypeLocation(loc);
             }
             if (resourceSource.getSourceType() == ResourceSourceType.LOCAL) {

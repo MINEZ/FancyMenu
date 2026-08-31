@@ -1,7 +1,7 @@
 package de.keksuccino.fancymenu.util.resource;
 
 import de.keksuccino.fancymenu.util.MinecraftResourceReloadObserver;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -21,7 +21,7 @@ public final class ClientResourceIndex {
     ClientResourceIndex() {}
 
     @NotNull
-    public static Set<Identifier> getLoadedLocations(@NotNull ResourceManager resourceManager) {
+    public static Set<ResourceLocation> getLoadedLocations(@NotNull ResourceManager resourceManager) {
         return INSTANCE.getForManager(resourceManager);
     }
 
@@ -42,7 +42,7 @@ public final class ClientResourceIndex {
     }
 
     @NotNull
-    Set<Identifier> getForManager(@NotNull ResourceManager resourceManager) {
+    Set<ResourceLocation> getForManager(@NotNull ResourceManager resourceManager) {
         Objects.requireNonNull(resourceManager, "resourceManager");
         CacheEntry entry = this.currentEntry;
         if (entry != null && (entry.authoritative || entry.resourceManager == resourceManager)) return entry.locations;
@@ -50,7 +50,7 @@ public final class ClientResourceIndex {
         synchronized (this.cacheLock) {
             entry = this.currentEntry;
             if (entry != null && (entry.authoritative || entry.resourceManager == resourceManager)) return entry.locations;
-            Set<Identifier> locations = ClientResourceIndexBuilder.build(resourceManager);
+            Set<ResourceLocation> locations = ClientResourceIndexBuilder.build(resourceManager);
             this.currentEntry = new CacheEntry(resourceManager, locations, false);
             return locations;
         }
@@ -85,14 +85,14 @@ public final class ClientResourceIndex {
 
     public static final class PreparedIndex {
 
-        private final Set<Identifier> locations;
+        private final Set<ResourceLocation> locations;
 
-        private PreparedIndex(@NotNull Set<Identifier> locations) {
+        private PreparedIndex(@NotNull Set<ResourceLocation> locations) {
             this.locations = Objects.requireNonNull(locations, "locations");
         }
 
     }
 
-    private record CacheEntry(@Nullable ResourceManager resourceManager, Set<Identifier> locations, boolean authoritative) {}
+    private record CacheEntry(@Nullable ResourceManager resourceManager, Set<ResourceLocation> locations, boolean authoritative) {}
 
 }

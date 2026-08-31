@@ -5,7 +5,7 @@ import de.keksuccino.fancymenu.util.WebUtils;
 import de.keksuccino.fancymenu.util.resource.ResourceSource;
 import de.keksuccino.fancymenu.util.resource.ResourceSourceType;
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.io.File;
@@ -31,7 +31,7 @@ public abstract class FileCodec<T> {
                 return null;
             }
             @Override
-            public @Nullable T readLocation(@NotNull Identifier location) {
+            public @Nullable T readLocation(@NotNull ResourceLocation location) {
                 return null;
             }
             @Override
@@ -49,7 +49,7 @@ public abstract class FileCodec<T> {
     public static <T> FileCodec<T> generic(@NotNull Class<T> type, @NotNull ConsumingSupplier<InputStream, T> streamReader) {
         Objects.requireNonNull(type);
         Objects.requireNonNull(streamReader);
-        ConsumingSupplier<Identifier, T> locationReader = consumes -> {
+        ConsumingSupplier<ResourceLocation, T> locationReader = consumes -> {
           try {
               InputStream in = Minecraft.getInstance().getResourceManager().open(consumes);
               return streamReader.get(in);
@@ -62,7 +62,7 @@ public abstract class FileCodec<T> {
     }
 
     @NotNull
-    public static <T> FileCodec<T> basic(@NotNull Class<T> type, @NotNull ConsumingSupplier<InputStream, T> streamReader, @NotNull ConsumingSupplier<Identifier, T> locationReader) {
+    public static <T> FileCodec<T> basic(@NotNull Class<T> type, @NotNull ConsumingSupplier<InputStream, T> streamReader, @NotNull ConsumingSupplier<ResourceLocation, T> locationReader) {
         Objects.requireNonNull(type);
         Objects.requireNonNull(streamReader);
         return new FileCodec<T>() {
@@ -72,7 +72,7 @@ public abstract class FileCodec<T> {
                 return streamReader.get(in);
             }
             @Override
-            public @Nullable T readLocation(@NotNull Identifier location) {
+            public @Nullable T readLocation(@NotNull ResourceLocation location) {
                 Objects.requireNonNull(location);
                 return locationReader.get(location);
             }
@@ -97,7 +97,7 @@ public abstract class FileCodec<T> {
     }
 
     @NotNull
-    public static <T> FileCodec<T> basicWithLocal(@NotNull Class<T> type, @NotNull ConsumingSupplier<InputStream, T> streamReader, @NotNull ConsumingSupplier<Identifier, T> locationReader, @NotNull ConsumingSupplier<File, T> fileReader) {
+    public static <T> FileCodec<T> basicWithLocal(@NotNull Class<T> type, @NotNull ConsumingSupplier<InputStream, T> streamReader, @NotNull ConsumingSupplier<ResourceLocation, T> locationReader, @NotNull ConsumingSupplier<File, T> fileReader) {
         Objects.requireNonNull(type);
         Objects.requireNonNull(streamReader);
         Objects.requireNonNull(fileReader);
@@ -108,7 +108,7 @@ public abstract class FileCodec<T> {
                 return streamReader.get(in);
             }
             @Override
-            public @Nullable T readLocation(@NotNull Identifier location) {
+            public @Nullable T readLocation(@NotNull ResourceLocation location) {
                 Objects.requireNonNull(location);
                 return locationReader.get(location);
             }
@@ -128,7 +128,7 @@ public abstract class FileCodec<T> {
     }
 
     @NotNull
-    public static <T> FileCodec<T> basicWithWeb(@NotNull Class<T> type, @NotNull ConsumingSupplier<InputStream, T> streamReader, @NotNull ConsumingSupplier<Identifier, T> locationReader, @NotNull ConsumingSupplier<String, T> urlReader) {
+    public static <T> FileCodec<T> basicWithWeb(@NotNull Class<T> type, @NotNull ConsumingSupplier<InputStream, T> streamReader, @NotNull ConsumingSupplier<ResourceLocation, T> locationReader, @NotNull ConsumingSupplier<String, T> urlReader) {
         Objects.requireNonNull(type);
         Objects.requireNonNull(streamReader);
         Objects.requireNonNull(urlReader);
@@ -139,7 +139,7 @@ public abstract class FileCodec<T> {
                 return streamReader.get(in);
             }
             @Override
-            public @Nullable T readLocation(@NotNull Identifier location) {
+            public @Nullable T readLocation(@NotNull ResourceLocation location) {
                 Objects.requireNonNull(location);
                 return locationReader.get(location);
             }
@@ -162,7 +162,7 @@ public abstract class FileCodec<T> {
     }
 
     @NotNull
-    public static <T> FileCodec<T> advanced(@NotNull Class<T> type, @NotNull ConsumingSupplier<InputStream, T> streamReader, @NotNull ConsumingSupplier<Identifier, T> locationReader, @NotNull ConsumingSupplier<File, T> fileReader, @NotNull ConsumingSupplier<String, T> urlReader) {
+    public static <T> FileCodec<T> advanced(@NotNull Class<T> type, @NotNull ConsumingSupplier<InputStream, T> streamReader, @NotNull ConsumingSupplier<ResourceLocation, T> locationReader, @NotNull ConsumingSupplier<File, T> fileReader, @NotNull ConsumingSupplier<String, T> urlReader) {
         Objects.requireNonNull(type);
         Objects.requireNonNull(streamReader);
         Objects.requireNonNull(fileReader);
@@ -174,7 +174,7 @@ public abstract class FileCodec<T> {
                 return streamReader.get(in);
             }
             @Override
-            public @Nullable T readLocation(@NotNull Identifier location) {
+            public @Nullable T readLocation(@NotNull ResourceLocation location) {
                 Objects.requireNonNull(location);
                 return locationReader.get(location);
             }
@@ -195,7 +195,7 @@ public abstract class FileCodec<T> {
     public abstract T read(@NotNull InputStream in);
 
     @Nullable
-    public abstract T readLocation(@NotNull Identifier location);
+    public abstract T readLocation(@NotNull ResourceLocation location);
 
     @Nullable
     public abstract T readLocal(@NotNull File file);
@@ -208,7 +208,7 @@ public abstract class FileCodec<T> {
         Objects.requireNonNull(resourceSource);
         try {
             if (resourceSource.getSourceType() == ResourceSourceType.LOCATION) {
-                Identifier loc = Identifier.tryParse(resourceSource.getSourceWithoutPrefix());
+                ResourceLocation loc = ResourceLocation.tryParse(resourceSource.getSourceWithoutPrefix());
                 return (loc != null) ? this.readLocation(loc) : null;
             }
             if (resourceSource.getSourceType() == ResourceSourceType.LOCAL) {

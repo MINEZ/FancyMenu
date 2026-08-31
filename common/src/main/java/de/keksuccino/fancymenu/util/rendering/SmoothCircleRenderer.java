@@ -14,7 +14,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.render.TextureSetup;
 import net.minecraft.client.gui.render.state.GuiElementRenderState;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.joml.Matrix3x2f;
 import org.lwjgl.system.MemoryUtil;
 
@@ -38,7 +38,7 @@ public final class SmoothCircleRenderer {
             .add("CircleInfo2", CIRCLE_INFO_2_FANCYMENU)
             .build();
     private static final RenderPipeline SMOOTH_CIRCLE_PIPELINE_FANCYMENU = RenderPipeline.builder()
-            .withLocation(Identifier.withDefaultNamespace("pipeline/fancymenu_gui_smooth_circle"))
+            .withLocation(ResourceLocation.withDefaultNamespace("pipeline/fancymenu_gui_smooth_circle"))
             .withUniform("DynamicTransforms", UniformType.UNIFORM_BUFFER)
             .withUniform("Projection", UniformType.UNIFORM_BUFFER)
             .withVertexShader("core/fancymenu_gui_smooth_circle")

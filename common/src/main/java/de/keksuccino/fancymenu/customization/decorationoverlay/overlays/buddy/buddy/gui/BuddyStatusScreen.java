@@ -16,7 +16,7 @@ import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent
 import net.minecraft.client.gui.screens.inventory.tooltip.DefaultTooltipPositioner;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -49,17 +49,17 @@ public class BuddyStatusScreen implements Renderable {
     private static final int TEXT_COLOR_REWARD = 0xFFFFFF00;
 
     // GUI Texture
-    public static final Identifier BACKGROUND_TEXTURE = Identifier.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/status_screen_background.png");
-    public static final Identifier BACKGROUND_BORDER_TEXTURE = Identifier.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/status_screen_background_border.png");
-    public static final Identifier TAB_BUTTON_TEXTURE_NORMAL = Identifier.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/tab_button_normal.png");
-    public static final Identifier TAB_BUTTON_TEXTURE_SELECTED = Identifier.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/tab_button_selected.png");
-    public static final Identifier STATUS_BAR_TEXTURE = Identifier.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/status_bar_fill.png");
-    public static final Identifier STATUS_BAR_BACKGROUND_TEXTURE = Identifier.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/status_bar_background.png");
-    public static final Identifier STATUS_ICON_HUNGER = Identifier.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/icon_hunger.png");
-    public static final Identifier STATUS_ICON_HAPPINESS = Identifier.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/icon_happiness.png");
-    public static final Identifier STATUS_ICON_ENERGY = Identifier.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/icon_energy.png");
-    public static final Identifier STATUS_ICON_FUN = Identifier.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/icon_fun.png");
-    public static final Identifier STATUS_ICON_EXPERIENCE = Identifier.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/icon_experience.png");
+    public static final ResourceLocation BACKGROUND_TEXTURE = ResourceLocation.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/status_screen_background.png");
+    public static final ResourceLocation BACKGROUND_BORDER_TEXTURE = ResourceLocation.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/status_screen_background_border.png");
+    public static final ResourceLocation TAB_BUTTON_TEXTURE_NORMAL = ResourceLocation.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/tab_button_normal.png");
+    public static final ResourceLocation TAB_BUTTON_TEXTURE_SELECTED = ResourceLocation.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/tab_button_selected.png");
+    public static final ResourceLocation STATUS_BAR_TEXTURE = ResourceLocation.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/status_bar_fill.png");
+    public static final ResourceLocation STATUS_BAR_BACKGROUND_TEXTURE = ResourceLocation.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/status_bar_background.png");
+    public static final ResourceLocation STATUS_ICON_HUNGER = ResourceLocation.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/icon_hunger.png");
+    public static final ResourceLocation STATUS_ICON_HAPPINESS = ResourceLocation.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/icon_happiness.png");
+    public static final ResourceLocation STATUS_ICON_ENERGY = ResourceLocation.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/icon_energy.png");
+    public static final ResourceLocation STATUS_ICON_FUN = ResourceLocation.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/icon_fun.png");
+    public static final ResourceLocation STATUS_ICON_EXPERIENCE = ResourceLocation.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/icon_experience.png");
 
     // Tab Indices
     private static final int TAB_STATS = 0;
@@ -328,7 +328,7 @@ public class BuddyStatusScreen implements Renderable {
             boolean isSelected = (i == currentTab);
 
             // Draw tab button background using proper button textures
-            Identifier buttonTexture = isSelected ? textures.getTabButtonSelectedTexture() : textures.getTabButtonTexture();
+            ResourceLocation buttonTexture = isSelected ? textures.getTabButtonSelectedTexture() : textures.getTabButtonTexture();
             
             // Render button background
             graphics.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, buttonTexture, tabX, tabY, 0.0F, 0.0F, tabWidth, tabHeight, tabWidth, tabHeight);
@@ -714,7 +714,7 @@ public class BuddyStatusScreen implements Renderable {
             float tintG;
             float tintB;
             int displayValue;
-            Identifier iconTexture;
+            ResourceLocation iconTexture;
             String tooltipKey;
 
             switch (i) {
@@ -776,7 +776,7 @@ public class BuddyStatusScreen implements Renderable {
         return tooltip;
     }
 
-    private static void renderTexturedBar(GuiGraphics graphics, int barX, int barY, float fillAmount, float tintR, float tintG, float tintB, Identifier backgroundTexture, Identifier barTexture) {
+    private static void renderTexturedBar(GuiGraphics graphics, int barX, int barY, float fillAmount, float tintR, float tintG, float tintB, ResourceLocation backgroundTexture, ResourceLocation barTexture) {
         float clampedFill = Math.max(0f, Math.min(1f, fillAmount));
         graphics.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, backgroundTexture, barX, barY, 0.0F, 0.0F, STATUS_BAR_WIDTH, STATUS_BAR_HEIGHT, STATUS_BAR_WIDTH, STATUS_BAR_HEIGHT);
         int fillWidth = (int)(STATUS_BAR_WIDTH * clampedFill);

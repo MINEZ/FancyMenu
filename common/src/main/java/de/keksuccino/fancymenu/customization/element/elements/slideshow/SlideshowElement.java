@@ -7,12 +7,12 @@ import de.keksuccino.fancymenu.customization.slideshow.SlideshowHandler;
 import de.keksuccino.fancymenu.util.rendering.AspectRatio;
 import de.keksuccino.fancymenu.util.resource.resources.texture.ITexture;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public class SlideshowElement extends AbstractElement {
 
-    private static final Identifier MISSING = ITexture.MISSING_TEXTURE_LOCATION;
+    private static final ResourceLocation MISSING = ITexture.MISSING_TEXTURE_LOCATION;
 
     public String slideshowName;
 

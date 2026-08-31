@@ -6,7 +6,7 @@ import com.google.gson.stream.JsonWriter;
 import de.keksuccino.fancymenu.util.file.FileUtils;
 import de.keksuccino.fancymenu.util.rendering.DrawableColor;
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -56,7 +56,7 @@ public class UIColorThemeSerializer {
     }
 
     @Nullable
-    public static UITheme deserializeThemeFromResource(@NotNull Identifier resource) {
+    public static UITheme deserializeThemeFromResource(@NotNull ResourceLocation resource) {
         try (InputStream in = Objects.requireNonNull(Minecraft.getInstance().getResourceManager().open(resource))) {
             StringBuilder json = new StringBuilder();
             for (String s : FileUtils.readTextLinesFrom(in)) {

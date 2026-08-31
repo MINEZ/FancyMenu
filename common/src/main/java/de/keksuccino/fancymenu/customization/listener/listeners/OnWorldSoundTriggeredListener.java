@@ -9,7 +9,7 @@ import net.minecraft.client.resources.sounds.Sound;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -119,16 +119,16 @@ public class OnWorldSoundTriggeredListener extends AbstractListener {
     private String resolveSoundIdentifier(@NotNull SoundInstance sound) {
         Sound resolvedSound = sound.getSound();
         if ((resolvedSound != null) && (resolvedSound != SoundManager.EMPTY_SOUND) && (resolvedSound != SoundManager.INTENTIONALLY_EMPTY_SOUND)) {
-            Identifier path = resolvedSound.getPath();
+            ResourceLocation path = resolvedSound.getPath();
             if (path != null) {
                 return path.toString();
             }
-            Identifier directLocation = resolvedSound.getLocation();
+            ResourceLocation directLocation = resolvedSound.getLocation();
             if (directLocation != null) {
                 return directLocation.toString();
             }
         }
-        Identifier fallback = sound.getIdentifier();
+        ResourceLocation fallback = sound.getIdentifier();
         return (fallback != null) ? fallback.toString() : null;
     }
 

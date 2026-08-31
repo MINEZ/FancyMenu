@@ -15,7 +15,7 @@ import de.keksuccino.fancymenu.util.resource.ResourceSupplier;
 import de.keksuccino.fancymenu.util.resource.resources.texture.ITexture;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public class ImageMenuBackground extends MenuBackground<ImageMenuBackground> {
@@ -118,7 +118,7 @@ public class ImageMenuBackground extends MenuBackground<ImageMenuBackground> {
 
         com.mojang.blaze3d.opengl.GlStateManager._enableBlend();
 
-        Identifier resourceLocation = null;
+        ResourceLocation resourceLocation = null;
         ITexture tex = null;
         AspectRatio ratio = new AspectRatio(10, 10);
         ResourceSupplier<ITexture> supplier = this.textureSupplier.get();
@@ -177,7 +177,7 @@ public class ImageMenuBackground extends MenuBackground<ImageMenuBackground> {
 
     }
 
-    protected void renderRepeatBackground(@NotNull GuiGraphics graphics, @NotNull Identifier resourceLocation, ITexture tex, float[] parallaxOffset, float parallaxIntensityX, float parallaxIntensityY) {
+    protected void renderRepeatBackground(@NotNull GuiGraphics graphics, @NotNull ResourceLocation resourceLocation, ITexture tex, float[] parallaxOffset, float parallaxIntensityX, float parallaxIntensityY) {
 
         de.keksuccino.fancymenu.util.rendering.RenderingUtils.setShaderColor(graphics, 1.0F, 1.0F, 1.0F, this.opacity);
 
@@ -199,7 +199,7 @@ public class ImageMenuBackground extends MenuBackground<ImageMenuBackground> {
 
     }
 
-    protected void renderSlideBackground(@NotNull GuiGraphics graphics, @NotNull AspectRatio ratio, @NotNull Identifier resourceLocation, float[] parallaxOffset, float parallaxIntensityX, float parallaxIntensityY) {
+    protected void renderSlideBackground(@NotNull GuiGraphics graphics, @NotNull AspectRatio ratio, @NotNull ResourceLocation resourceLocation, float[] parallaxOffset, float parallaxIntensityX, float parallaxIntensityY) {
         int w = ratio.getAspectRatioWidth(getScreenHeight());
         handleSlideAnimation(w);
         de.keksuccino.fancymenu.util.rendering.RenderingUtils.setShaderColor(graphics, 1.0F, 1.0F, 1.0F, this.opacity);
@@ -216,7 +216,7 @@ public class ImageMenuBackground extends MenuBackground<ImageMenuBackground> {
         RenderingUtils.resetShaderColor(graphics);
     }
 
-    protected void renderKeepAspectRatio(@NotNull GuiGraphics graphics, @NotNull AspectRatio ratio, @NotNull Identifier resourceLocation, float[] parallaxOffset, float parallaxIntensityX, float parallaxIntensityY) {
+    protected void renderKeepAspectRatio(@NotNull GuiGraphics graphics, @NotNull AspectRatio ratio, @NotNull ResourceLocation resourceLocation, float[] parallaxOffset, float parallaxIntensityX, float parallaxIntensityY) {
         // Calculate base size with reduced parallax expansion
         boolean parallax = this.parallaxEnabled.tryGetNonNull();
         float parallaxScaleX = parallax ? (1.0F + parallaxIntensityX) : 1.0F;
@@ -237,7 +237,7 @@ public class ImageMenuBackground extends MenuBackground<ImageMenuBackground> {
         RenderingUtils.resetShaderColor(graphics);
     }
 
-    protected void renderFullScreen(@NotNull GuiGraphics graphics, @NotNull Identifier resourceLocation, float[] parallaxOffset, float parallaxIntensityX, float parallaxIntensityY) {
+    protected void renderFullScreen(@NotNull GuiGraphics graphics, @NotNull ResourceLocation resourceLocation, float[] parallaxOffset, float parallaxIntensityX, float parallaxIntensityY) {
         de.keksuccino.fancymenu.util.rendering.RenderingUtils.setShaderColor(graphics, 1.0F, 1.0F, 1.0F, this.opacity);
         if (this.parallaxEnabled.tryGetNonNull()) {
             // Reduce the expansion amount for parallax

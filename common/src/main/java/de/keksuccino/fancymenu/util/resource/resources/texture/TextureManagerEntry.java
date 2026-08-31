@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -25,9 +25,9 @@ final class TextureManagerEntry<I extends AutoCloseable, T extends AutoCloseable
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private final BiFunction<Identifier, I, T> textureFactory;
-    private final BiConsumer<Identifier, T> textureRegistrar;
-    private final Consumer<Identifier> textureReleaser;
+    private final BiFunction<ResourceLocation, I, T> textureFactory;
+    private final BiConsumer<ResourceLocation, T> textureRegistrar;
+    private final Consumer<ResourceLocation> textureReleaser;
     private final Function<T, I> imageGetter;
     private final Consumer<Runnable> releaseDispatcher;
     private final Object lifecycleLock = new Object();
@@ -37,12 +37,12 @@ final class TextureManagerEntry<I extends AutoCloseable, T extends AutoCloseable
     @Nullable
     private T registeredTexture;
     @Nullable
-    private Identifier registeredIdentifier;
+    private ResourceLocation registeredIdentifier;
     private boolean registrationAttempted;
     private boolean registered;
     private boolean closed;
 
-    TextureManagerEntry(@NotNull BiFunction<Identifier, I, T> textureFactory, @NotNull BiConsumer<Identifier, T> textureRegistrar, @NotNull Consumer<Identifier> textureReleaser, @NotNull Function<T, I> imageGetter, @NotNull Consumer<Runnable> releaseDispatcher) {
+    TextureManagerEntry(@NotNull BiFunction<ResourceLocation, I, T> textureFactory, @NotNull BiConsumer<ResourceLocation, T> textureRegistrar, @NotNull Consumer<ResourceLocation> textureReleaser, @NotNull Function<T, I> imageGetter, @NotNull Consumer<Runnable> releaseDispatcher) {
         this.textureFactory = Objects.requireNonNull(textureFactory);
         this.textureRegistrar = Objects.requireNonNull(textureRegistrar);
         this.textureReleaser = Objects.requireNonNull(textureReleaser);
@@ -73,7 +73,7 @@ final class TextureManagerEntry<I extends AutoCloseable, T extends AutoCloseable
     }
 
     @Nullable
-    Identifier register(@NotNull Identifier identifier) {
+    ResourceLocation register(@NotNull ResourceLocation identifier) {
         Objects.requireNonNull(identifier);
         synchronized (this.lifecycleLock) {
             if (this.closed || this.registrationAttempted || (this.decodedImage == null)) return this.registeredIdentifier;
@@ -105,7 +105,7 @@ final class TextureManagerEntry<I extends AutoCloseable, T extends AutoCloseable
     }
 
     @Nullable
-    Identifier getIdentifier() {
+    ResourceLocation getIdentifier() {
         synchronized (this.lifecycleLock) {
             return this.registeredIdentifier;
         }
@@ -127,7 +127,7 @@ final class TextureManagerEntry<I extends AutoCloseable, T extends AutoCloseable
     public void close() {
         I image;
         T texture;
-        Identifier identifier;
+        ResourceLocation identifier;
         boolean releaseRegisteredTexture;
         synchronized (this.lifecycleLock) {
             if (this.closed) return;
@@ -146,7 +146,7 @@ final class TextureManagerEntry<I extends AutoCloseable, T extends AutoCloseable
         this.releaseDispatcher.accept(() -> this.releaseRegisteredTexture(identifier, texture, releaseRegisteredTexture));
     }
 
-    private void releaseRegisteredTexture(@Nullable Identifier identifier, @Nullable T texture, boolean releaseRegisteredTexture) {
+    private void releaseRegisteredTexture(@Nullable ResourceLocation identifier, @Nullable T texture, boolean releaseRegisteredTexture) {
         if (releaseRegisteredTexture && (identifier != null)) {
             try {
                 this.textureReleaser.accept(identifier);

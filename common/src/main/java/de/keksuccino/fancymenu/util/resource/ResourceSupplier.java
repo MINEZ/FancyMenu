@@ -6,7 +6,7 @@ import de.keksuccino.fancymenu.util.resource.resources.audio.IAudio;
 import de.keksuccino.fancymenu.util.resource.resources.text.IText;
 import de.keksuccino.fancymenu.util.resource.resources.texture.ITexture;
 import de.keksuccino.fancymenu.util.resource.resources.video.IVideo;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -148,10 +148,10 @@ public class ResourceSupplier<R extends Resource> {
      * You should always use the provided location instead of calling {@link RenderableResource#getResourceLocation()},
      * because some types of resources asynchronously change that method's return value.
      */
-    public void forRenderable(@NotNull BiConsumer<R, Identifier> task) {
+    public void forRenderable(@NotNull BiConsumer<R, ResourceLocation> task) {
         R resource = this.get();
         if (resource instanceof RenderableResource r) {
-            Identifier loc = r.getResourceLocation();
+            ResourceLocation loc = r.getResourceLocation();
             if (loc != null) task.accept(resource, loc);
         }
     }

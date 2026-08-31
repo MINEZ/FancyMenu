@@ -14,7 +14,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
@@ -88,7 +88,7 @@ public class FabricPlatformHelper implements IPlatformHelper {
     }
 
     @Override
-    public @Nullable Identifier getItemKey(@NotNull Item item) {
+    public @Nullable ResourceLocation getItemKey(@NotNull Item item) {
         try {
             return BuiltInRegistries.ITEM.getKey(item);
         } catch (Exception ex) {
@@ -98,7 +98,7 @@ public class FabricPlatformHelper implements IPlatformHelper {
     }
 
     @Override
-    public @Nullable Identifier getEffectKey(@NotNull MobEffect effect) {
+    public @Nullable ResourceLocation getEffectKey(@NotNull MobEffect effect) {
         try {
             return BuiltInRegistries.MOB_EFFECT.getKey(effect);
         } catch (Exception ex) {
@@ -108,7 +108,7 @@ public class FabricPlatformHelper implements IPlatformHelper {
     }
 
     @Override
-    public @Nullable Identifier getEntityKey(@NotNull EntityType<?> type) {
+    public @Nullable ResourceLocation getEntityKey(@NotNull EntityType<?> type) {
         try {
             return BuiltInRegistries.ENTITY_TYPE.getKey(type);
         } catch (Exception ex) {
@@ -130,7 +130,7 @@ public class FabricPlatformHelper implements IPlatformHelper {
     }
 
     @Override
-    public @NotNull Set<Identifier> getLoadedClientResourceLocations() {
+    public @NotNull Set<ResourceLocation> getLoadedClientResourceLocations() {
         if (!this.isOnClient()) return Set.of();
         return ClientResourceIndex.getLoadedLocations(Minecraft.getInstance().getResourceManager());
     }

@@ -5,7 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.CreativeModeTab;
@@ -46,7 +46,7 @@ public class ItemCategoryPlaceholder extends AbstractWorldPlaceholder {
         String asKeyString = dps.values.get("as_key");
         boolean asKey = (asKeyString != null) && asKeyString.equalsIgnoreCase("true");
 
-        Identifier itemId = Identifier.tryParse(key);
+        ResourceLocation itemId = ResourceLocation.tryParse(key);
         if (itemId == null) return UNKNOWN;
 
         Optional<Item> itemOptional = BuiltInRegistries.ITEM.getOptional(itemId);

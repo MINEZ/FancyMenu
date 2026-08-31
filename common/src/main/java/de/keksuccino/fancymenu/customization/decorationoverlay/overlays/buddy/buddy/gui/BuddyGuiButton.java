@@ -5,7 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Renderable;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.util.function.BooleanSupplier;
@@ -16,11 +16,11 @@ import java.util.function.Supplier;
  */
 public class BuddyGuiButton implements Renderable {
 
-    public static final Identifier DEFAULT_BUTTON_NORMAL = Identifier.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/default_button_normal.png");
-    public static final Identifier DEFAULT_BUTTON_HOVER = Identifier.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/default_button_hover.png");
-    public static final Identifier DEFAULT_BUTTON_INACTIVE = Identifier.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/default_button_inactive.png");
-    public static final Identifier BUTTON_CLOSE_NORMAL = Identifier.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/button_close_normal.png");
-    public static final Identifier BUTTON_CLOSE_HOVER = Identifier.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/button_close_hover.png");
+    public static final ResourceLocation DEFAULT_BUTTON_NORMAL = ResourceLocation.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/default_button_normal.png");
+    public static final ResourceLocation DEFAULT_BUTTON_HOVER = ResourceLocation.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/default_button_hover.png");
+    public static final ResourceLocation DEFAULT_BUTTON_INACTIVE = ResourceLocation.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/default_button_inactive.png");
+    public static final ResourceLocation BUTTON_CLOSE_NORMAL = ResourceLocation.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/button_close_normal.png");
+    public static final ResourceLocation BUTTON_CLOSE_HOVER = ResourceLocation.fromNamespaceAndPath("fancymenu", "textures/buddy/gui/button_close_hover.png");
 
     private static final int DEFAULT_BUTTON_WIDTH = 80;
     private static final int DEFAULT_BUTTON_HEIGHT = 20;
@@ -39,11 +39,11 @@ public class BuddyGuiButton implements Renderable {
     protected int height;
     protected boolean active = true;
     @Nullable
-    protected Supplier<Identifier> normalTexture = null;
+    protected Supplier<ResourceLocation> normalTexture = null;
     @Nullable
-    protected Supplier<Identifier> hoverTexture = null;
+    protected Supplier<ResourceLocation> hoverTexture = null;
     @Nullable
-    protected Supplier<Identifier> inactiveTexture = null;
+    protected Supplier<ResourceLocation> inactiveTexture = null;
 
     public BuddyGuiButton(@NotNull Buddy buddy, int x, int y, int width, int height, @NotNull ButtonNameSupplier nameSupplier, @NotNull Runnable action, @Nullable BooleanSupplier activeCondition) {
         this.nameSupplier = nameSupplier;
@@ -68,7 +68,7 @@ public class BuddyGuiButton implements Renderable {
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partial) {
         boolean hovered = isMouseOver(mouseX, mouseY) && active;
-        Identifier backgroundTexture = active ? (hovered ? getTexture(this.hoverTexture) : getTexture(this.normalTexture)) : getTexture(this.inactiveTexture);
+        ResourceLocation backgroundTexture = active ? (hovered ? getTexture(this.hoverTexture) : getTexture(this.normalTexture)) : getTexture(this.inactiveTexture);
         int backgroundColor = active ? (hovered ? 0xFF909090 : 0xFF606060) : 0xFF404040;
         int textColor = active ? 0xFFFFFFFF : 0xFFAAAAAA;
         Font font = Minecraft.getInstance().font;
@@ -94,7 +94,7 @@ public class BuddyGuiButton implements Renderable {
         }
     }
 
-    public BuddyGuiButton setTextures(@Nullable Supplier<Identifier> normal, @Nullable Supplier<Identifier> hover, @Nullable Supplier<Identifier> inactive) {
+    public BuddyGuiButton setTextures(@Nullable Supplier<ResourceLocation> normal, @Nullable Supplier<ResourceLocation> hover, @Nullable Supplier<ResourceLocation> inactive) {
         this.normalTexture = normal;
         this.hoverTexture = hover;
         this.inactiveTexture = inactive;
@@ -178,7 +178,7 @@ public class BuddyGuiButton implements Renderable {
     }
 
     @Nullable
-    private Identifier getTexture(@Nullable Supplier<Identifier> supplier) {
+    private ResourceLocation getTexture(@Nullable Supplier<ResourceLocation> supplier) {
         return supplier != null ? supplier.get() : null;
     }
 

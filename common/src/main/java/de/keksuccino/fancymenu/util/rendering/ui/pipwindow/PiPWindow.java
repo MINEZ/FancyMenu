@@ -26,7 +26,7 @@ import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
@@ -50,9 +50,9 @@ public class PiPWindow extends AbstractContainerEventHandler implements Renderab
     private static final long TITLE_BAR_DOUBLE_CLICK_TIME_MS = 500;
     private static final int DEFAULT_ICON_TEXTURE_SIZE = 8;
     private static final int TITLE_BAR_ICON_PADDING_EXTRA = 2;
-    private static final Identifier DEFAULT_CLOSE_BUTTON_ICON = Identifier.fromNamespaceAndPath("fancymenu", "textures/pip/pip_window_close.png");
-    private static final Identifier DEFAULT_MAXIMIZE_BUTTON_ICON = Identifier.fromNamespaceAndPath("fancymenu", "textures/pip/pip_window_maximize.png");
-    private static final Identifier DEFAULT_NORMALIZE_BUTTON_ICON = Identifier.fromNamespaceAndPath("fancymenu", "textures/pip/pip_window_restore.png");
+    private static final ResourceLocation DEFAULT_CLOSE_BUTTON_ICON = ResourceLocation.fromNamespaceAndPath("fancymenu", "textures/pip/pip_window_close.png");
+    private static final ResourceLocation DEFAULT_MAXIMIZE_BUTTON_ICON = ResourceLocation.fromNamespaceAndPath("fancymenu", "textures/pip/pip_window_maximize.png");
+    private static final ResourceLocation DEFAULT_NORMALIZE_BUTTON_ICON = ResourceLocation.fromNamespaceAndPath("fancymenu", "textures/pip/pip_window_restore.png");
     private static final MaterialIcon DEFAULT_CLOSE_BUTTON_MATERIAL_ICON = MaterialIcons.CLOSE;
     private static final MaterialIcon DEFAULT_MAXIMIZE_BUTTON_MATERIAL_ICON = MaterialIcons.OPEN_IN_FULL;
     private static final MaterialIcon DEFAULT_NORMALIZE_BUTTON_MATERIAL_ICON = MaterialIcons.FULLSCREEN_EXIT;
@@ -65,7 +65,7 @@ public class PiPWindow extends AbstractContainerEventHandler implements Renderab
 
     private Component title;
     @Nullable
-    private Identifier icon;
+    private ResourceLocation icon;
     @Nullable
     private MaterialIcon materialIcon;
     @Nullable
@@ -83,11 +83,11 @@ public class PiPWindow extends AbstractContainerEventHandler implements Renderab
     private int buttonSize = DEFAULT_BUTTON_SIZE;
     private int buttonPadding = DEFAULT_BUTTON_PADDING;
     @NotNull
-    private Identifier closeButtonIcon = DEFAULT_CLOSE_BUTTON_ICON;
+    private ResourceLocation closeButtonIcon = DEFAULT_CLOSE_BUTTON_ICON;
     @NotNull
-    private Identifier maximizeButtonIcon = DEFAULT_MAXIMIZE_BUTTON_ICON;
+    private ResourceLocation maximizeButtonIcon = DEFAULT_MAXIMIZE_BUTTON_ICON;
     @NotNull
-    private Identifier normalizeButtonIcon = DEFAULT_NORMALIZE_BUTTON_ICON;
+    private ResourceLocation normalizeButtonIcon = DEFAULT_NORMALIZE_BUTTON_ICON;
     @Nullable
     private MaterialIcon closeButtonMaterialIcon = DEFAULT_CLOSE_BUTTON_MATERIAL_ICON;
     @Nullable
@@ -701,7 +701,7 @@ public class PiPWindow extends AbstractContainerEventHandler implements Renderab
         }
         float safeRenderWidth = Math.max(1.0F, renderWidth);
         float safeRenderHeight = Math.max(1.0F, renderHeight);
-        Identifier location = icon.getTextureLocationForUI(safeRenderWidth, safeRenderHeight);
+        ResourceLocation location = icon.getTextureLocationForUI(safeRenderWidth, safeRenderHeight);
         if (location == null) {
             return null;
         }
@@ -715,13 +715,13 @@ public class PiPWindow extends AbstractContainerEventHandler implements Renderab
     }
 
     @NotNull
-    private IconRenderData resolveButtonIconData(@NotNull Identifier icon, @Nullable MaterialIcon materialIcon, float renderSize) {
+    private IconRenderData resolveButtonIconData(@NotNull ResourceLocation icon, @Nullable MaterialIcon materialIcon, float renderSize) {
         IconRenderData data = resolveMaterialIconData(materialIcon, renderSize, renderSize);
         return (data != null) ? data : new IconRenderData(icon, DEFAULT_ICON_TEXTURE_SIZE, DEFAULT_ICON_TEXTURE_SIZE);
     }
 
     @Nullable
-    private Identifier resolveMaterialIconTexture(@Nullable MaterialIcon icon) {
+    private ResourceLocation resolveMaterialIconTexture(@Nullable MaterialIcon icon) {
         if (icon == null) {
             return null;
         }
@@ -768,11 +768,11 @@ public class PiPWindow extends AbstractContainerEventHandler implements Renderab
     }
 
     private static final class IconRenderData {
-        private final Identifier texture;
+        private final ResourceLocation texture;
         private final int width;
         private final int height;
 
-        private IconRenderData(@NotNull Identifier texture, int width, int height) {
+        private IconRenderData(@NotNull ResourceLocation texture, int width, int height) {
             this.texture = texture;
             this.width = width;
             this.height = height;
@@ -841,15 +841,15 @@ public class PiPWindow extends AbstractContainerEventHandler implements Renderab
         return this.title;
     }
 
-    public PiPWindow setIcon(@Nullable Identifier icon) {
+    public PiPWindow setIcon(@Nullable ResourceLocation icon) {
         this.icon = icon;
         this.materialIcon = null;
         return this;
     }
 
     @Nullable
-    public Identifier getIcon() {
-        Identifier location = resolveMaterialIconTexture(this.materialIcon);
+    public ResourceLocation getIcon() {
+        ResourceLocation location = resolveMaterialIconTexture(this.materialIcon);
         return (location != null) ? location : this.icon;
     }
 
@@ -861,15 +861,15 @@ public class PiPWindow extends AbstractContainerEventHandler implements Renderab
         return this;
     }
 
-    public PiPWindow setCloseButtonIcon(@NotNull Identifier icon) {
+    public PiPWindow setCloseButtonIcon(@NotNull ResourceLocation icon) {
         this.closeButtonIcon = icon;
         this.closeButtonMaterialIcon = null;
         return this;
     }
 
     @NotNull
-    public Identifier getCloseButtonIcon() {
-        Identifier location = resolveMaterialIconTexture(this.closeButtonMaterialIcon);
+    public ResourceLocation getCloseButtonIcon() {
+        ResourceLocation location = resolveMaterialIconTexture(this.closeButtonMaterialIcon);
         return (location != null) ? location : this.closeButtonIcon;
     }
 
@@ -878,15 +878,15 @@ public class PiPWindow extends AbstractContainerEventHandler implements Renderab
         return this;
     }
 
-    public PiPWindow setMaximizeButtonIcon(@NotNull Identifier icon) {
+    public PiPWindow setMaximizeButtonIcon(@NotNull ResourceLocation icon) {
         this.maximizeButtonIcon = icon;
         this.maximizeButtonMaterialIcon = null;
         return this;
     }
 
     @NotNull
-    public Identifier getMaximizeButtonIcon() {
-        Identifier location = resolveMaterialIconTexture(this.maximizeButtonMaterialIcon);
+    public ResourceLocation getMaximizeButtonIcon() {
+        ResourceLocation location = resolveMaterialIconTexture(this.maximizeButtonMaterialIcon);
         return (location != null) ? location : this.maximizeButtonIcon;
     }
 
@@ -895,15 +895,15 @@ public class PiPWindow extends AbstractContainerEventHandler implements Renderab
         return this;
     }
 
-    public PiPWindow setNormalizeButtonIcon(@NotNull Identifier icon) {
+    public PiPWindow setNormalizeButtonIcon(@NotNull ResourceLocation icon) {
         this.normalizeButtonIcon = icon;
         this.normalizeButtonMaterialIcon = null;
         return this;
     }
 
     @NotNull
-    public Identifier getNormalizeButtonIcon() {
-        Identifier location = resolveMaterialIconTexture(this.normalizeButtonMaterialIcon);
+    public ResourceLocation getNormalizeButtonIcon() {
+        ResourceLocation location = resolveMaterialIconTexture(this.normalizeButtonMaterialIcon);
         return (location != null) ? location : this.normalizeButtonIcon;
     }
 
@@ -1670,7 +1670,7 @@ public class PiPWindow extends AbstractContainerEventHandler implements Renderab
     }
 
     @NotNull
-    private Identifier getActiveMaximizeButtonResourceIcon() {
+    private ResourceLocation getActiveMaximizeButtonResourceIcon() {
         return this.maximized ? this.normalizeButtonIcon : this.maximizeButtonIcon;
     }
 

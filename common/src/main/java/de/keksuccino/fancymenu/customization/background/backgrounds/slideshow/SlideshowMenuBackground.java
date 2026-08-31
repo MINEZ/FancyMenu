@@ -16,13 +16,13 @@ import de.keksuccino.fancymenu.util.resource.resources.texture.ITexture;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 public class SlideshowMenuBackground extends MenuBackground<SlideshowMenuBackground> {
 
-    private static final Identifier MISSING = ITexture.MISSING_TEXTURE_LOCATION;
+    private static final ResourceLocation MISSING = ITexture.MISSING_TEXTURE_LOCATION;
 
     public final Property.StringProperty slideshowName = putProperty(Property.stringProperty("slideshow_name", null, false, false, "fancymenu.backgrounds.slideshow.name"));
 

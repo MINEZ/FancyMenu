@@ -12,7 +12,7 @@ import de.keksuccino.fancymenu.util.resource.ResourceHandlers;
 import de.keksuccino.fancymenu.util.resource.ResourceSourceType;
 import de.keksuccino.fancymenu.util.resource.ResourceSupplier;
 import de.keksuccino.fancymenu.util.resource.resources.texture.ITexture;
-import net.minecraft.util.Util;
+import net.minecraft.Util;
 import net.minecraft.client.Screenshot;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.ConnectScreen;
@@ -23,7 +23,7 @@ import net.minecraft.client.gui.screens.ProgressScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.contents.TranslatableContents;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -135,7 +135,7 @@ public final class SeamlessWorldLoadingHandler {
         if (background == null) {
             return false;
         }
-        Identifier location = background.getResourceLocation();
+        ResourceLocation location = background.getResourceLocation();
         if (location == null) {
             return false;
         }

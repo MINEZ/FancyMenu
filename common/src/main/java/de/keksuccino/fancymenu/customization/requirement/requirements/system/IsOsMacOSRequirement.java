@@ -3,7 +3,7 @@ package de.keksuccino.fancymenu.customization.requirement.requirements.system;
 import de.keksuccino.fancymenu.customization.requirement.Requirement;
 import de.keksuccino.fancymenu.util.rendering.ui.screen.texteditor.TextEditorFormattingRule;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.util.Util;
+import net.minecraft.Util;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;

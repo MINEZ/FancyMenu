@@ -5,7 +5,7 @@ import de.keksuccino.fancymenu.util.file.FileUtils;
 import de.keksuccino.fancymenu.util.rendering.ui.theme.UITheme;
 import de.keksuccino.fancymenu.util.rendering.ui.theme.UIColorThemeRegistry;
 import de.keksuccino.fancymenu.util.rendering.ui.theme.UIColorThemeSerializer;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -69,7 +69,7 @@ public class UIThemes {
 
     }
 
-    private static void registerAssetTheme(@NotNull Identifier themeLocation) {
+    private static void registerAssetTheme(@NotNull ResourceLocation themeLocation) {
         UITheme theme = UIColorThemeSerializer.deserializeThemeFromResource(themeLocation);
         if (theme != null) {
             UIColorThemeRegistry.register(theme);

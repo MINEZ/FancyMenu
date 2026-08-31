@@ -11,7 +11,7 @@ import net.minecraft.client.resources.sounds.Sound;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.client.sounds.SoundManager;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.Music;
 import org.jetbrains.annotations.Nullable;
 import org.objectweb.asm.Opcodes;
@@ -143,16 +143,16 @@ public abstract class MixinMusicManager {
         }
         Sound sound = soundInstance.getSound();
         if (sound != null && sound != SoundManager.EMPTY_SOUND && sound != SoundManager.INTENTIONALLY_EMPTY_SOUND) {
-            Identifier resolvedPath = sound.getPath();
+            ResourceLocation resolvedPath = sound.getPath();
             if (resolvedPath != null) {
                 return resolvedPath.toString();
             }
-            Identifier resolvedLocation = sound.getLocation();
+            ResourceLocation resolvedLocation = sound.getLocation();
             if (resolvedLocation != null) {
                 return resolvedLocation.toString();
             }
         }
-        Identifier fallback = soundInstance.getIdentifier();
+        ResourceLocation fallback = soundInstance.getIdentifier();
         return (fallback != null) ? fallback.toString() : null;
     }
 
@@ -162,7 +162,7 @@ public abstract class MixinMusicManager {
         if (soundInstance == null) {
             return null;
         }
-        Identifier location = soundInstance.getIdentifier();
+        ResourceLocation location = soundInstance.getIdentifier();
         return (location != null) ? location.toString() : null;
     }
 

@@ -3,7 +3,7 @@ package de.keksuccino.fancymenu.mixin.mixins.common.server;
 import de.keksuccino.fancymenu.networking.PacketHandler;
 import de.keksuccino.fancymenu.networking.packets.entities.EntityEventPacket;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -37,13 +37,13 @@ public class MixinLivingEntity {
     private void broadcastEntityDeath_FancyMenu(@NotNull ServerLevel level, @NotNull LivingEntity entity, @NotNull DamageSource damageSource) {
         EntityEventPacket packet = new EntityEventPacket();
         packet.event_type = EntityEventPacket.EntityEventType.DEATH;
-        Identifier entityKeyLocation = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
+        ResourceLocation entityKeyLocation = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
         packet.entity_key = (entityKeyLocation != null) ? entityKeyLocation.toString() : null;
         packet.entity_uuid = entity.getUUID().toString();
         packet.pos_x = entity.getX();
         packet.pos_y = entity.getY();
         packet.pos_z = entity.getZ();
-        Identifier levelLocation = level.dimension().identifier();
+        ResourceLocation levelLocation = level.dimension().identifier();
         packet.level_identifier = (levelLocation != null) ? levelLocation.toString() : null;
         packet.damage_type = this.resolveDamageTypeKey_FancyMenu(damageSource);
 
@@ -51,7 +51,7 @@ public class MixinLivingEntity {
         if (killer != null) {
             packet.killer_name = killer.getDisplayName().getString();
             packet.killer_uuid = killer.getUUID().toString();
-            Identifier killerKeyLocation = BuiltInRegistries.ENTITY_TYPE.getKey(killer.getType());
+            ResourceLocation killerKeyLocation = BuiltInRegistries.ENTITY_TYPE.getKey(killer.getType());
             packet.killer_key = (killerKeyLocation != null) ? killerKeyLocation.toString() : null;
             if (packet.killer_key == null && killer instanceof Player) {
                 packet.killer_key = "minecraft:player";

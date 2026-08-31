@@ -1,6 +1,6 @@
 package de.keksuccino.fancymenu.util;
 
-import net.minecraft.util.Util;
+import net.minecraft.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;

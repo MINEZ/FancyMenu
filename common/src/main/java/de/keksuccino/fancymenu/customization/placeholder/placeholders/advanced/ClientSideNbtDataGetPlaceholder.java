@@ -20,7 +20,7 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.NumericTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.nbt.StringTag;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
@@ -223,7 +223,7 @@ public class ClientSideNbtDataGetPlaceholder extends Placeholder {
         SortOrder sort = target.defaultSort;
         int limit = target.defaultLimit;
 
-        @Nullable Filter<Identifier> typeFilter = null;
+        @Nullable Filter<ResourceLocation> typeFilter = null;
         final List<Filter<String>> nameFilters = new ArrayList<>();
         final List<Filter<String>> tagFilters = new ArrayList<>();
 
@@ -235,7 +235,7 @@ public class ClientSideNbtDataGetPlaceholder extends Placeholder {
                     if (!value.isEmpty()) {
                         boolean inverted = value.startsWith("!");
                         String raw = inverted ? value.substring(1) : value;
-                        Identifier typeId = parseIdentifier(raw);
+                        ResourceLocation typeId = parseIdentifier(raw);
                         if (typeId != null) {
                             typeFilter = new Filter<>(typeId, inverted);
                         }
@@ -334,7 +334,7 @@ public class ClientSideNbtDataGetPlaceholder extends Placeholder {
         );
         AABB bounds = buildBounds(origin, dx, dy, dz);
 
-        @Nullable Filter<Identifier> finalTypeFilter = typeFilter;
+        @Nullable Filter<ResourceLocation> finalTypeFilter = typeFilter;
         MinMaxBounds.Doubles finalDistance = distance;
         candidates.removeIf(entity -> !entityMatchesFilters(entity, finalTypeFilter, nameFilters, tagFilters, finalDistance, origin, bounds));
         if (candidates.isEmpty()) {
@@ -425,7 +425,7 @@ public class ClientSideNbtDataGetPlaceholder extends Placeholder {
 
     private boolean entityMatchesFilters(
             Entity entity,
-            @Nullable Filter<Identifier> typeFilter,
+            @Nullable Filter<ResourceLocation> typeFilter,
             List<Filter<String>> nameFilters,
             List<Filter<String>> tagFilters,
             MinMaxBounds.Doubles distance,
@@ -524,10 +524,10 @@ public class ClientSideNbtDataGetPlaceholder extends Placeholder {
         }
     }
 
-    private Identifier parseIdentifier(String raw) {
+    private ResourceLocation parseIdentifier(String raw) {
         if (raw == null || raw.isEmpty()) return null;
         String normalized = raw.contains(":") ? raw : "minecraft:" + raw;
-        return Identifier.tryParse(normalized.toLowerCase(Locale.ROOT));
+        return ResourceLocation.tryParse(normalized.toLowerCase(Locale.ROOT));
     }
 
     private List<OptionValue> parseSelectorOptions(String raw) {

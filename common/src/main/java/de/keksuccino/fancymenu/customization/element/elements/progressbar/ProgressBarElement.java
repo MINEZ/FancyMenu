@@ -12,7 +12,7 @@ import de.keksuccino.fancymenu.util.resource.resources.texture.ITexture;
 import de.keksuccino.konkrete.math.MathUtils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import org.apache.commons.lang3.StringUtils;
@@ -146,7 +146,7 @@ public class ProgressBarElement extends AbstractElement {
         if (barTextureSupplier != null) {
             ITexture texture = barTextureSupplier.get();
             if (texture != null) {
-                Identifier loc = texture.getResourceLocation();
+                ResourceLocation loc = texture.getResourceLocation();
                 if (loc != null) {
                     DrawableColor.WHITE.setAsShaderColor(graphics, this.opacity);
                     if (progressWidth > 0 && progressHeight > 0) {

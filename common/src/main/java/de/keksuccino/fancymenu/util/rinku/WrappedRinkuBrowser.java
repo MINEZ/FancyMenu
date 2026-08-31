@@ -13,7 +13,7 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -161,7 +161,7 @@ public class WrappedRinkuBrowser extends AbstractWidget implements Closeable, Na
         try {
             if (this.autoHandle) BrowserHandler.notifyHandler(this.genericIdentifier.toString(), this);
 
-            Identifier frameLocation = this.browser.getTextureIdentifier();
+            ResourceLocation frameLocation = this.browser.getTextureIdentifier();
             if (frameLocation == null) return;
 
             RenderingUtils.setShaderColor(graphics, 1.0F, 1.0F, 1.0F, this.opacity);
@@ -561,7 +561,7 @@ public class WrappedRinkuBrowser extends AbstractWidget implements Closeable, Na
     }
 
     @Nullable
-    public Identifier getFrameLocation() {
+    public ResourceLocation getFrameLocation() {
         if (this.autoHandle) BrowserHandler.notifyHandler(this.genericIdentifier.toString(), this);
         return this.browser.getTextureIdentifier();
     }

@@ -39,7 +39,7 @@ import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -785,7 +785,7 @@ public class ContextMenu implements Renderable, GuiEventListener, NarratableEntr
     private boolean isTopLevelOpenAnimationRunning() {
         if (!UIBase.shouldPlayAnimations() || !this.openAnimationEnabled) return false;
         if (this.isSubMenu() || !this.openAnimationActive) return false;
-        float elapsedMs = (float) (net.minecraft.util.Util.getMillis() - this.openAnimationStartMs);
+        float elapsedMs = (float) (net.minecraft.Util.getMillis() - this.openAnimationStartMs);
         if (elapsedMs >= OPEN_ANIMATION_GROW_TIME_MS) {
             this.openAnimationActive = false;
             return false;
@@ -798,7 +798,7 @@ public class ContextMenu implements Renderable, GuiEventListener, NarratableEntr
         if (this.isSubMenu() || !this.isOpen()) return 1.0F;
         if (!this.isTopLevelOpenAnimationRunning()) return 1.0F;
 
-        float elapsedMs = (float) (net.minecraft.util.Util.getMillis() - this.openAnimationStartMs);
+        float elapsedMs = (float) (net.minecraft.Util.getMillis() - this.openAnimationStartMs);
         float growT = Math.min(elapsedMs / OPEN_ANIMATION_GROW_TIME_MS, 1.0F);
         // Ease-out cubic for a quick pop
         float easedGrow = 1.0F - (float) Math.pow(1.0F - growT, 3);
@@ -1174,7 +1174,7 @@ public class ContextMenu implements Renderable, GuiEventListener, NarratableEntr
         boolean supressOpenAnimation = this.supressOpenAnimationNextOpen;
         this.supressOpenAnimationNextOpen = false;
         if (!this.isSubMenu() && UIBase.shouldPlayAnimations() && this.openAnimationEnabled && !supressOpenAnimation) {
-            this.openAnimationStartMs = net.minecraft.util.Util.getMillis();
+            this.openAnimationStartMs = net.minecraft.Util.getMillis();
             this.openAnimationActive = true;
         } else {
             this.openAnimationActive = false;
@@ -2543,7 +2543,7 @@ public class ContextMenu implements Renderable, GuiEventListener, NarratableEntr
         @Nullable
         protected Supplier<Component> shortcutTextSupplier;
         @Nullable
-        protected Identifier icon;
+        protected ResourceLocation icon;
         @Nullable
         protected MaterialIcon materialIcon;
         protected boolean tooltipIconHovered = false;
@@ -2600,7 +2600,7 @@ public class ContextMenu implements Renderable, GuiEventListener, NarratableEntr
         protected IconRenderData resolveIconData() {
             if (this.materialIcon != null) {
                 float renderSize = ICON_WIDTH_HEIGHT;
-                Identifier location = this.materialIcon.getTextureLocationForUI(renderSize, renderSize);
+                ResourceLocation location = this.materialIcon.getTextureLocationForUI(renderSize, renderSize);
                 if (location == null) {
                     return null;
                 }
@@ -2732,7 +2732,7 @@ public class ContextMenu implements Renderable, GuiEventListener, NarratableEntr
         @Nullable
         protected IconRenderData resolveTooltipIconData() {
             float renderSize = ICON_WIDTH_HEIGHT;
-            Identifier location = CONTEXT_MENU_TOOLTIP_ICON.getTextureLocationForUI(renderSize, renderSize);
+            ResourceLocation location = CONTEXT_MENU_TOOLTIP_ICON.getTextureLocationForUI(renderSize, renderSize);
             if (location == null) {
                 return null;
             }
@@ -2760,7 +2760,7 @@ public class ContextMenu implements Renderable, GuiEventListener, NarratableEntr
         }
 
         @Nullable
-        public Identifier getIcon() {
+        public ResourceLocation getIcon() {
             if (this.icon != null) {
                 return this.icon;
             }
@@ -2774,7 +2774,7 @@ public class ContextMenu implements Renderable, GuiEventListener, NarratableEntr
         /**
          * Icons should be completely white. No other colors should be used.
          */
-        public T setIcon(@Nullable Identifier icon) {
+        public T setIcon(@Nullable ResourceLocation icon) {
             this.icon = icon;
             this.materialIcon = null;
             return (T) this;
@@ -2901,11 +2901,11 @@ public class ContextMenu implements Renderable, GuiEventListener, NarratableEntr
     }
 
     protected static final class IconRenderData {
-        final Identifier texture;
+        final ResourceLocation texture;
         final int width;
         final int height;
 
-        private IconRenderData(@NotNull Identifier texture, int width, int height) {
+        private IconRenderData(@NotNull ResourceLocation texture, int width, int height) {
             this.texture = texture;
             this.width = width;
             this.height = height;
@@ -2917,7 +2917,7 @@ public class ContextMenu implements Renderable, GuiEventListener, NarratableEntr
         if (icon == null) {
             return null;
         }
-        Identifier location = icon.getTextureLocationForUI(renderWidth, renderHeight);
+        ResourceLocation location = icon.getTextureLocationForUI(renderWidth, renderHeight);
         if (location == null) {
             return null;
         }
@@ -3051,7 +3051,7 @@ public class ContextMenu implements Renderable, GuiEventListener, NarratableEntr
         @Nullable
         protected IconRenderData resolveSubMenuArrowIconData() {
             float renderSize = ICON_WIDTH_HEIGHT;
-            Identifier location = SUB_CONTEXT_MENU_ARROW_ICON.getTextureLocationForUI(renderSize, renderSize);
+            ResourceLocation location = SUB_CONTEXT_MENU_ARROW_ICON.getTextureLocationForUI(renderSize, renderSize);
             if (location == null) {
                 return null;
             }
@@ -3541,7 +3541,7 @@ public class ContextMenu implements Renderable, GuiEventListener, NarratableEntr
                 return null;
             }
             float renderSize = ClickableContextMenuEntry.ICON_WIDTH_HEIGHT;
-            Identifier location = this.icon.getTextureLocationForUI(renderSize, renderSize);
+            ResourceLocation location = this.icon.getTextureLocationForUI(renderSize, renderSize);
             if (location == null) {
                 return null;
             }
@@ -3715,8 +3715,8 @@ public class ContextMenu implements Renderable, GuiEventListener, NarratableEntr
 
     public static class IconFactory {
         @NotNull
-        public static Identifier getIcon(@NotNull String iconName) {
-            return Identifier.fromNamespaceAndPath("fancymenu", "textures/contextmenu/icons/" + iconName + ".png");
+        public static ResourceLocation getIcon(@NotNull String iconName) {
+            return ResourceLocation.fromNamespaceAndPath("fancymenu", "textures/contextmenu/icons/" + iconName + ".png");
         }
     }
 

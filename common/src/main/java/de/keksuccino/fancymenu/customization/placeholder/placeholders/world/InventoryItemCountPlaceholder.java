@@ -6,7 +6,7 @@ import de.keksuccino.fancymenu.util.LocalizationUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -49,7 +49,7 @@ public class InventoryItemCountPlaceholder extends Placeholder {
                 return "" + total;
             }
 
-            Identifier itemId = Identifier.tryParse(itemKey.trim());
+            ResourceLocation itemId = ResourceLocation.tryParse(itemKey.trim());
             if (itemId == null) return "0";
 
             Optional<Item> itemOptional = BuiltInRegistries.ITEM.getOptional(itemId);

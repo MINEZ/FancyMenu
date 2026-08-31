@@ -4,7 +4,7 @@ import de.keksuccino.fancymenu.customization.listener.AbstractListener;
 import de.keksuccino.fancymenu.util.LocalizationUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -120,7 +120,7 @@ public class OnStartLookingAtEntityListener extends AbstractListener {
                                    double entityPosZ) {
 
         public static @NotNull LookedEntityData from(@NotNull Entity entity, double distanceToPlayer) {
-            Identifier entityKeyLocation = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
+            ResourceLocation entityKeyLocation = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
             String entityKey = (entityKeyLocation != null) ? entityKeyLocation.toString() : null;
             return new LookedEntityData(
                 entity.getUUID(),

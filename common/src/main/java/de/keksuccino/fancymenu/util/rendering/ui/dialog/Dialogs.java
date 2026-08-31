@@ -8,7 +8,7 @@ import de.keksuccino.fancymenu.util.rendering.ui.pipwindow.PiPWindowHandler;
 import de.keksuccino.fancymenu.util.rendering.ui.pipwindow.PipableScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 
 public class Dialogs {
 
-    public static <D extends Screen & PipableScreen> Pair<D, PiPWindow> openGeneric(@NotNull D dialog, @Nullable Component title, @Nullable Identifier icon, int width, int height) {
+    public static <D extends Screen & PipableScreen> Pair<D, PiPWindow> openGeneric(@NotNull D dialog, @Nullable Component title, @Nullable ResourceLocation icon, int width, int height) {
         PiPWindow window = new PiPWindow((title != null) ? title : Component.empty())
                 .setScreen(dialog)
                 .setIcon(icon)

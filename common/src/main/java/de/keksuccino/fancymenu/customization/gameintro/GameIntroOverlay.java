@@ -29,7 +29,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -144,7 +144,7 @@ public class GameIntroOverlay extends Overlay {
             int x = (this.width / 2) - (aspectWidth / 2);
             int y = (this.height / 2) - (aspectHeight / 2);
 
-            Identifier location = r.getResourceLocation();
+            ResourceLocation location = r.getResourceLocation();
             if (location != null) {
                 com.mojang.blaze3d.opengl.GlStateManager._enableBlend();
                 de.keksuccino.fancymenu.util.rendering.RenderingUtils.setShaderColor(graphics, 1.0F, 1.0F, 1.0F, this.opacity);

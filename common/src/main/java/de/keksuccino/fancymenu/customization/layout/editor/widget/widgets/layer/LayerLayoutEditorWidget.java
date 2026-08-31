@@ -31,7 +31,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -833,7 +833,7 @@ public class LayerLayoutEditorWidget extends AbstractLayoutEditorWidget {
         }
         float safeRenderWidth = Math.max(1.0F, renderWidth);
         float safeRenderHeight = Math.max(1.0F, renderHeight);
-        Identifier location = icon.getTextureLocationForUI(safeRenderWidth, safeRenderHeight);
+        ResourceLocation location = icon.getTextureLocationForUI(safeRenderWidth, safeRenderHeight);
         if (location == null) {
             return null;
         }
@@ -896,11 +896,11 @@ public class LayerLayoutEditorWidget extends AbstractLayoutEditorWidget {
     }
 
     private static final class IconRenderData {
-        private final Identifier texture;
+        private final ResourceLocation texture;
         private final int width;
         private final int height;
 
-        private IconRenderData(@NotNull Identifier texture, int width, int height) {
+        private IconRenderData(@NotNull ResourceLocation texture, int width, int height) {
             this.texture = texture;
             this.width = width;
             this.height = height;

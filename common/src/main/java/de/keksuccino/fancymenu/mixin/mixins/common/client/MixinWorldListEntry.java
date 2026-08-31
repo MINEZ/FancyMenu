@@ -5,15 +5,15 @@ import com.mojang.blaze3d.pipeline.RenderPipeline;
 import de.keksuccino.fancymenu.FancyMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.worldselection.WorldSelectionList;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(WorldSelectionList.WorldListEntry.class)
 public class MixinWorldListEntry {
 
-    @WrapWithCondition(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V"), method = "renderContent")
-    private boolean wrapBlitInRenderFancyMenu(GuiGraphics graphics, RenderPipeline pipeline, Identifier loc, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight) {
+    @WrapWithCondition(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/ResourceLocation;IIFFIIII)V"), method = "renderContent")
+    private boolean wrapBlitInRenderFancyMenu(GuiGraphics graphics, RenderPipeline pipeline, ResourceLocation loc, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight) {
         if (textureHeight == 32) {
             return FancyMenu.getOptions().showSingleplayerScreenWorldIcons.getValue();
         }

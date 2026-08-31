@@ -11,7 +11,7 @@ import de.keksuccino.fancymenu.util.resource.resources.audio.IAudio;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.util.List;
@@ -62,7 +62,7 @@ public interface CustomizableWidget {
         boolean renderVanilla = true;
         if (customBackground != null) {
             if (customBackground instanceof PlayableResource p) p.play();
-            Identifier location = customBackground.getResourceLocation();
+            ResourceLocation location = customBackground.getResourceLocation();
             if (location != null) {
                 renderVanilla = false;
                 de.keksuccino.fancymenu.util.rendering.RenderingUtils.setShaderColor(graphics, 1.0F, 1.0F, 1.0F, ((IMixinAbstractWidget)widget).getAlphaFancyMenu());

@@ -25,7 +25,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -53,7 +53,7 @@ public class NativeVideoElement extends AbstractElement implements IVideoElement
     private static final String MEMORY_LAST_STOPPED_PLAY_TIME_SECONDS_FANCYMENU = "native_video_element_last_stopped_play_time_seconds";
     private static final String MEMORY_LAST_STOPPED_SOURCE_FANCYMENU = "native_video_element_last_stopped_source";
     private static final String MEMORY_LAST_ENDED_SOURCE_FANCYMENU = "native_video_element_last_ended_source";
-    private static final Identifier MISSING_TEXTURE_FANCYMENU = IVideo.MISSING_TEXTURE_LOCATION;
+    private static final ResourceLocation MISSING_TEXTURE_FANCYMENU = IVideo.MISSING_TEXTURE_LOCATION;
     private static final DrawableColor WATERMEDIA_MISSING_BACKGROUND_COLOR_FANCYMENU = DrawableColor.of(180, 0, 0);
     private static final String WATERMEDIA_V3_DOWNLOAD_URL_FANCYMENU = "https://www.curseforge.com/minecraft/mc-mods/watermedia/files/all?page=1&pageSize=20&showAlphaFiles=show";
     private static final String WATERMEDIA_BINARIES_DOWNLOAD_URL_FANCYMENU = "https://www.curseforge.com/minecraft/mc-mods/watermedia-binaries/files/all?page=1&pageSize=20&showAlphaFiles=show";
@@ -310,7 +310,7 @@ public class NativeVideoElement extends AbstractElement implements IVideoElement
         }
         this.lastPausedState = pausedState;
 
-        Identifier resourceLocation = this.video.getResourceLocation();
+        ResourceLocation resourceLocation = this.video.getResourceLocation();
         if ((resourceLocation != null) && !Objects.equals(resourceLocation, MISSING_TEXTURE_FANCYMENU)) {
             de.keksuccino.fancymenu.util.rendering.RenderingUtils.setShaderColor(graphics, 1.0F, 1.0F, 1.0F, this.opacity);
             this.renderFullArea(graphics, resourceLocation);
@@ -446,7 +446,7 @@ public class NativeVideoElement extends AbstractElement implements IVideoElement
         this.watermediaBinariesDownloadHeight_FancyMenu = Float.NaN;
     }
 
-    protected void renderFullArea(@NotNull GuiGraphics graphics, @NotNull Identifier resourceLocation) {
+    protected void renderFullArea(@NotNull GuiGraphics graphics, @NotNull ResourceLocation resourceLocation) {
         graphics.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, resourceLocation, this.getAbsoluteX(), this.getAbsoluteY(), 0.0F, 0.0F, this.getAbsoluteWidth(), this.getAbsoluteHeight(), this.getAbsoluteWidth(), this.getAbsoluteHeight());
     }
 

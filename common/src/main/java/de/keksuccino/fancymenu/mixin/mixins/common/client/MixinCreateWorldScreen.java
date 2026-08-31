@@ -18,7 +18,7 @@ import net.minecraft.client.gui.screens.worldselection.CreateWorldScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -62,8 +62,8 @@ public class MixinCreateWorldScreen extends Screen {
 
     }
 
-    @WrapWithCondition(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V"))
-    private boolean wrapFooterSeparatorRenderingInRender_FancyMenu(GuiGraphics instance, RenderPipeline pipeline, Identifier sprite, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight) {
+    @WrapWithCondition(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/ResourceLocation;IIFFIIII)V"))
+    private boolean wrapFooterSeparatorRenderingInRender_FancyMenu(GuiGraphics instance, RenderPipeline pipeline, ResourceLocation sprite, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight) {
         if (ScreenCustomization.isCustomizationEnabledForScreen(this)) {
             ScreenCustomizationLayer layer = ScreenCustomizationLayerHandler.getLayerOfScreen(this);
             if (layer != null) {

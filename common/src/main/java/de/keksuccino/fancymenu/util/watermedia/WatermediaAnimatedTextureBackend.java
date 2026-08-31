@@ -6,7 +6,7 @@ import de.keksuccino.fancymenu.util.rendering.AspectRatio;
 import de.keksuccino.fancymenu.util.resource.RenderableResource;
 import de.keksuccino.fancymenu.util.threading.MainThreadTaskExecutor;
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +20,7 @@ public class WatermediaAnimatedTextureBackend implements AutoCloseable {
     private static final File TEMP_TEXTURE_DIR = FileUtils.createDirectory(new File(FancyMenu.TEMP_DATA_DIR, "/watermedia_animated_textures"));
 
     @NotNull
-    protected final Identifier frameLocation;
+    protected final ResourceLocation frameLocation;
     @NotNull
     protected final WatermediaFrameTexture frameTexture = new WatermediaFrameTexture(-1);
     @NotNull
@@ -58,7 +58,7 @@ public class WatermediaAnimatedTextureBackend implements AutoCloseable {
         this.logTypeName = typeName.toUpperCase();
         String cleanType = typeName.toLowerCase();
         String cleanId = uniqueId.toLowerCase().replace("-", "");
-        this.frameLocation = Identifier.fromNamespaceAndPath("fancymenu", "watermedia_" + cleanType + "_frame_" + cleanId);
+        this.frameLocation = ResourceLocation.fromNamespaceAndPath("fancymenu", "watermedia_" + cleanType + "_frame_" + cleanId);
     }
 
     public boolean initializeFromBytes(@NotNull byte[] data, @NotNull String extension, @NotNull String sourceName) {
@@ -206,7 +206,7 @@ public class WatermediaAnimatedTextureBackend implements AutoCloseable {
     }
 
     @Nullable
-    public Identifier getResourceLocation() {
+    public ResourceLocation getResourceLocation() {
         if (this.closed) return RenderableResource.FULLY_TRANSPARENT_TEXTURE;
         if (this.dependencyMissing || this.loadingFailed) return RenderableResource.FULLY_TRANSPARENT_TEXTURE;
         if (!this.loadingCompleted) return RenderableResource.FULLY_TRANSPARENT_TEXTURE;

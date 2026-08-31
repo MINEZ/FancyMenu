@@ -30,7 +30,7 @@ import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -1026,7 +1026,7 @@ public abstract class AbstractLayoutEditorWidget extends AbstractContainerEventH
 
             ITexture icon = this.iconSupplier.get(this);
             if (icon != null) {
-                Identifier location = icon.getResourceLocation();
+                ResourceLocation location = icon.getResourceLocation();
                 if (location != null) {
                     UIBase.getUITheme().setUITextureShaderColor(graphics, 1.0F);
                     com.mojang.blaze3d.opengl.GlStateManager._enableBlend();

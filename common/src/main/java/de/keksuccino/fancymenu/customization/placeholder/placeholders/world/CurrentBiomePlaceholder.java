@@ -1,13 +1,13 @@
 package de.keksuccino.fancymenu.customization.placeholder.placeholders.world;
 
 import de.keksuccino.fancymenu.customization.placeholder.DeserializedPlaceholderString;
-import net.minecraft.util.Util;
+import net.minecraft.Util;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -33,7 +33,7 @@ public class CurrentBiomePlaceholder extends AbstractWorldPlaceholder {
         Optional<ResourceKey<Biome>> biomeKey = biomeHolder.unwrapKey();
         if (biomeKey.isEmpty()) return "";
 
-        Identifier biomeId = biomeKey.get().identifier();
+        ResourceLocation biomeId = biomeKey.get().identifier();
         String asKeyString = dps.values.get("as_key");
         boolean asKey = true;
         if ((asKeyString != null) && asKeyString.equalsIgnoreCase("false")) {

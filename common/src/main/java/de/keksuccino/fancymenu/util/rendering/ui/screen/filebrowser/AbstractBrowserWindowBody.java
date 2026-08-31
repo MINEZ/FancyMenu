@@ -43,7 +43,7 @@ import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -424,7 +424,7 @@ public abstract class AbstractBrowserWindowBody extends PiPWindowBody implements
             }
         } else if (this.previewTextureSupplier != null) {
             ITexture t = this.previewTextureSupplier.get();
-            Identifier loc = (t != null) ? t.getResourceLocation() : null;
+            ResourceLocation loc = (t != null) ? t.getResourceLocation() : null;
             if (loc != null) {
                 int previewBackgroundColor = UIBase.shouldBlur()
                         ? UIBase.getUITheme().ui_blur_interface_area_background_color_type_1.getColorInt()
@@ -1448,7 +1448,7 @@ public abstract class AbstractBrowserWindowBody extends PiPWindowBody implements
 
         graphics.fill(x, y, x + previewWidth, y + previewHeight, previewBackgroundColor);
 
-        Identifier location = (video != null) ? video.getResourceLocation() : null;
+        ResourceLocation location = (video != null) ? video.getResourceLocation() : null;
         if (location != null) {
             RenderingUtils.resetShaderColor(graphics);
             com.mojang.blaze3d.opengl.GlStateManager._enableBlend();
@@ -1802,7 +1802,7 @@ public abstract class AbstractBrowserWindowBody extends PiPWindowBody implements
             if (icon == null) {
                 return null;
             }
-            Identifier location = icon.getTextureLocationForUI(renderWidth, renderHeight);
+            ResourceLocation location = icon.getTextureLocationForUI(renderWidth, renderHeight);
             if (location == null) {
                 return null;
             }
@@ -1835,11 +1835,11 @@ public abstract class AbstractBrowserWindowBody extends PiPWindowBody implements
         }
 
         private static final class IconRenderData {
-            private final Identifier texture;
+            private final ResourceLocation texture;
             private final int width;
             private final int height;
 
-            private IconRenderData(@NotNull Identifier texture, int width, int height) {
+            private IconRenderData(@NotNull ResourceLocation texture, int width, int height) {
                 this.texture = texture;
                 this.width = width;
                 this.height = height;

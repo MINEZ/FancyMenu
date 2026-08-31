@@ -5,7 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.AbstractTexture;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -25,7 +25,7 @@ public final class GuiTextureCoverRenderer {
     public static boolean render(@Nonnull GuiGraphics graphics, @Nonnull RenderableResource resource, int x, int y, int width, int height) {
         Objects.requireNonNull(graphics);
         Objects.requireNonNull(resource);
-        Identifier location = resource.getResourceLocation();
+        ResourceLocation location = resource.getResourceLocation();
         if (location == null) {
             return false;
         }
@@ -35,7 +35,7 @@ public final class GuiTextureCoverRenderer {
     /**
      * @return {@code true} when the dimensions were valid and a draw was submitted.
      */
-    public static boolean render(@Nonnull GuiGraphics graphics, @Nonnull Identifier location, int x, int y, int width, int height, int textureWidth, int textureHeight) {
+    public static boolean render(@Nonnull GuiGraphics graphics, @Nonnull ResourceLocation location, int x, int y, int width, int height, int textureWidth, int textureHeight) {
         Objects.requireNonNull(graphics);
         Objects.requireNonNull(location);
         CoverBounds bounds = calculateBounds(x, y, width, height, textureWidth, textureHeight);

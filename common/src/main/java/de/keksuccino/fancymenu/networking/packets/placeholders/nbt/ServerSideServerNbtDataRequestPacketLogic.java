@@ -19,7 +19,7 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.NumericTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -113,7 +113,7 @@ public class ServerSideServerNbtDataRequestPacketLogic {
             return null;
         }
         try {
-            Identifier id = Identifier.tryParse(storageId);
+            ResourceLocation id = ResourceLocation.tryParse(storageId);
             if (id == null) {
                 return null;
             }

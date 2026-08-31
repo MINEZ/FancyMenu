@@ -7,7 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
@@ -115,7 +115,7 @@ public class OnItemHoveredInInventoryListener extends AbstractListener {
                                                     @Nonnull ItemStack stack,
                                                     @Nonnull java.util.function.Function<Component, String> componentSerializer) {
             ItemStack copiedStack = stack.copy();
-            Identifier itemKeyLocation = BuiltInRegistries.ITEM.getKey(copiedStack.getItem());
+            ResourceLocation itemKeyLocation = BuiltInRegistries.ITEM.getKey(copiedStack.getItem());
             String itemKey = (itemKeyLocation != null) ? itemKeyLocation.toString() : null;
             Component displayName = copiedStack.getHoverName();
             String displayNameString = displayName.getString();

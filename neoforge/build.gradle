@@ -81,13 +81,13 @@ dependencies {
     implementation(jarJar("com.github.rtyley:animated-gif-lib-for-java:animated-gif-lib-1.7")) {
         jarJar.ranged(it, "[1.7,)")
     }
-    implementation "maven.modrinth:konkrete:1.9.18-1.21.11-neoforge"
-    implementation "maven.modrinth:melody:1.0.15-1.21.11-neoforge"
+    implementation "maven.modrinth:konkrete:1.9.13-1.21.10-neoforge"
+    implementation "maven.modrinth:melody:1.0.14-1.21.10-neoforge"
     compileOnly "it.crystalnest:fancy-entity-renderer-neoforge:$fer_mc_version-$fer_version"
     // Rinku's NeoForge artifact is a bootstrap jar with its API nested as JarJar. NeoGradle 7 does not expose nested classes to javac, so extract that exact loader-native API for compilation.
-    rinkuNeoForgeCompileApi "de.keksuccino:rinku-neoforge:3.0.4-1.21.11"
+    rinkuNeoForgeCompileApi "de.keksuccino:rinku-neoforge:3.0.4.1-1.21.10"
     compileOnly files(rinkuNeoForgeCompileApiFile)
-    implementation "de.keksuccino:rinku-neoforge:3.0.4-1.21.11"
+    implementation "de.keksuccino:rinku-neoforge:3.0.4.1-1.21.10"
     compileOnly project(":common")
 }
 

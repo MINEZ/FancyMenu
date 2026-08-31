@@ -71,6 +71,9 @@ subprojects {
                 includeGroupByRegex 'com\\.github\\..*'
             }
         }
+        // Resolves the locally built Rinku. Publish it first with `gradlew publishToMavenLocal`
+        // in the Rinku repository.
+        mavenLocal()
         maven { url = "https://keksuccino.github.io/maven/" }
         maven {
             name = 'ParchmentMC Maven'
